@@ -22,7 +22,7 @@ class RealtimeScrolling {
     public void initGraph(GraphView graph) {
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setMinX(0);
-        graph.getViewport().setMaxX(150);
+        graph.getViewport().setMaxX(60);
         graph.getViewport().setMinY(-10);
         graph.getViewport().setMaxY(10);
         graph.getViewport().setScalableY(false);

@@ -39,7 +39,7 @@ public class RoulisFragment extends Fragment {
         public void onAccuracyChanged(Sensor sensor, int accuracy) {}
         public void onSensorChanged(SensorEvent sensorEvent) {
             gravValues = sensorEvent.values;
-            mLogicRealTime.AddData(gravValues[1],gravValues[2]);
+            mLogicRealTime.AddData(gravValues[0],gravValues[1]);
             //Log.d("Sensors", "Gravité (z,x,y) : " + gravValues[0] + "," + gravValues[1] + "," + gravValues[2]);
         }
     };
