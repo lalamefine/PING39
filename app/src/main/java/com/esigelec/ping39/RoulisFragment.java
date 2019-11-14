@@ -1,6 +1,8 @@
 package com.esigelec.ping39;
 
 import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,6 +22,9 @@ import android.view.ViewGroup;
 public class RoulisFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private SensorManager sensorManager;
+    private Sensor sensorGrav;
+    private Sensor sensorGyro;
 
     public RoulisFragment() {
         // Required empty public constructor
@@ -36,8 +41,6 @@ public class RoulisFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
     }
 
     @Override
@@ -59,6 +62,9 @@ public class RoulisFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
+            sensorManager = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
+            sensorGrav = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
+            sensorGyro = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
