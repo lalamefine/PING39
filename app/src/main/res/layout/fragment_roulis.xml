@@ -6,15 +6,40 @@
     android:layout_height="match_parent"
     tools:context=".RoulisFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Roulis et Tanguage"
-        android:textSize="36sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp">
+
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/graph2"
+            android:layout_width="match_parent"
+            android:layout_height="150dp" />
+
+        <TextView
+            android:id="@+id/title2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/graph2"
+            android:layout_marginTop="8dp"
+            android:maxLines="3"
+            android:text="Realtime scrolling"
+            android:textColor="#222"
+            android:textSize="22dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title2"
+            android:maxLines="3"
+            android:text="Scrolls always to the end"
+            android:textColor="#666"
+            android:textSize="14dp" />
+
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

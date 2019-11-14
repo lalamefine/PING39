@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.jjoe64.graphview.GraphView;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +28,7 @@ public class RoulisFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private SensorManager sensorManager;
+    private RealtimeScrolling mLogicRealTime;
     private Sensor sensorGrav;
     private Sensor sensorGyro;
     private float[] gravValues;
@@ -36,7 +39,8 @@ public class RoulisFragment extends Fragment {
         public void onAccuracyChanged(Sensor sensor, int accuracy) {}
         public void onSensorChanged(SensorEvent sensorEvent) {
             gravValues = sensorEvent.values;
-            Log.d("Sensors", "Gravité (z,x,y) : " + gravValues[0] + "," + gravValues[1] + "," + gravValues[2]);
+            mLogicRealTime.AddData(gravValues[1],gravValues[2]);
+            //Log.d("Sensors", "Gravité (z,x,y) : " + gravValues[0] + "," + gravValues[1] + "," + gravValues[2]);
         }
     };
     //EVENEMENTS SUR LE GYROSCOPE
@@ -52,12 +56,6 @@ public class RoulisFragment extends Fragment {
 
     public RoulisFragment() {}
 
-    private void refreshView(){
-        float[] values = new float[3];
-        float[] R = new float[9];
-
-    }
-
     public static RoulisFragment newInstance() {
         RoulisFragment fragment = new RoulisFragment();
         Bundle args = new Bundle();
@@ -71,12 +69,17 @@ public class RoulisFragment extends Fragment {
         sensorGrav = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
         sensorGyro = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         onAttach(this.getContext());
+        mLogicRealTime = new RealtimeScrolling();
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_roulis, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_roulis, container, false);
+        GraphView graph = (GraphView) rootView.findViewById(R.id.graph2);
+        mLogicRealTime.initGraph(graph);
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -103,7 +106,7 @@ public class RoulisFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        sensorManager.unregisterListener(gravEventListener, sensorGrav);
+        //sensorManager.unregisterListener(gravEventListener, sensorGrav);
         mListener = null;
     }
 
