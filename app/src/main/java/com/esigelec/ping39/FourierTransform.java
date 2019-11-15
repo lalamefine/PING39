@@ -328,9 +328,6 @@ public abstract class FourierTransform
      */
 
 
-
-
-
     /**
      * Returns the length of the time domain signal expected by this transform.
      *
@@ -642,7 +639,6 @@ public abstract class FourierTransform
         return imag;
     }
 
-
     /**
      * Performs a forward transform on <code>buffer</code>.
      *
@@ -675,9 +671,6 @@ public abstract class FourierTransform
         forward(section);
     }
 
-
-
-
     /**
      * Performs an inverse transform of the frequency spectrum and places the
      * result in <code>buffer</code>.
@@ -686,8 +679,6 @@ public abstract class FourierTransform
      *          the buffer to place the result of the inverse transform in
      */
     public abstract void inverse(float[] buffer);
-
-
 
     /**
      * Performs an inverse transform of the frequency spectrum represented by
