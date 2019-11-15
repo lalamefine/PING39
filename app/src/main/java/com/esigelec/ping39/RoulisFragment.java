@@ -43,16 +43,6 @@ public class RoulisFragment extends Fragment {
             //Log.d("Sensors", "Gravité (z,x,y) : " + gravValues[0] + "," + gravValues[1] + "," + gravValues[2]);
         }
     };
-    //EVENEMENTS SUR LE GYROSCOPE
-    //final SensorEventListener gyroEventListener = new SensorEventListener() {
-    //    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
-    //    public void onSensorChanged(SensorEvent sensorEvent) {
-    //        gyroValues = sensorEvent.values;
-    //        Log.d("Sensors", "Rotation sur l'axe z : " + gyroValues[0]);
-    //        Log.d("Sensors", "Rotation sur l'axe x : " + gyroValues[1]);
-    //        Log.d("Sensors", "Rotation sur l'axe y : " + gyroValues[2]);
-    //    }
-    //};
 
     public RoulisFragment() {}
 
@@ -70,14 +60,13 @@ public class RoulisFragment extends Fragment {
         sensorGyro = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         onAttach(this.getContext());
         mLogicRealTime = new RealtimeScrolling();
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_roulis, container, false);
-        GraphView graph = (GraphView) rootView.findViewById(R.id.graph2);
+        GraphView graph = rootView.findViewById(R.id.graph2);
         mLogicRealTime.initGraph(graph);
         return rootView;
     }
@@ -96,7 +85,6 @@ public class RoulisFragment extends Fragment {
             mListener = (OnFragmentInteractionListener) context;
             sensorManager = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
             sensorManager.registerListener(gravEventListener, sensorGrav, SensorManager.SENSOR_DELAY_NORMAL);
-            //sensorManager.registerListener(gyroEventListener, sensorGyro, SensorManager.SENSOR_DELAY_NORMAL);
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
