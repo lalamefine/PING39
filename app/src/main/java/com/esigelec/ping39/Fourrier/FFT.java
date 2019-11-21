@@ -26,17 +26,18 @@ import android.util.Log;
  */
 public class FFT
 {
-    double[] amplitude;
-    double[] phase;
-    double[] cosSignal;
-    double[] degreesSignal;
-    double[] IMCSum;
-    double[] radiansSignal;
-    double[] RECSum;
-    double[][] IMC;
-    double[][] REC;
+    public double dtEchantillonage;
+    public double[] amplitude;
+    public double[] phase;
+    public double[] cosSignal;
+    public double[] degreesSignal;
+    public double[] IMCSum;
+    public double[] radiansSignal;
+    public double[] RECSum;
+    public double[][] IMC;
+    public double[][] REC;
 
-    public static FFT calculate(double[] signal, int harmonics)
+    public static FFT calculate(double[] signal, int harmonics,double dtEchantillonage)
     {
         FFT result = new FFT();
         // instantiate classes to perform calculations
@@ -52,6 +53,7 @@ public class FFT
         int K = harmonics;
 
         // initialize arrays
+        result.dtEchantillonage = dtEchantillonage;
         result.amplitude = new double[K];
         result.phase = new double[K];
         result.cosSignal = new double[N];
@@ -116,7 +118,7 @@ public class FFT
         }
 
         // produce output
-        Log.d("FFT Calculation: " ," RESULT : ");
+        //Log.d("FFT Calculation: " ," RESULT : ");
         /*for (int i = 0; i < K; i++)
         {
             Log.d("FFT Calculation: " ,"RE" + (i + 1) + ": " + result.RECSum[i]);

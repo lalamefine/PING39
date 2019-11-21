@@ -24,6 +24,7 @@ import com.jjoe64.graphview.GraphView;
  * Use the {@link RoulisFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+
 public class RoulisFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
@@ -31,20 +32,24 @@ public class RoulisFragment extends Fragment {
     private RealtimeScrolling mLogicRealTime;
     private Sensor sensorGrav;
     private Sensor sensorGyro;
-    private float[] gravValues;
-    //private float[] gyroValues;
+    private FourrierManager fftManager;
+
+    public RoulisFragment() {
+        fftManager = new FourrierManager();
+    }
 
     //EVENEMENTS SUR L'ACCELEROMETTRE
     final SensorEventListener gravEventListener = new SensorEventListener() {
         public void onAccuracyChanged(Sensor sensor, int accuracy) {}
         public void onSensorChanged(SensorEvent sensorEvent) {
-            gravValues = sensorEvent.values;
-            mLogicRealTime.AddData(gravValues[0],gravValues[1]);
+            mLogicRealTime.AddData(sensorEvent.values[0],sensorEvent.values[1]);
+            fftManager.arrXInsert(sensorEvent.values[0]);
+            fftManager.arrYInsert(sensorEvent.values[1]);
+            fftManager.FourrierCalc();
             //Log.d("Sensors", "Gravité (z,x,y) : " + gravValues[0] + "," + gravValues[1] + "," + gravValues[2]);
         }
     };
 
-    public RoulisFragment() {}
 
     public static RoulisFragment newInstance() {
         RoulisFragment fragment = new RoulisFragment();
