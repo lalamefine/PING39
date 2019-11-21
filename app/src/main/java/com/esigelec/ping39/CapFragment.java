@@ -9,6 +9,7 @@ import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ public class CapFragment extends Fragment {
     private ImageView imageView;
 
     /** 传感器管理器 */
+
     private SensorManager sensorManager;
     private RealtimeScrolling mLogicRealTime;
     private Sensor sensorMagne;
@@ -40,6 +42,7 @@ public class CapFragment extends Fragment {
     private final class SensorListener implements SensorEventListener {
 
         private float predegree = 0;
+        private float ajust = 0;
 
         @Override
         public void onSensorChanged(SensorEvent event) {
@@ -50,9 +53,12 @@ public class CapFragment extends Fragment {
              */
             float degree = event.values[0];// 存放了方向值
             /**动画效果*/
-            RotateAnimation animation = new RotateAnimation(predegree, degree,
+            Log.d("degree", String.valueOf(degree));
+            //if(-degree>360)
+             //   predegree = -degree;
+            RotateAnimation animation = new RotateAnimation(predegree, -degree+ajust,
                     Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
-            animation.setDuration(200);
+            animation.setDuration(250);
             imageView.startAnimation(animation);
             predegree=-degree;
 
@@ -84,7 +90,7 @@ public class CapFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sensorMagne = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        sensorMagne = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
         onAttach(this.getContext());
         mLogicRealTime = new RealtimeScrolling();
     }
@@ -92,8 +98,9 @@ public class CapFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cap, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_cap, container, false);
+        imageView = (ImageView) rootView.findViewById(R.id.compass);
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
