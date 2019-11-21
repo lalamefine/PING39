@@ -108,8 +108,8 @@ public class CalcImag
 		IMC[0] = (signal[0] * Math.sin(-radiansSignal[0]));
 		
 		// output coefficients
-		System.out.println("Harmonic# " + k);
-		System.out.println("IMC(n=" + 0 + ") " + IMC[0]);
+		//System.out.println("Harmonic# " + k);
+		//System.out.println("IMC(n=" + 0 + ") " + IMC[0]);
 		
 		
 		for (int i = 1; i < IMC.length; i++)
@@ -132,7 +132,7 @@ public class CalcImag
 						- (((i * k) % (radiansSignal.length)))]));
 			}
 
-			System.out.println("IMC(n=" + i + "): " + IMC[i]);
+			//System.out.println("IMC(n=" + i + "): " + IMC[i]);
 		}
 
 		return IMC;

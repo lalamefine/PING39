@@ -19,6 +19,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 import android.util.Log;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 /**
  * A class that performs the Fast Fourier Transform.
  * @author Kaleb Kircher
@@ -36,7 +39,7 @@ public class FFT
     public double[] RECSum;
     public double[][] IMC;
     public double[][] REC;
-
+    public int harmonics;
     public static FFT calculate(double[] signal, int harmonics,double dtEchantillonage)
     {
         FFT result = new FFT();
@@ -51,7 +54,7 @@ public class FFT
         int NN = signal.length;
         // harmonics
         int K = harmonics;
-
+        result.harmonics = harmonics;
         // initialize arrays
         result.dtEchantillonage = dtEchantillonage;
         result.amplitude = new double[K];
@@ -129,4 +132,23 @@ public class FFT
         }*/
         return result;
     }
+
+    public String toString(){
+        return "FFT(dt="+dtEchantillonage+
+                "\n;Amplidude="+amplitude[0]+
+                "\n;Phase="+phase[0]+
+                "\n;CosSignal="+cosSignal[0]+
+                "\n;Degree="+degreesSignal[0]+
+                "\n;SumRE="+RECSum[0]+
+                "\n;SumIM="+IMCSum[0]+
+                "\n;RE="+REC[0][0]+
+                "\n;IM="+IMC[0][0]+")";
+    }
+    public String ampString(){
+        String s = "";
+        for(int i = 0; i<harmonics; i++)
+            s += "p:"+1/(i*dtEchantillonage*0.001f)+"=> "+(int)(amplitude[i]*100)+"\n";
+        return s;
+    }
+
 }

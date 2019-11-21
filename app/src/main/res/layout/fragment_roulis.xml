@@ -32,10 +32,11 @@
             android:textStyle="bold" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/infoText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_below="@+id/title2"
-            android:maxLines="3"
+            android:maxLines="25"
             android:text="Scrolls always to the end"
             android:textColor="#666"
             android:textSize="14dp" />

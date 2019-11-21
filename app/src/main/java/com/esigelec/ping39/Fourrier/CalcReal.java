@@ -98,8 +98,8 @@ public class CalcReal
 		double RECSum = 0;
 		
 		REC[0] = (signal[0] * Math.cos(radiansSignal[0]));
-		System.out.println("Harmonic# " + k );
-		System.out.println("REC(n=0): " + REC[0]);
+		//System.out.println("Harmonic# " + k );
+		//System.out.println("REC(n=0): " + REC[0]);
 		for (int i = 1; i < REC.length; i++)
 		{
 			// count backwards through the table by k (the harmonic size)
@@ -120,7 +120,7 @@ public class CalcReal
 						+ (signal[i] * Math.cos(radiansSignal[REC.length
 								- (((i * k) % (radiansSignal.length)))]));
 			}
-			System.out.println("REC(n=" + i + "): " + REC[i]);
+			//System.out.println("REC(n=" + i + "): " + REC[i]);
 		}
 
 		return REC;

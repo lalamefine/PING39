@@ -33,7 +33,7 @@ public class RoulisFragment extends Fragment {
     private Sensor sensorGrav;
     private Sensor sensorGyro;
     private FourrierManager fftManager;
-
+    public static View rootView;
     public RoulisFragment() {
         fftManager = new FourrierManager();
     }
@@ -73,6 +73,7 @@ public class RoulisFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_roulis, container, false);
         GraphView graph = rootView.findViewById(R.id.graph2);
         mLogicRealTime.initGraph(graph);
+        RoulisFragment.rootView = rootView;
         return rootView;
     }
 
