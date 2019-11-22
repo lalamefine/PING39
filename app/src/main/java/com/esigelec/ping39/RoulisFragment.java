@@ -7,6 +7,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,8 +43,11 @@ public class RoulisFragment extends Fragment {
     final SensorEventListener gravEventListener = new SensorEventListener() {
         public void onAccuracyChanged(Sensor sensor, int accuracy) {}
         public void onSensorChanged(SensorEvent sensorEvent) {
-            mLogicRealTime.AddData(sensorEvent.values[0],sensorEvent.values[1]);
-            fftManager.arrXInsert(sensorEvent.values[0]);
+            //mLogicRealTime.AddData(sensorEvent.values[0],sensorEvent.values[1]);
+            //fftManager.arrXInsert(sensorEvent.values[0]);
+            mLogicRealTime.AddData((float)Math.cos(10*Math.PI*((float)(SystemClock.uptimeMillis()))/1000),sensorEvent.values[1]);
+            fftManager.arrXInsert(Math.cos(10*Math.PI*((double)(SystemClock.uptimeMillis()))/1000));
+
             fftManager.arrYInsert(sensorEvent.values[1]);
             fftManager.FourrierCalc();
             //Log.d("Sensors", "Gravité (z,x,y) : " + gravValues[0] + "," + gravValues[1] + "," + gravValues[2]);

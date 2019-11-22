@@ -56,7 +56,7 @@ public class FFT
         int K = harmonics;
         result.harmonics = harmonics;
         // initialize arrays
-        result.dtEchantillonage = dtEchantillonage;
+        result.dtEchantillonage = dtEchantillonage*0.294;
         result.amplitude = new double[K];
         result.phase = new double[K];
         result.cosSignal = new double[N];
