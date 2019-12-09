@@ -7,6 +7,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorListener;
 import android.hardware.SensorManager;
 import android.net.Uri;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
+import static android.content.Context.SENSOR_SERVICE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,51 +33,12 @@ public class CapFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private ImageView imageView;
 
-    /** 传感器管理器 */
-
-    private SensorManager sensorManager;
     private RealtimeScrolling mLogicRealTime;
-    private Sensor sensorMagne;
-    private SensorListener listener = new SensorListener();
+    private SensorManager mSensorManager;
+    private SensorEventListener mSensorEventListener;
+    private ChaosCompassView chaosCompassView;
+    private float val;
 
-    //EVENEMENTS SUR L'ORRIENTATION
-    private final class SensorListener implements SensorEventListener {
-
-        private float predegree = 0;
-        private float ajust = 0;
-
-        @Override
-        public void onSensorChanged(SensorEvent event) {
-            /**
-             *  values[0]: x-axis 方向加速度
-             　　 values[1]: y-axis 方向加速度
-             　　 values[2]: z-axis 方向加速度
-             */
-            float degree = event.values[0];// 存放了方向值
-            /**动画效果*/
-            Log.d("degree", String.valueOf(degree));
-            //if(-degree>360)
-             //   predegree = -degree;
-            RotateAnimation animation = new RotateAnimation(predegree, -degree+ajust,
-                    Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
-            animation.setDuration(250);
-            imageView.startAnimation(animation);
-            predegree=-degree;
-
-            /**
-             float x=event.values[SensorManager.DATA_X];
-             float y=event.values[SensorManager.DATA_Y];
-             float z=event.values[SensorManager.DATA_Z];
-             Log.i("XYZ", "x="+(int)x+",y="+(int)y+",z="+(int)z);
-             */
-        }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-        }
-
-    }
     public CapFragment() {
         // Required empty public constructor
     }
@@ -90,8 +53,27 @@ public class CapFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sensorMagne = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
-        onAttach(this.getContext());
+        /*
+        * */
+        mSensorManager = (SensorManager)getContext().getSystemService(SENSOR_SERVICE);
+
+
+        mSensorEventListener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                val = event.values[0];
+                chaosCompassView.setVal(val);
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+            }
+        };
+
+        mSensorManager.registerListener(mSensorEventListener,mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
+                SensorManager.SENSOR_DELAY_GAME);
+        //onAttach(this.getContext());
         mLogicRealTime = new RealtimeScrolling();
     }
 
@@ -99,7 +81,7 @@ public class CapFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_cap, container, false);
-        imageView = (ImageView) rootView.findViewById(R.id.compass);
+        chaosCompassView = (ChaosCompassView) rootView.findViewById(R.id.ccv);
         return rootView;
     }
 
@@ -115,8 +97,7 @@ public class CapFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
-            sensorManager = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
-            sensorManager.registerListener(listener, sensorMagne, SensorManager.SENSOR_DELAY_NORMAL);
+            mSensorManager = (SensorManager)context.getSystemService(SENSOR_SERVICE);
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
