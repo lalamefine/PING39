@@ -56,7 +56,7 @@ public class FFT
         int K = harmonics;
         result.harmonics = harmonics;
         // initialize arrays
-        result.dtEchantillonage = dtEchantillonage*0.294;
+        result.dtEchantillonage = dtEchantillonage;
         result.amplitude = new double[K];
         result.phase = new double[K];
         result.cosSignal = new double[N];
@@ -147,7 +147,7 @@ public class FFT
     public String ampString(){
         String s = "";
         for(int i = 0; i<harmonics; i++)
-            s += "p:"+1/(i*dtEchantillonage*0.001f)+"=> "+(int)(amplitude[i]*100)+"\n";
+            s += "i:"+i+"=> "+(int)(amplitude[i]*100)+" DeSign:"+degreesSignal[i]+"\n";
         return s;
     }
 

@@ -33,23 +33,27 @@ public class RoulisFragment extends Fragment {
     private RealtimeScrolling mLogicRealTime;
     private Sensor sensorGrav;
     private Sensor sensorGyro;
-    private FourrierManager fftManager;
+    //private FourrierManager fftManager;
+    private PeriodExtractor periodExtractor;
     public static View rootView;
     public RoulisFragment() {
-        fftManager = new FourrierManager();
+        periodExtractor = new PeriodExtractor();
+        //fftManager = new FourrierManager();
     }
 
     //EVENEMENTS SUR L'ACCELEROMETTRE
     final SensorEventListener gravEventListener = new SensorEventListener() {
         public void onAccuracyChanged(Sensor sensor, int accuracy) {}
         public void onSensorChanged(SensorEvent sensorEvent) {
-            //mLogicRealTime.AddData(sensorEvent.values[0],sensorEvent.values[1]);
+            mLogicRealTime.AddData(sensorEvent.values[0],sensorEvent.values[1]);
+            periodExtractor.addInList(sensorEvent.values[0],sensorEvent.values[1]);
+            Log.d("periodExtractor","X: " + periodExtractor.getPeriodX() + ", Y: " + periodExtractor.getPeriodY());
             //fftManager.arrXInsert(sensorEvent.values[0]);
-            mLogicRealTime.AddData((float)Math.cos(10*Math.PI*((float)(SystemClock.uptimeMillis()))/1000),sensorEvent.values[1]);
-            fftManager.arrXInsert(Math.cos(10*Math.PI*((double)(SystemClock.uptimeMillis()))/1000));
-
-            fftManager.arrYInsert(sensorEvent.values[1]);
-            fftManager.FourrierCalc();
+            //Essai avec fft
+            //mLogicRealTime.AddData((float)Math.cos(Math.PI*((float)(SystemClock.uptimeMillis()))/1000),sensorEvent.values[1]);
+            //fftManager.arrXInsert(Math.cos(Math.PI*((double)(SystemClock.uptimeMillis()))/1000));
+            //fftManager.arrYInsert(sensorEvent.values[1]);
+            //fftManager.FourrierCalc();
             //Log.d("Sensors", "Gravité (z,x,y) : " + gravValues[0] + "," + gravValues[1] + "," + gravValues[2]);
         }
     };
