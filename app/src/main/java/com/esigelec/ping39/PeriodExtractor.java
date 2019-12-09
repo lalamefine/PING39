@@ -10,8 +10,9 @@ public class PeriodExtractor {
     LinkedList<Float> valsX = new LinkedList<Float>();
     LinkedList<Float> valsY = new LinkedList<Float>();
     LinkedList<Long> time = new LinkedList<Long>();
-    private final int MAX_SIZE = 200;
-    private boolean filled = false;
+    private final int MAX_SIZE = 500;
+    private final int MIN_SIZE = 200;
+    private boolean longenough = false;
 
     void addInList(float x, float y){
         valsX.addFirst(x);
@@ -21,11 +22,9 @@ public class PeriodExtractor {
             valsX.removeLast();
             valsY.removeLast();
             time.removeLast();
-            if(filled == false){
-                for (int i = 0; i < 50; i+=2)
-                    Log.d("PeriodExtractor.filled","valsX("+i+")="+valsX.get(i)+"valsX("+i+1+")="+valsX.get(i+1));
-            }
-            filled = true;
+        }
+        if(time.size()>MIN_SIZE) {
+            longenough = true;
         }
     }
 
@@ -41,24 +40,29 @@ public class PeriodExtractor {
         return getPeriod(valsY);
     }
     private float getPeriod(LinkedList<Float> tab){
-        if(filled == false){
+        if(longenough == false){
             return 0;
         }else {
             float moy = getMoyenne(tab);
+            int firstCross = getFirstCross(tab, moy);
             int lastCross = getLastCross(tab, moy);
-            float deltaTime = tab.get(lastCross) - time.get(0);
+            float deltaTime = (time.get(firstCross) - time.get(lastCross))/1000;
             int crossing = 0;
-            boolean above = (tab.get(0) > moy);
-            for (int i = 5; i < lastCross; i++) {
+            boolean above = (tab.get(firstCross) > moy);
+            for (int i = firstCross; i < lastCross; i++) {
                 if (above) {
-                    if ((tab.get(i) < moy) && (tab.get(i - 1) < moy) && (tab.get(i - 2) < moy))
+                    if ((tab.get(i) < moy) && (tab.get(i - 1) < moy) && (tab.get(i - 2) < moy)){
                         crossing++;
+                        above = !above;
+                    }
                 } else {
-                    if ((tab.get(i) > moy) && (tab.get(i - 1) > moy) && (tab.get(i - 2) > moy))
+                    if ((tab.get(i) > moy) && (tab.get(i - 1) > moy) && (tab.get(i - 2) > moy)){
                         crossing++;
+                        above = !above;
+                    }
                 }
             }
-            Log.i("PeriodExtractor.get","Moy:"+moy+" ,deltaTime:"+deltaTime+" ,crossing:"+crossing);
+            //Log.d("PeriodExtractor.get","Moy:"+moy+" ,deltaTime:"+deltaTime+" ,crossing:"+crossing);
             return deltaTime * 2 / crossing;
         }
     }
@@ -75,8 +79,20 @@ public class PeriodExtractor {
         }
         return 0;
     }
-    public boolean isFilled(){
-        return filled;
+    private int getFirstCross(LinkedList<Float> tab,float moy){
+        float lastVal = tab.get(0);
+        boolean above = (lastVal>moy) ;
+        for (int i=0; i<tab.size()-1; i++){
+            if(above){
+                if(tab.get(i)<moy) return i;
+            }else{
+                if(tab.get(i)>moy) return i;
+            }
+        }
+        return 0;
+    }
+    public boolean isLongenough(){
+        return longenough;
     }
 
 }
