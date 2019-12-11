@@ -10,7 +10,7 @@ public class PeriodExtractor {
     LinkedList<Float> valsX = new LinkedList<Float>();
     LinkedList<Float> valsY = new LinkedList<Float>();
     LinkedList<Long> time = new LinkedList<Long>();
-    private final int MAX_SIZE = 500;
+    private final int MAX_SIZE = 1000;
     private final int MIN_SIZE = 200;
     private boolean longenough = false;
 
@@ -33,23 +33,24 @@ public class PeriodExtractor {
         for (Float val:tab) total += val;
         return total/tab.size();
     }
-    public float getPeriodX(){
+    public String getPeriodX(){
         return getPeriod(valsX);
     }
-    public float getPeriodY(){
+    public String getPeriodY(){
         return getPeriod(valsY);
     }
-    private float getPeriod(LinkedList<Float> tab){
-        if(longenough == false){
-            return 0;
-        }else {
-            float moy = getMoyenne(tab);
-            int firstCross = getFirstCross(tab, moy);
-            int lastCross = getLastCross(tab, moy);
-            float deltaTime = (time.get(firstCross) - time.get(lastCross))/1000;
+    private String getPeriod(LinkedList<Float> tab){
+        final int N_PERIOD = 6;
+        float moy = getMoyenne(tab);
+        int firstCross = getFirstCross(tab, moy);
+        int nthCross = getNthCross(tab,N_PERIOD, moy);
+        float deltaTime = (time.get(firstCross) - time.get(nthCross))/1000;
+        if(nthCross!=0)
+            return String.valueOf(2*deltaTime/N_PERIOD);
+        else{
             int crossing = 0;
             boolean above = (tab.get(firstCross) > moy);
-            for (int i = firstCross; i < lastCross; i++) {
+            for (int i = firstCross; i < nthCross; i++) {
                 if (above) {
                     if ((tab.get(i) < moy) && (tab.get(i - 1) < moy) && (tab.get(i - 2) < moy)){
                         crossing++;
@@ -62,12 +63,18 @@ public class PeriodExtractor {
                     }
                 }
             }
-            //Log.d("PeriodExtractor.get","Moy:"+moy+" ,deltaTime:"+deltaTime+" ,crossing:"+crossing);
-            return deltaTime * 2 / crossing;
+            if(crossing>3)
+                try {
+                    return String.valueOf(2 * deltaTime / (-1));
+                }catch(Exception e){
+                    return "ERR";
+                }
+            else
+                return "N/A";
         }
     }
 
-    private int getLastCross(LinkedList<Float> tab,float moy){
+    /*private int getLastCross(LinkedList<Float> tab,float moy){
         float lastVal = tab.get(tab.size()-1);
         boolean above = (lastVal>moy) ;
         for (int i=tab.size()-1; i>=0; i--){
@@ -78,15 +85,40 @@ public class PeriodExtractor {
             }
         }
         return 0;
-    }
+    }*/
     private int getFirstCross(LinkedList<Float> tab,float moy){
         float lastVal = tab.get(0);
         boolean above = (lastVal>moy) ;
-        for (int i=0; i<tab.size()-1; i++){
+        if(tab.size()>=3)
+            for (int i=2; i<tab.size()-1; i++){
+                if(above){
+                    if((tab.get(i) < moy) && (tab.get(i - 1) < moy) && (tab.get(i - 2) < moy)) return i;
+                }else{
+                    if((tab.get(i) > moy) && (tab.get(i - 1) > moy) && (tab.get(i - 2) > moy)) return i;
+                }
+            }
+        return 0;
+    }
+    private int getNthCross(LinkedList<Float> tab,int n, float moy){
+        float lastVal = tab.get(0);
+        boolean above = (lastVal>moy) ;
+        for (int i=2; i<tab.size()-1; i++){
             if(above){
-                if(tab.get(i)<moy) return i;
+                if(tab.get(i)<moy){
+                    above = false;
+                    n--;
+                    if(n<=0){
+                        return i;
+                    }
+                }
             }else{
-                if(tab.get(i)>moy) return i;
+                if(tab.get(i)>moy){
+                    above = true;
+                    n--;
+                    if(n<=0){
+                        return i;
+                    }
+                }
             }
         }
         return 0;

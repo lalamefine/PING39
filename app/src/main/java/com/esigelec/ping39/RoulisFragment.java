@@ -35,13 +35,12 @@ public class RoulisFragment extends Fragment {
     private Sensor sensorGrav;
     private Sensor sensorGyro;
     long nextTry;
-    //private FourrierManager fftManager;
     private PeriodExtractor periodExtractor;
     public static View rootView;
+
     public RoulisFragment() {
         periodExtractor = new PeriodExtractor();
         nextTry = SystemClock.uptimeMillis()+100;
-        //fftManager = new FourrierManager();
     }
 
     //EVENEMENTS SUR L'ACCELEROMETTRE
@@ -54,7 +53,7 @@ public class RoulisFragment extends Fragment {
                 //Log.d("PeriodExtractor.Per","X: " + periodExtractor.getPeriodX() + ", Y: " + periodExtractor.getPeriodY());
                 nextTry+=100;
                 ((TextView)rootView.findViewById(R.id.infoText)).setText("Périodes: \n" +
-                        "X: " + periodExtractor.getPeriodX() + ", Y: " + periodExtractor.getPeriodY());
+                        "Roulis: " + periodExtractor.getPeriodX() + "\nTanguage: " + periodExtractor.getPeriodY());
 
             }
         }

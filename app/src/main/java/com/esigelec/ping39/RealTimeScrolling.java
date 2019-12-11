@@ -21,7 +21,7 @@ class RealtimeScrolling {
     public void initGraph(GraphView graph) {
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setMinX(0);
-        graph.getViewport().setMaxX(60000);
+        graph.getViewport().setMaxX(60.000);
         graph.getViewport().setMinY(-10);
         graph.getViewport().setMaxY(10);
         graph.getViewport().setYAxisBoundsManual(true);
@@ -48,8 +48,8 @@ class RealtimeScrolling {
     }
 
     public void AddData(float valX,float valY) {
-        mSeriesX.appendData(new DataPoint((SystemClock.uptimeMillis()-initTime), valX), true, NB_DATAPOINT_ARCHIVED);
-        mSeriesY.appendData(new DataPoint((SystemClock.uptimeMillis()-initTime), valY), true, NB_DATAPOINT_ARCHIVED);
+        mSeriesX.appendData(new DataPoint(((double)(SystemClock.uptimeMillis()-initTime))/1000, valX), true, NB_DATAPOINT_ARCHIVED);
+        mSeriesY.appendData(new DataPoint(((double)(SystemClock.uptimeMillis()-initTime))/1000, valY), true, NB_DATAPOINT_ARCHIVED);
     }
 
 
