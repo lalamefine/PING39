@@ -229,8 +229,6 @@ public class ChaosCompassView extends View{
         drawCenterText();
     }
 
-
-
     /**
      * 设置camera相关
      */
@@ -250,7 +248,6 @@ public class ChaosCompassView extends View{
     }
 
     private void drawInnerCricle() {
-
         mInnerShader = new RadialGradient(width/2,mOutSideRadius+mTextHeight,mCircumRadius-40, Color.parseColor("#323232"),
                 Color.parseColor("#000000"),Shader.TileMode.CLAMP);
         mInnerPaint.setShader(mInnerShader);
