@@ -40,7 +40,6 @@ public class CapFragment extends Fragment {
     private ChaosCompassView chaosCompassView;
     private ChaosCompassView chaosCompassView2;
     private float val;
-    private float valButton;
 
     private Button button;
 
@@ -68,7 +67,6 @@ public class CapFragment extends Fragment {
             public void onSensorChanged(SensorEvent event) {
                 val = event.values[0];
                 chaosCompassView.setVal(val);
-                chaosCompassView2.setVal(val);
             }
 
             @Override
@@ -88,7 +86,6 @@ public class CapFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_cap, container, false);
         chaosCompassView = (ChaosCompassView) rootView.findViewById(R.id.ccv);
-        chaosCompassView2 = (ChaosCompassView) rootView.findViewById(R.id.ccv2);
         button =  rootView.findViewById(R.id.buttonCap);
         button.setOnClickListener(new View.OnClickListener()
             {
@@ -98,8 +95,7 @@ public class CapFragment extends Fragment {
                     switch (v.getId()) {
                         case R.id.buttonCap:
                             Log.d("buttonCap", "buttonCap pressed");
-                            Log.d("buttonCap", String.valueOf(val));
-                            valButton = val;
+                            chaosCompassView.setValButton();
                             break;
                         default:
                             Log.d("buttonTag", "default onclick");

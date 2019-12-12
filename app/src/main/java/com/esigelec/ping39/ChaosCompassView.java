@@ -114,8 +114,8 @@ public class ChaosCompassView extends View{
         this.val = val;
         invalidate();
     }
-    public void setValButton(float valButton) {
-        this.valButton = valButton;
+    public void setValButton() {
+        this.valButton = this.val;
         invalidate();
     }
 
@@ -262,7 +262,8 @@ public class ChaosCompassView extends View{
     }
 
     private void drawCenterText() {
-        String centerText=String.valueOf((int) val+"°");
+        int eccart = -(((((int)(val-valButton)-180)%360+180)+180)%360-180);
+        String centerText=String.valueOf(eccart+"°");
         mCenterPaint.getTextBounds(centerText,0,centerText.length(),mCenterTextRect);
         int centerTextWidth = mCenterTextRect.width();
         int centerTextHeight = mCenterTextRect.height();
@@ -374,6 +375,7 @@ public class ChaosCompassView extends View{
     //TODO
     private void drawCompassOutSide() {
         mCanvas.save();
+        mCanvas.rotate(-val+valButton,width/2,mOutSideRadius+mTextHeight);
         //小三角形的高度
         int mTriangleHeight=40;
         //定义Path画小三角形
@@ -391,30 +393,33 @@ public class ChaosCompassView extends View{
         mLightGrayPaint.setStrokeWidth((float)5);
         mDeepGrayPaint.setStrokeWidth((float)3);
         mLightGrayPaint.setStyle(Paint.Style.STROKE);
-        mCanvas.drawArc(width/2-mOutSideRadius,mTextHeight,width/2+mOutSideRadius,mTextHeight+mOutSideRadius*2,-80,120,false,mLightGrayPaint);
-        mCanvas.drawArc(width/2-mOutSideRadius,mTextHeight,width/2+mOutSideRadius,mTextHeight+mOutSideRadius*2,40,20,false,mDeepGrayPaint);
-        mCanvas.drawArc(width/2-mOutSideRadius,mTextHeight,width/2+mOutSideRadius,mTextHeight+mOutSideRadius*2,-100,-20,false,mLightGrayPaint);
-        mCanvas.drawArc(width/2-mOutSideRadius,mTextHeight,width/2+mOutSideRadius,mTextHeight+mOutSideRadius*2,-120,-120,false,mDarkRedPaint);
+        mCanvas.drawArc(width/2-mOutSideRadius,mTextHeight,width/2+mOutSideRadius,mTextHeight+mOutSideRadius*2,-85,150,false,mDeepGrayPaint);
+        mCanvas.drawArc(width/2-mOutSideRadius,mTextHeight,width/2+mOutSideRadius,mTextHeight+mOutSideRadius*2,-95,-150,false,mDeepGrayPaint);
+        if((val-valButton)>5)
+            mCanvas.drawArc(width/2-mOutSideRadius,mTextHeight,width/2+mOutSideRadius,mTextHeight+mOutSideRadius*2,-85,Math.abs(val-valButton-5),false,mLightGrayPaint);
+        if((val-valButton)<(-5))
+            mCanvas.drawArc(width/2-mOutSideRadius,mTextHeight,width/2+mOutSideRadius,mTextHeight+mOutSideRadius*2,-95,-Math.abs(val-valButton+5),false,mLightGrayPaint);
         mCanvas.restore();
     }
 
     private void drawText() {
+        text=String.valueOf((int)val);
         if (val<=15||val>=345){
-            text = "Nord";
+            text += "° Nord";
         }else if (val>15&&val<=75){
-            text= "Nord Est";
+            text += "° Nord Est";
         }else if (val>75&&val<=105){
-            text= "Est";
+            text += "° Est";
         }else if (val>105&&val<=165){
-            text="Sud Est";
+            text += "° Sud Est";
         }else if (val>165&&val<=195){
-            text = "Sud";
+            text += "° Sud";
         }else if (val>195&&val<=255){
-            text = "Sud Ouest";
+            text += "° Sud Ouest";
         }else if (val>255&&val<=285){
-            text = "Ouest";
+            text += "° Ouest";
         }else if (val>285&&val<345){
-            text="Nord Ouest";
+            text += "° Nord Ouest";
         }
 
         mTextPaint.getTextBounds(text,0,text.length(),mTextRect);
