@@ -15,6 +15,7 @@ import android.graphics.Rect;
 import android.graphics.Shader;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -262,8 +263,8 @@ public class ChaosCompassView extends View{
     }
 
     private void drawCenterText() {
-        int eccart = -(((((int)(val-valButton)-180)%360+180)+180)%360-180);
-        String centerText=String.valueOf(eccart+"°");
+        int ecart = -(((((int)(val-valButton)-180)%360+180)+180)%360-180);
+        String centerText=String.valueOf(ecart+"°");
         mCenterPaint.getTextBounds(centerText,0,centerText.length(),mCenterTextRect);
         int centerTextWidth = mCenterTextRect.width();
         int centerTextHeight = mCenterTextRect.height();
@@ -354,14 +355,15 @@ public class ChaosCompassView extends View{
         mCanvas.drawArc(width/2-mCircumRadius,mTextHeight+mOutSideRadius-mCircumRadius,
                 width/2+mCircumRadius,mTextHeight+mOutSideRadius+mCircumRadius,-85,350,false,mDeepGrayPaint);
         mAnglePaint.setStrokeWidth(5f);
-        if (val<=180){
+        if (val>5 & val<=180){
             valCompare = val;
             mCanvas.drawArc(width/2-mCircumRadius,mTextHeight+mOutSideRadius-mCircumRadius,
-                    width/2+mCircumRadius,mTextHeight+mOutSideRadius+mCircumRadius,-85,valCompare,false,mAnglePaint);
-        }else{
+                    width/2+mCircumRadius,mTextHeight+mOutSideRadius+mCircumRadius,-85,valCompare-5,false,mAnglePaint);
+        }
+        if(val<355 && val>=180){
             valCompare = 360-val;
             mCanvas.drawArc(width/2-mCircumRadius,mTextHeight+mOutSideRadius-mCircumRadius,
-                    width/2+mCircumRadius,mTextHeight+mOutSideRadius+mCircumRadius,-95,-valCompare,false,mAnglePaint);
+                    width/2+mCircumRadius,mTextHeight+mOutSideRadius+mCircumRadius,-95,-valCompare+5,false,mAnglePaint);
         }
 
         mCanvas.restore();
@@ -372,10 +374,10 @@ public class ChaosCompassView extends View{
      * 1、用Path实现小三角形
      * 2、两个圆弧
      */
-    //TODO
     private void drawCompassOutSide() {
         mCanvas.save();
-        mCanvas.rotate(-val+valButton,width/2,mOutSideRadius+mTextHeight);
+        float ecart = -(((((float)(val-valButton)-180)%360+180)+180)%360-180);
+        mCanvas.rotate(ecart,width/2,mOutSideRadius+mTextHeight);
         //小三角形的高度
         int mTriangleHeight=40;
         //定义Path画小三角形
@@ -395,10 +397,11 @@ public class ChaosCompassView extends View{
         mLightGrayPaint.setStyle(Paint.Style.STROKE);
         mCanvas.drawArc(width/2-mOutSideRadius,mTextHeight,width/2+mOutSideRadius,mTextHeight+mOutSideRadius*2,-85,150,false,mDeepGrayPaint);
         mCanvas.drawArc(width/2-mOutSideRadius,mTextHeight,width/2+mOutSideRadius,mTextHeight+mOutSideRadius*2,-95,-150,false,mDeepGrayPaint);
-        if((val-valButton)>5)
-            mCanvas.drawArc(width/2-mOutSideRadius,mTextHeight,width/2+mOutSideRadius,mTextHeight+mOutSideRadius*2,-85,Math.abs(val-valButton-5),false,mLightGrayPaint);
-        if((val-valButton)<(-5))
-            mCanvas.drawArc(width/2-mOutSideRadius,mTextHeight,width/2+mOutSideRadius,mTextHeight+mOutSideRadius*2,-95,-Math.abs(val-valButton+5),false,mLightGrayPaint);
+
+        if(ecart<-5)
+            mCanvas.drawArc(width/2-mOutSideRadius,mTextHeight,width/2+mOutSideRadius,mTextHeight+mOutSideRadius*2,-85,-Math.max(ecart+5,-150),false,mLightGrayPaint);
+        if(ecart>5)
+            mCanvas.drawArc(width/2-mOutSideRadius,mTextHeight,width/2+mOutSideRadius,mTextHeight+mOutSideRadius*2,-95,-Math.min(ecart-5,150),false,mLightGrayPaint);
         mCanvas.restore();
     }
 
