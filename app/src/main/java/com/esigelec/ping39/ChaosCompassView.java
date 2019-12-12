@@ -98,6 +98,7 @@ public class ChaosCompassView extends View{
     private Camera mCamera;
 
     private float val=0f;
+    private float valButton=0f;
     private float valCompare;
     //偏转角度红线笔
     private Paint mAnglePaint;
@@ -113,6 +114,11 @@ public class ChaosCompassView extends View{
         this.val = val;
         invalidate();
     }
+    public void setValButton(float valButton) {
+        this.valButton = valButton;
+        invalidate();
+    }
+
 
     public ChaosCompassView(Context context) {
         this(context,null);
@@ -330,6 +336,7 @@ public class ChaosCompassView extends View{
     /**
      * 指南针外接圆，和外部圆换道理差不多
      */
+    //Example
     private void drawCompassCircum() {
         mCanvas.save();
         //外接圆小三角形的高度
@@ -364,6 +371,7 @@ public class ChaosCompassView extends View{
      * 1、用Path实现小三角形
      * 2、两个圆弧
      */
+    //TODO
     private void drawCompassOutSide() {
         mCanvas.save();
         //小三角形的高度
