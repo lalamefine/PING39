@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
 
@@ -33,28 +34,28 @@ public class RoulisFragment extends Fragment {
     private RealtimeScrolling mLogicRealTime;
     private Sensor sensorGrav;
     private Sensor sensorGyro;
-    //private FourrierManager fftManager;
+    long nextTry;
     private PeriodExtractor periodExtractor;
     public static View rootView;
+
     public RoulisFragment() {
         periodExtractor = new PeriodExtractor();
-        //fftManager = new FourrierManager();
+        nextTry = SystemClock.uptimeMillis()+100;
     }
 
     //EVENEMENTS SUR L'ACCELEROMETTRE
     final SensorEventListener gravEventListener = new SensorEventListener() {
         public void onAccuracyChanged(Sensor sensor, int accuracy) {}
         public void onSensorChanged(SensorEvent sensorEvent) {
-            mLogicRealTime.AddData(sensorEvent.values[0],sensorEvent.values[1]);
-            periodExtractor.addInList(sensorEvent.values[0],sensorEvent.values[1]);
-            Log.d("periodExtractor","X: " + periodExtractor.getPeriodX() + ", Y: " + periodExtractor.getPeriodY());
-            //fftManager.arrXInsert(sensorEvent.values[0]);
-            //Essai avec fft
-            //mLogicRealTime.AddData((float)Math.cos(Math.PI*((float)(SystemClock.uptimeMillis()))/1000),sensorEvent.values[1]);
-            //fftManager.arrXInsert(Math.cos(Math.PI*((double)(SystemClock.uptimeMillis()))/1000));
-            //fftManager.arrYInsert(sensorEvent.values[1]);
-            //fftManager.FourrierCalc();
-            //Log.d("Sensors", "Gravité (z,x,y) : " + gravValues[0] + "," + gravValues[1] + "," + gravValues[2]);
+            if(SystemClock.uptimeMillis() > nextTry){
+                mLogicRealTime.AddData(sensorEvent.values[0],sensorEvent.values[1]);
+                periodExtractor.addInList(sensorEvent.values[0],sensorEvent.values[1]);
+                //Log.d("PeriodExtractor.Per","X: " + periodExtractor.getPeriodX() + ", Y: " + periodExtractor.getPeriodY());
+                nextTry+=100;
+                ((TextView)rootView.findViewById(R.id.infoText)).setText("Périodes: \n" +
+                        "Roulis: " + periodExtractor.getPeriodX() + "\nTanguage: " + periodExtractor.getPeriodY());
+
+            }
         }
     };
 
