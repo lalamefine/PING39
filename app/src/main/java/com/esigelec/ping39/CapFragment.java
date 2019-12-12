@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import static android.content.Context.SENSOR_SERVICE;
@@ -37,7 +38,11 @@ public class CapFragment extends Fragment {
     private SensorManager mSensorManager;
     private SensorEventListener mSensorEventListener;
     private ChaosCompassView chaosCompassView;
+    private ChaosCompassView chaosCompassView2;
     private float val;
+    private float valButton;
+
+    private Button button;
 
     public CapFragment() {
         // Required empty public constructor
@@ -63,6 +68,7 @@ public class CapFragment extends Fragment {
             public void onSensorChanged(SensorEvent event) {
                 val = event.values[0];
                 chaosCompassView.setVal(val);
+                chaosCompassView2.setVal(val);
             }
 
             @Override
@@ -82,6 +88,24 @@ public class CapFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_cap, container, false);
         chaosCompassView = (ChaosCompassView) rootView.findViewById(R.id.ccv);
+        chaosCompassView2 = (ChaosCompassView) rootView.findViewById(R.id.ccv2);
+        button =  rootView.findViewById(R.id.buttonCap);
+        button.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    switch (v.getId()) {
+                        case R.id.buttonCap:
+                            Log.d("buttonCap", "buttonCap pressed");
+                            Log.d("buttonCap", String.valueOf(val));
+                            valButton = val;
+                            break;
+                        default:
+                            Log.d("buttonTag", "default onclick");
+                            break;
+                    }
+            }});
         return rootView;
     }
 
