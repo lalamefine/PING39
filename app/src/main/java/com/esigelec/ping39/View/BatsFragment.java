@@ -1,6 +1,7 @@
 package com.esigelec.ping39.View;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Debug;
@@ -15,6 +16,8 @@ import android.widget.ListView;
 import com.esigelec.ping39.Model.Bateau;
 import com.esigelec.ping39.R;
 import com.esigelec.ping39.System.BatAdapter;
+import com.esigelec.ping39.System.BateauDetailActivity;
+import com.esigelec.ping39.System.MainActivity;
 
 
 /**
@@ -56,6 +59,8 @@ public class BatsFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.d("BateauListView","Item selected : "+ i);
                 //LANCER ACTIVITE ICI
+                Intent batActivity = new Intent(getActivity(), BateauDetailActivity.class);
+                startActivity(batActivity);
             }
         });
 

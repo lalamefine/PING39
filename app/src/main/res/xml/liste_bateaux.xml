@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <BateauxList xmlns:android="http://schemas.android.com/apk/res/android">
-    <bateau classe="Bateau">
+    <bateau>
         <id>0</id>
         <nom>CynO</nom>
         <fabriquant>Zop0 </fabriquant>
@@ -10,10 +10,8 @@
         <poids>1200</poids>
         <favori>true</favori>
         <kg>1</kg>
-        <Vector3>
-            <x>4</x>
-            <y>5</y>
-            <z>6</z>
-        </Vector3>
+        <Vector3x>3</Vector3x>
+        <Vector3y>4</Vector3y>
+        <Vector3z>5</Vector3z>
     </bateau>
 </BateauxList>
