@@ -40,9 +40,10 @@ public class BatAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         view = inflter.inflate(R.layout.bateau_list_element, null);
-        TextView country = (TextView) view.findViewById(R.id.textView);
+        TextView name = (TextView) view.findViewById(R.id.textView);
         ImageView icon = (ImageView) view.findViewById(R.id.icon);
-        //.setText(batList[i].);
+        name.setText(batList[i].getNom());
+        new ImageLoadTask(batList[i].getImageUrl(), icon).execute();
         return view;
     }
 }
