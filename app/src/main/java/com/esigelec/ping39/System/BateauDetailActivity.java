@@ -44,7 +44,6 @@ public class BateauDetailActivity extends AppCompatActivity {
             InputStream istream= assetManager.open("liste_bateaux.xml");
            // File fXmlFile = getResources.getXml("res/xml/liste_bateaux.xml");
 
-
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = builderFactory.newDocumentBuilder();
             Document doc = docBuilder.parse(istream);
