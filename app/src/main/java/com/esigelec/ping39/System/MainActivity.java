@@ -1,4 +1,4 @@
-package com.esigelec.ping39.View;
+package com.esigelec.ping39.System;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +13,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.esigelec.ping39.R;
+import com.esigelec.ping39.View.BatsFragment;
+import com.esigelec.ping39.View.CapFragment;
+import com.esigelec.ping39.View.RoulisFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         RoulisFragment.OnFragmentInteractionListener, BatsFragment.OnFragmentInteractionListener, CapFragment.OnFragmentInteractionListener {

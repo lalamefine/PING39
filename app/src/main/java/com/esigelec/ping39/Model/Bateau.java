@@ -15,12 +15,37 @@ public class Bateau {
     public Bateau(int id) {
     }
 
+    public Bateau(int id, String nom, String fabriquant, String imageUrl, float longueur, float largeur, float poids, boolean favori, float kg, Vector3 centre_gravite) {
+        this.id = id;
+        this.nom = nom;
+        this.fabriquant = fabriquant;
+        this.imageUrl = imageUrl;
+        this.longueur = longueur;
+        this.largeur = largeur;
+        this.poids = poids;
+        this.favori = favori;
+        this.kg = kg;
+        this.centre_gravite = centre_gravite;
+    }
+
+    public Bateau(String nom, String imageUrl) {
+        this.nom = nom;
+        this.imageUrl = imageUrl;
+    }
+
     public static int nbBateau(){
         return 0;
     }
 
     public static Bateau[] GetAll(){
         return null;
+    }
+
+    public static Bateau[] GetTestArray(){
+        Bateau[] ar = {new Bateau("Atlantis","https://www.armada.org/template/img/bateau/8fc58b38200cffe45da439c4acb8e9cad1395b71.jpg"),
+                new Bateau("Atyla","https://www.armada.org/template/img/bateau/bcda14e1691416e683dbd8a7374aa1381fdc2722.jpg"),
+                new Bateau("Cuauhtémoc","https://www.armada.org/template/img/bateau/a5c8cdb6584aa58445f6648a2d68fc160f16950d.jpg")};
+        return ar;
     }
 
     public int getId() {

@@ -28,21 +28,23 @@ public class BatAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
-        return null;
+    public Bateau getItem(int position) {
+        return batList[position];
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return batList[position].getId();
     }
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         view = inflter.inflate(R.layout.bateau_list_element, null);
-        TextView name = (TextView) view.findViewById(R.id.textView);
-        ImageView icon = (ImageView) view.findViewById(R.id.icon);
+        TextView name = view.findViewById(R.id.batName);
+        TextView descr = view.findViewById(R.id.batDescr);
+        ImageView icon = view.findViewById(R.id.batIcon);
         name.setText(batList[i].getNom());
+        descr.setText("Description");
         new ImageLoadTask(batList[i].getImageUrl(), icon).execute();
         return view;
     }
