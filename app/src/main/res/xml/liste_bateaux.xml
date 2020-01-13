@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <BateauxList xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <bateau classe="Bateau">
+        <id>0</id>
+        <nom>CynO</nom>
+        <fabriquant>Zop0 </fabriquant>
+        <imageUrl>imageURL</imageUrl>
+        <longueur>12</longueur>
+        <largeur>4</largeur>
+        <poids>1200</poids>
+        <favori>true</favori>
+        <kg>1</kg>
+        <Vector3>
+            <x>4</x>
+            <y>5</y>
+            <z>6</z>
+        </Vector3>
+    </bateau>
 </BateauxList>
