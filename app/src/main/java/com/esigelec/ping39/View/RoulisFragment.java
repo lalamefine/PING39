@@ -1,4 +1,4 @@
-package com.esigelec.ping39;
+package com.esigelec.ping39.View;
 
 import android.content.Context;
 import android.hardware.Sensor;
@@ -9,12 +9,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.esigelec.ping39.Model.PeriodExtractor;
+import com.esigelec.ping39.R;
 import com.jjoe64.graphview.GraphView;
 
 

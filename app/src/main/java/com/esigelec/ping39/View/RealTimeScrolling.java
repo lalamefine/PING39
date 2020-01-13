@@ -1,4 +1,4 @@
-package com.esigelec.ping39;
+package com.esigelec.ping39.View;
 
 import android.graphics.Paint;
 import android.os.SystemClock;

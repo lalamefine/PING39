@@ -1,4 +1,4 @@
-package com.esigelec.ping39;
+package com.esigelec.ping39.View;
 
 import android.content.Context;
 import android.net.Uri;
@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.esigelec.ping39.R;
 
 
 /**
@@ -45,7 +47,6 @@ public class BatsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_bats, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);

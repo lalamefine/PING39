@@ -1,4 +1,4 @@
-package com.esigelec.ping39;
+package com.esigelec.ping39.Model;
 
 import android.os.SystemClock;
 import android.util.Log;
@@ -14,7 +14,7 @@ public class PeriodExtractor {
     private final int MIN_SIZE = 200;
     private boolean longenough = false;
 
-    void addInList(float x, float y){
+    public void addInList(float x, float y){
         valsX.addFirst(x);
         valsY.addFirst(y);
         time.addFirst(SystemClock.uptimeMillis());

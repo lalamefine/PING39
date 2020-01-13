@@ -1,4 +1,4 @@
-package com.esigelec.ping39;
+package com.esigelec.ping39.View;
 
 import android.animation.PropertyValuesHolder;
 import android.animation.TimeInterpolator;
@@ -18,6 +18,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.esigelec.ping39.R;
 
 
 /**
@@ -376,7 +378,7 @@ public class ChaosCompassView extends View{
      */
     private void drawCompassOutSide() {
         mCanvas.save();
-        float ecart = -(((((float)(val-valButton)-180)%360+180)+180)%360-180);
+        float ecart = -((((float)(val-valButton)-180)%360+360)%360-180);
         mCanvas.rotate(ecart,width/2,mOutSideRadius+mTextHeight);
         //小三角形的高度
         int mTriangleHeight=40;

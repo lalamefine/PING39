@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CapFragment">
+    tools:context=".View.CapFragment">
 
 
-    <com.esigelec.ping39.ChaosCompassView
+    <com.esigelec.ping39.View.ChaosCompassView
         android:id="@+id/ccv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
