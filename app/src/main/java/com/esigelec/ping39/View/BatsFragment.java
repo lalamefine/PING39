@@ -7,8 +7,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
+import com.esigelec.ping39.Model.Bateau;
 import com.esigelec.ping39.R;
+import com.esigelec.ping39.System.BatAdapter;
 
 
 /**
@@ -22,10 +25,10 @@ import com.esigelec.ping39.R;
 public class BatsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-
-    public BatsFragment() {
-        // Required empty public constructor
-    }
+    private ListView bateauListView;
+    private Bateau[] bateaux;
+    // Required empty public constructor
+    public BatsFragment() {}
 
     public static BatsFragment newInstance() {
         BatsFragment fragment = new BatsFragment();
@@ -37,13 +40,15 @@ public class BatsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        bateaux = Bateau.GetAll();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        //bateauListView = (ListView) findViewById(R.id.bateauListView);
+        BatAdapter batAdapter = new BatAdapter(getContext(), bateaux);
+        bateauListView.setAdapter(batAdapter);
         return inflater.inflate(R.layout.fragment_bats, container, false);
     }
 

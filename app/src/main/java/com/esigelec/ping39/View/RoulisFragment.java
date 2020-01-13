@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.esigelec.ping39.Model.PeriodExtractor;
+import com.esigelec.ping39.System.PeriodExtractor;
 import com.esigelec.ping39.R;
 import com.jjoe64.graphview.GraphView;
 

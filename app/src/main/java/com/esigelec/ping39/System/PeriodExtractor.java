@@ -1,4 +1,4 @@
-package com.esigelec.ping39.Model;
+package com.esigelec.ping39.System;
 
 import android.os.SystemClock;
 import android.util.Log;
