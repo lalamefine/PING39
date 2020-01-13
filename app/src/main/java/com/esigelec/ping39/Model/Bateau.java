@@ -4,7 +4,7 @@ public class Bateau {
     private int id;
     private String nom;
     private String fabriquant;
-    private String fileUrl;
+    private String imageUrl;
     private float longueur;
     private float largeur;
     private float poids;
@@ -12,8 +12,11 @@ public class Bateau {
     private float kg;
     private Vector3 centre_gravite;
 
-    public Bateau() {
+    public Bateau(int id) {
     }
 
+    public static int nbBateau(){
+        return 0;
+    }
 
 }
