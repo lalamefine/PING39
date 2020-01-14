@@ -183,7 +183,6 @@ public class Bateau {
         this.centre_gravite = centre_gravite;
     }
 
-
     protected static String getXmlNodeValue(String tag, Element element) {
         NodeList nodeList = element.getElementsByTagName(tag);
         Node node = nodeList.item(0);
