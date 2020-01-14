@@ -1,9 +1,11 @@
-package com.esigelec.ping39.System;
+package com.esigelec.ping39.View;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import com.esigelec.ping39.Model.Bateau;
+import com.esigelec.ping39.Model.GlobalHolder;
 import com.esigelec.ping39.R;
+import com.esigelec.ping39.System.ImageLoadTask;
 
 import android.util.Log;
 import android.view.View;
@@ -19,7 +21,7 @@ public class BateauDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bateau_detail);
         Bundle extras = getIntent().getExtras();
         int id = extras.getInt("idBateau");
-        Bateau bat = Bateau.getBateau(getBaseContext(),id);
+        final Bateau bat = Bateau.getBateau(getBaseContext(),id);
         // Lien avec la vue
         ImageView img = findViewById(R.id.imageView);
         TextView valNom = findViewById(R.id.valNom);
@@ -35,8 +37,8 @@ public class BateauDetailActivity extends AppCompatActivity {
         Button btnFavori = findViewById(R.id.btnFavori);
         btnSelect.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // your handler code here
-             Log.d("bateauDetail", "button Select clicked");
+            GlobalHolder.selected = bat.getId();
+            Log.d("bateauDetail", "button Select clicked");
             }
         });
         btnFavori.setOnClickListener(new View.OnClickListener() {

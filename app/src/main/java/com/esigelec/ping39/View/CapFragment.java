@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.esigelec.ping39.R;
+import com.esigelec.ping39.System.RealtimeScrolling;
 
 import static android.content.Context.SENSOR_SERVICE;
 

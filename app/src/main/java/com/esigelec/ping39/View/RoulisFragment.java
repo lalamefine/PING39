@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.esigelec.ping39.System.PeriodExtractor;
 import com.esigelec.ping39.R;
+import com.esigelec.ping39.System.RealtimeScrolling;
 import com.jjoe64.graphview.GraphView;
 
 
@@ -49,10 +50,12 @@ public class RoulisFragment extends Fragment {
         public void onAccuracyChanged(Sensor sensor, int accuracy) {}
         public void onSensorChanged(SensorEvent sensorEvent) {
             if(SystemClock.uptimeMillis() > nextTry){
-                mLogicRealTime.AddData(sensorEvent.values[0],sensorEvent.values[1]);
-                periodExtractor.addInList(sensorEvent.values[0],sensorEvent.values[1]);
+                float roulis = (float)(360/(2*Math.PI)*Math.acos((double)sensorEvent.values[0]/9.8)-90);
+                float tangage = (float)(360/(2*Math.PI)*Math.acos((double)sensorEvent.values[1]/9.8)-90);
+                mLogicRealTime.AddData(roulis,tangage);
+                periodExtractor.addInList(roulis,tangage);
                 //Log.d("PeriodExtractor.Per","X: " + periodExtractor.getPeriodX() + ", Y: " + periodExtractor.getPeriodY());
-                nextTry+=100;
+                nextTry+=50;
                 ((TextView)rootView.findViewById(R.id.infoText)).setText("Périodes: \n" +
                         "Roulis: " + periodExtractor.getPeriodX() + "\nTanguage: " + periodExtractor.getPeriodY());
 
@@ -81,7 +84,7 @@ public class RoulisFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_roulis, container, false);
-        GraphView graph = rootView.findViewById(R.id.graph2);
+        GraphView graph = rootView.findViewById(R.id.graphDirect);
         mLogicRealTime.initGraph(graph);
         RoulisFragment.rootView = rootView;
         return rootView;

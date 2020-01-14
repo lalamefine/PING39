@@ -1,4 +1,4 @@
-package com.esigelec.ping39.View;
+package com.esigelec.ping39.System;
 
 import android.graphics.Paint;
 import android.os.SystemClock;
@@ -10,7 +10,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 /**
  * Created by jonas on 10.09.16.
  */
-class RealtimeScrolling {
+public class RealtimeScrolling {
     private LineGraphSeries<DataPoint> mSeriesX;
     private LineGraphSeries<DataPoint> mSeriesY;
 
@@ -22,8 +22,8 @@ class RealtimeScrolling {
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setMinX(0);
         graph.getViewport().setMaxX(60.000);
-        graph.getViewport().setMinY(-10);
-        graph.getViewport().setMaxY(10);
+        graph.getViewport().setMinY(-90);
+        graph.getViewport().setMaxY(90);
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setScalableY(false);
         graph.getViewport().setScrollable(true);

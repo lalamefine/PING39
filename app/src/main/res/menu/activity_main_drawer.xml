@@ -6,7 +6,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_roulis"
-            android:title="Tanguage et Roulis" />
+            android:title="Tangage et Roulis" />
         <item
             android:id="@+id/nav_cap"
             android:title="Maintien de cap" />

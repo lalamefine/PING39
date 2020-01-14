@@ -1,10 +1,8 @@
 package com.esigelec.ping39.View;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Debug;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,8 +14,6 @@ import android.widget.ListView;
 import com.esigelec.ping39.Model.Bateau;
 import com.esigelec.ping39.R;
 import com.esigelec.ping39.System.BatAdapter;
-import com.esigelec.ping39.System.BateauDetailActivity;
-import com.esigelec.ping39.System.MainActivity;
 
 import java.util.ArrayList;
 
