@@ -1,5 +1,21 @@
 package com.esigelec.ping39.Model;
 
+import android.content.Context;
+import android.content.res.AssetManager;
+import android.util.Log;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 public class Bateau {
     private int id;
     private String nom;
@@ -12,7 +28,16 @@ public class Bateau {
     private float kg;
     private Vector3 centre_gravite;
 
-    public Bateau(int id) {
+    public Bateau() { }
+
+    public static Bateau getBateau(Context context,int id) {
+        ArrayList<Bateau> liste = GetAll(context);
+        for(int i = 0; i<liste.size();i++){
+            if(liste.get(i).getId()==id){
+                return liste.get(i);
+            }
+        }
+        return null;
     }
 
     public Bateau(int id, String nom, String fabriquant, String imageUrl, float longueur, float largeur, float poids, boolean favori, float kg, Vector3 centre_gravite) {
@@ -33,19 +58,49 @@ public class Bateau {
         this.imageUrl = imageUrl;
     }
 
-    public static int nbBateau(){
-        return 0;
+    public static int nbBateau(Context context){
+        return GetAll(context).size();
     }
 
-    public static Bateau[] GetAll(){
-        return null;
-    }
-
-    public static Bateau[] GetTestArray(){
-        Bateau[] ar = {new Bateau("Atlantis","https://www.armada.org/template/img/bateau/8fc58b38200cffe45da439c4acb8e9cad1395b71.jpg"),
-                new Bateau("Atyla","https://www.armada.org/template/img/bateau/bcda14e1691416e683dbd8a7374aa1381fdc2722.jpg"),
-                new Bateau("Cuauhtémoc","https://www.armada.org/template/img/bateau/a5c8cdb6584aa58445f6648a2d68fc160f16950d.jpg")};
-        return ar;
+    public static ArrayList<Bateau> GetAll(Context context){
+        ArrayList<Bateau> listeBat = new ArrayList<Bateau>();
+        try{
+            AssetManager assetManager = context.getAssets();
+            InputStream istream= assetManager.open("liste_bateaux.xml");
+            DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = builderFactory.newDocumentBuilder();
+            Document doc = docBuilder.parse(istream);
+            NodeList nList = doc.getElementsByTagName("bateau");
+            for(int i =0;i<nList.getLength();i++) {
+                if (nList.item(0).getNodeType() == Node.ELEMENT_NODE) {
+                    Element elm = (Element) nList.item(i);
+                    Bateau bat = new Bateau();
+                    bat.setId(Integer.parseInt(getXmlNodeValue("id", elm)));
+                    bat.setNom(getXmlNodeValue("nom", elm));
+                    bat.setFabriquant(getXmlNodeValue("fabriquant", elm));
+                    bat.setImageUrl(getXmlNodeValue("imageUrl", elm));
+                    bat.setLongueur(Float.parseFloat(getXmlNodeValue("longueur", elm)));
+                    bat.setLargeur(Float.parseFloat(getXmlNodeValue("largeur", elm)));
+                    bat.setPoids(Float.parseFloat(getXmlNodeValue("poids", elm)));
+                    bat.setKg(Float.parseFloat(getXmlNodeValue("kg", elm)));
+                    bat.setCentre_gravite(new Vector3(Float.parseFloat(getXmlNodeValue("Vector3x", elm)),
+                        Float.parseFloat(getXmlNodeValue("Vector3y", elm)),
+                        Float.parseFloat(getXmlNodeValue("Vector3z", elm))));
+                    listeBat.add(bat);
+                }
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            Log.d("BateauListView","erreur 1");
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+            Log.d("BateauListView","erreur 2");
+        } catch (SAXException e) {
+            e.printStackTrace();
+            Log.d("BateauListView","erreur 3");
+        }
+        return listeBat;
     }
 
     public int getId() {
@@ -126,5 +181,22 @@ public class Bateau {
 
     public void setCentre_gravite(Vector3 centre_gravite) {
         this.centre_gravite = centre_gravite;
+    }
+
+
+    protected static String getXmlNodeValue(String tag, Element element) {
+        NodeList nodeList = element.getElementsByTagName(tag);
+        Node node = nodeList.item(0);
+        if(node!=null){
+            if(node.hasChildNodes()){
+                Node child = node.getFirstChild();
+                while (child!=null){
+                    if(child.getNodeType() == Node.TEXT_NODE){
+                        return  child.getNodeValue();
+                    }
+                }
+            }
+        }
+        return "";
     }
 }

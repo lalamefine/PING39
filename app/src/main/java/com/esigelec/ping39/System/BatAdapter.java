@@ -11,12 +11,14 @@ import android.widget.TextView;
 import com.esigelec.ping39.Model.Bateau;
 import com.esigelec.ping39.R;
 
+import java.util.ArrayList;
+
 public class BatAdapter extends BaseAdapter {
     Context context;
-    Bateau[] batList;
+    ArrayList<Bateau> batList;
     LayoutInflater inflter;
 
-    public BatAdapter(Context context, Bateau[] batList) {
+    public BatAdapter(Context context, ArrayList<Bateau> batList) {
         this.context = context;
         this.batList = batList;
         inflter = (LayoutInflater.from(context));
@@ -24,17 +26,17 @@ public class BatAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return batList.length;
+        return batList.size();
     }
 
     @Override
     public Bateau getItem(int position) {
-        return batList[position];
+        return batList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return batList[position].getId();
+        return batList.get(position).getId();
     }
 
     @Override
@@ -43,9 +45,9 @@ public class BatAdapter extends BaseAdapter {
         TextView name = view.findViewById(R.id.batName);
         TextView descr = view.findViewById(R.id.batDescr);
         ImageView icon = view.findViewById(R.id.batIcon);
-        name.setText(batList[i].getNom());
+        name.setText(batList.get(i).getNom());
         descr.setText("Description");
-        new ImageLoadTask(batList[i].getImageUrl(), icon).execute();
+        new ImageLoadTask(batList.get(i).getImageUrl(), icon).execute();
         return view;
     }
 }

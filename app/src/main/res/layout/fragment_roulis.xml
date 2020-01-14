@@ -39,7 +39,7 @@
             android:maxLines="25"
             android:text="Scrolls always to the end"
             android:textColor="#666"
-            android:textSize="14dp" />
+            android:textSize="18sp" />
 
     </RelativeLayout>
 

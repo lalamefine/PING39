@@ -19,6 +19,8 @@ import com.esigelec.ping39.System.BatAdapter;
 import com.esigelec.ping39.System.BateauDetailActivity;
 import com.esigelec.ping39.System.MainActivity;
 
+import java.util.ArrayList;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,7 +34,7 @@ public class BatsFragment extends Fragment {
 
 
     private ListView bateauListView;
-    private Bateau[] bateaux;
+    private ArrayList<Bateau> bateaux;
     // Required empty public constructor
     public BatsFragment() {}
 
@@ -46,7 +48,7 @@ public class BatsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        bateaux = Bateau.GetTestArray();
+        bateaux = Bateau.GetAll(getContext());
     }
 
     @Override
@@ -59,8 +61,9 @@ public class BatsFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.d("BateauListView","Item selected : "+ i);
                 //LANCER ACTIVITE ICI
-                Intent batActivity = new Intent(getActivity(), BateauDetailActivity.class);
-                startActivity(batActivity);
+                Intent batIntent = new Intent(getActivity(), BateauDetailActivity.class);
+                batIntent.putExtra("idBateau",i);
+                startActivity(batIntent);
             }
         });
 
