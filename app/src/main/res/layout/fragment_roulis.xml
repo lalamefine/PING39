@@ -14,51 +14,52 @@
         tools:layout_editor_absoluteX="46dp"
         tools:layout_editor_absoluteY="-23dp">
 
-        <com.jjoe64.graphview.GraphView
-            android:id="@+id/graphDirect"
-            android:layout_width="match_parent"
-            android:layout_height="150dp" />
-
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/graphDirect"
-            android:layout_marginTop="8dp"
             android:maxLines="3"
-            android:text="Accélération selon X et Y (Roulis et Tanguage)"
+            android:text="Angle de roulis et tanguage"
             android:textColor="#222"
             android:textSize="18sp"
             android:textStyle="bold" />
+
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/graphDirect"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_below="@+id/title"
+            android:layout_marginTop="1dp" />
 
         <TextView
             android:id="@+id/infoText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/title"
+            android:layout_below="@+id/graphDirect"
+            android:layout_marginTop="7dp"
             android:maxLines="25"
             android:text="Datas"
             android:textColor="#666"
             android:textSize="18sp" />
 
-        <com.jjoe64.graphview.GraphView
-            android:id="@+id/graphPhase"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_below="@+id/infoText"
-            android:layout_marginTop="7dp" />
-
         <TextView
             android:id="@+id/title2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/graphPhase"
-            android:layout_marginTop="8dp"
+            android:layout_below="@+id/infoText"
+            android:layout_marginTop="9dp"
             android:maxLines="3"
-            android:text="Diagrame de phases du roulis"
+            android:text="Diagrame de phase du roulis"
             android:textColor="#222"
             android:textSize="18sp"
             android:textStyle="bold" />
+
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/graphPhase"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_below="@+id/title2"
+            android:layout_marginTop="1dp" />
 
     </RelativeLayout>
 

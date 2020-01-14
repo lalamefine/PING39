@@ -45,9 +45,11 @@ public class BatAdapter extends BaseAdapter {
         TextView name = view.findViewById(R.id.batName);
         TextView descr = view.findViewById(R.id.batDescr);
         ImageView icon = view.findViewById(R.id.batIcon);
+        ImageView fav = view.findViewById(R.id.favView);
         name.setText(batList.get(i).getNom());
         descr.setText("Description");
         new ImageLoadTask(batList.get(i).getImageUrl(), icon).execute();
+        fav.setAlpha(batList.get(i).isFavori()?1f:0f);
         return view;
     }
 }

@@ -22,8 +22,8 @@ public class RealtimeScrolling {
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setMinX(0);
         graph.getViewport().setMaxX(60.000);
-        graph.getViewport().setMinY(-90);
-        graph.getViewport().setMaxY(90);
+        graph.getViewport().setMinY(-45);
+        graph.getViewport().setMaxY(45);
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setScalableY(false);
         graph.getViewport().setScrollable(true);

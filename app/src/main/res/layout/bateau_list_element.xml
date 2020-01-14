@@ -46,4 +46,15 @@
 
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/favView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:alpha="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/btn_star_big_on" />
+
 </android.support.constraint.ConstraintLayout>

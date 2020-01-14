@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.esigelec.ping39.System.LineGraph;
 import com.esigelec.ping39.System.PeriodExtractor;
 import com.esigelec.ping39.R;
 import com.esigelec.ping39.System.RealtimeScrolling;
@@ -34,6 +35,7 @@ public class RoulisFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private SensorManager sensorManager;
     private RealtimeScrolling mLogicRealTime;
+    private LineGraph mLogicPhaseDiagram;
     private Sensor sensorGrav;
     private Sensor sensorGyro;
     long nextTry;
@@ -53,6 +55,7 @@ public class RoulisFragment extends Fragment {
                 float roulis = (float)(360/(2*Math.PI)*Math.acos((double)sensorEvent.values[0]/9.8)-90);
                 float tangage = (float)(360/(2*Math.PI)*Math.acos((double)sensorEvent.values[1]/9.8)-90);
                 mLogicRealTime.AddData(roulis,tangage);
+                mLogicPhaseDiagram.AddData(roulis);
                 periodExtractor.addInList(roulis,tangage);
                 //Log.d("PeriodExtractor.Per","X: " + periodExtractor.getPeriodX() + ", Y: " + periodExtractor.getPeriodY());
                 nextTry+=50;
@@ -78,6 +81,7 @@ public class RoulisFragment extends Fragment {
         sensorGyro = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         onAttach(this.getContext());
         mLogicRealTime = new RealtimeScrolling();
+        mLogicPhaseDiagram = new LineGraph();
     }
 
     @Override
@@ -86,6 +90,8 @@ public class RoulisFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_roulis, container, false);
         GraphView graph = rootView.findViewById(R.id.graphDirect);
         mLogicRealTime.initGraph(graph);
+        GraphView diagram = rootView.findViewById(R.id.graphPhase);
+        mLogicPhaseDiagram.initGraph(diagram);
         RoulisFragment.rootView = rootView;
         return rootView;
     }
