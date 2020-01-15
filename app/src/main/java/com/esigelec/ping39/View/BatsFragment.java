@@ -1,6 +1,7 @@
 package com.esigelec.ping39.View;
 
 import android.content.Intent;
+import android.graphics.Movie;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,10 +13,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.esigelec.ping39.Model.Bateau;
+import com.esigelec.ping39.Model.SortByFavori;
 import com.esigelec.ping39.R;
 import com.esigelec.ping39.System.BatAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 
 /**
@@ -44,7 +49,24 @@ public class BatsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         bateaux = Bateau.GetAll(getContext());
+
+        Log.d("BateauDetail", "bolean bat1 " + bateaux.get(0).isFavori());
+        Log.d("BateauDetail", "bolean bat 2 " + bateaux.get(1).isFavori());
+        Log.d("BateauDetail", "bolean bat 3 " + bateaux.get(2).isFavori());
+        Collections.sort(bateaux, new Comparator<Bateau>() {
+            @Override
+            public int compare(Bateau b1, Bateau b2) {
+                if (b1.isFavori() && !b2.isFavori())
+                    return -1;
+                if (!b1.isFavori() && b2.isFavori())
+                    return 1;
+                return 0;
+            }
+        });
+        // Reverse order by genre
+        //Collections.sort(bateaux, Collections.reverseOrder(comparator));
     }
 
     @Override

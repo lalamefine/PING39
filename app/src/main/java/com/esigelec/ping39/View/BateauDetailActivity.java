@@ -1,5 +1,7 @@
 package com.esigelec.ping39.View;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import com.esigelec.ping39.Model.Bateau;
@@ -43,9 +45,19 @@ public class BateauDetailActivity extends AppCompatActivity {
         });
         btnFavori.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // your handler code here
-                Log.d("bateauDetail", "button Favori clicked");
+//            bat.setFavori(true);
+//            Log.d("bateauDetail", "button Favori clicked");
+//                Log.d("bateauDetail", "Favori:" + bat.isFavori());
+            SharedPreferences sharedPreferences = getSharedPreferences("bateau_info", Context.MODE_PRIVATE);
+            //获取操作SharedPreferences实例的编辑器（必须通过此种方式添加数据）
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            //添加数据
+            editor.putInt("id"+bat.getId(), bat.getId());
+            editor.putBoolean("favori", true);
+            //提交
+            editor.commit();
             }
+
         });
         // Remplissage des valeurs
         new ImageLoadTask(bat.getImageUrl(), img).execute();

@@ -1,6 +1,7 @@
 package com.esigelec.ping39.Model;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.util.Log;
 
@@ -16,7 +17,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-public class Bateau {
+
+
+public class Bateau{
     private int id;
     private String nom;
     private String fabriquant;
@@ -86,6 +89,14 @@ public class Bateau {
                     bat.setCentre_gravite(new Vector3(Float.parseFloat(getXmlNodeValue("Vector3x", elm)),
                         Float.parseFloat(getXmlNodeValue("Vector3y", elm)),
                         Float.parseFloat(getXmlNodeValue("Vector3z", elm))));
+
+                    SharedPreferences sharedPreferences = context.getSharedPreferences("bateau_info", Context.MODE_PRIVATE);
+                    //取出数据（注意这里直接用实例取就行了，不用获取编辑器editor）
+                    int idPref = sharedPreferences.getInt("id"+bat.getId(), 1000);
+                    boolean isFavori = sharedPreferences.getBoolean("favori", false);
+                    if (i == idPref){
+                        bat.setFavori(true);
+                    }
                     listeBat.add(bat);
                 }
             }
