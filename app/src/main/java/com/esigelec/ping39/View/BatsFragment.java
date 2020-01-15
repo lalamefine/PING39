@@ -47,12 +47,20 @@ public class BatsFragment extends Fragment {
     }
 
     @Override
+    public void onViewStateRestored(Bundle bundle) {
+        super.onViewStateRestored(bundle);
+        initialisation();
+
+    }
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        initialisation();
+    }
+    public void initialisation(){
         bateaux = Bateau.GetAll(getContext());
 
-        Log.d("BateauDetail", "bolean bat1 " + bateaux.get(0).isFavori());
+        Log.d("BateauDetail", "bolean bat 1 " + bateaux.get(0).isFavori());
         Log.d("BateauDetail", "bolean bat 2 " + bateaux.get(1).isFavori());
         Log.d("BateauDetail", "bolean bat 3 " + bateaux.get(2).isFavori());
         Collections.sort(bateaux, new Comparator<Bateau>() {
@@ -65,10 +73,7 @@ public class BatsFragment extends Fragment {
                 return 0;
             }
         });
-        // Reverse order by genre
-        //Collections.sort(bateaux, Collections.reverseOrder(comparator));
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

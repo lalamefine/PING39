@@ -92,11 +92,8 @@ public class Bateau{
 
                     SharedPreferences sharedPreferences = context.getSharedPreferences("bateau_info", Context.MODE_PRIVATE);
                     //取出数据（注意这里直接用实例取就行了，不用获取编辑器editor）
-                    int idPref = sharedPreferences.getInt("id"+bat.getId(), 1000);
-                    boolean isFavori = sharedPreferences.getBoolean("favori", false);
-                    if (i == idPref){
-                        bat.setFavori(true);
-                    }
+                    if(sharedPreferences.contains("fav"+bat.getId()))
+                        bat.setFavori(sharedPreferences.getBoolean("fav"+bat.getId(), true));
                     listeBat.add(bat);
                 }
             }

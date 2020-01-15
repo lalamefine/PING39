@@ -51,9 +51,14 @@ public class BateauDetailActivity extends AppCompatActivity {
             SharedPreferences sharedPreferences = getSharedPreferences("bateau_info", Context.MODE_PRIVATE);
             //获取操作SharedPreferences实例的编辑器（必须通过此种方式添加数据）
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            //添加数据
-            editor.putInt("id"+bat.getId(), bat.getId());
-            editor.putBoolean("favori", true);
+            //添加数
+            if(sharedPreferences.getBoolean("fav"+bat.getId(),false)){
+                editor.putBoolean("fav"+bat.getId(), false);
+                btnFavori.setText("Ajouter aux favori");
+            }else{
+                editor.putBoolean("fav"+bat.getId(), true);
+                btnFavori.setText("Supprimer du favori");
+            }
             //提交
             editor.commit();
             }
@@ -70,6 +75,8 @@ public class BateauDetailActivity extends AppCompatActivity {
         valVx.setText(String.valueOf(bat.getCentre_gravite().getX()));
         valVy.setText(String.valueOf(bat.getCentre_gravite().getY()));
         valVz.setText(String.valueOf(bat.getCentre_gravite().getZ()));
+
+        btnFavori.setText("");
     }
 
 }
