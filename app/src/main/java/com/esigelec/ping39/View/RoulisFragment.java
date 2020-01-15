@@ -9,10 +9,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.esigelec.ping39.System.LineGraph;
 import com.esigelec.ping39.System.PeriodExtractor;
@@ -58,9 +60,10 @@ public class RoulisFragment extends Fragment {
                 mLogicPhaseDiagram.AddData(roulis);
                 periodExtractor.addInList(roulis,tangage);
                 //Log.d("PeriodExtractor.Per","X: " + periodExtractor.getPeriodX() + ", Y: " + periodExtractor.getPeriodY());
-                nextTry+=50;
+                nextTry+=100;
                 ((TextView)rootView.findViewById(R.id.infoText)).setText("Périodes: \n" +
-                        "Roulis: " + periodExtractor.getPeriodX() + "\nTanguage: " + periodExtractor.getPeriodY());
+                        "Roulis: " + periodExtractor.getPeriodX() + "s\n" +
+                        "Tangage: " + periodExtractor.getPeriodY()+"s");
 
             }
         }
@@ -88,6 +91,7 @@ public class RoulisFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_roulis, container, false);
+
         GraphView graph = rootView.findViewById(R.id.graphDirect);
         mLogicRealTime.initGraph(graph);
         GraphView diagram = rootView.findViewById(R.id.graphPhase);

@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="3"
-            android:text="Angle de roulis et tanguage"
+            android:text="Angle de roulis et tangage"
             android:textColor="#222"
             android:textSize="18sp"
             android:textStyle="bold" />
