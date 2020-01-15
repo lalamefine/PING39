@@ -1,5 +1,6 @@
 package com.esigelec.ping39.View;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -14,8 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
+import com.esigelec.ping39.System.FullTimeGraph;
 import com.esigelec.ping39.System.LineGraph;
 import com.esigelec.ping39.System.PeriodExtractor;
 import com.esigelec.ping39.R;
@@ -38,8 +39,8 @@ public class RoulisFragment extends Fragment {
     private SensorManager sensorManager;
     private RealtimeScrolling mLogicRealTime;
     private LineGraph mLogicPhaseDiagram;
+    private FullTimeGraph mLogicFullTime;
     private Sensor sensorGrav;
-    private Sensor sensorGyro;
     long nextTry;
     private PeriodExtractor periodExtractor;
     public static View rootView;
@@ -54,16 +55,19 @@ public class RoulisFragment extends Fragment {
         public void onAccuracyChanged(Sensor sensor, int accuracy) {}
         public void onSensorChanged(SensorEvent sensorEvent) {
             if(SystemClock.uptimeMillis() > nextTry){
+                nextTry+=100;
                 float roulis = (float)(360/(2*Math.PI)*Math.acos((double)sensorEvent.values[0]/9.8)-90);
                 float tangage = (float)(360/(2*Math.PI)*Math.acos((double)sensorEvent.values[1]/9.8)-90);
                 mLogicRealTime.AddData(roulis,tangage);
                 mLogicPhaseDiagram.AddData(roulis);
+                try{
+                    mLogicFullTime.AddData(Float.parseFloat(periodExtractor.getPeriodX()),Float.parseFloat(periodExtractor.getPeriodY()));
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
                 periodExtractor.addInList(roulis,tangage);
-                //Log.d("PeriodExtractor.Per","X: " + periodExtractor.getPeriodX() + ", Y: " + periodExtractor.getPeriodY());
-                nextTry+=100;
                 ((TextView)rootView.findViewById(R.id.infoText)).setText("Périodes: \n" +
-                        "Roulis: " + periodExtractor.getPeriodX() + "s\n" +
-                        "Tangage: " + periodExtractor.getPeriodY()+"s");
+                        "Roulis: " + ((float)Math.round(Float.parseFloat(periodExtractor.getPeriodX())*100))/100 + "s, Tangage: " + Math.round(Float.parseFloat(periodExtractor.getPeriodY())*100)/100 +"s");
 
             }
         }
@@ -81,10 +85,10 @@ public class RoulisFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sensorGrav = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
-        sensorGyro = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         onAttach(this.getContext());
         mLogicRealTime = new RealtimeScrolling();
         mLogicPhaseDiagram = new LineGraph();
+        mLogicFullTime = new FullTimeGraph();
     }
 
     @Override
@@ -96,6 +100,8 @@ public class RoulisFragment extends Fragment {
         mLogicRealTime.initGraph(graph);
         GraphView diagram = rootView.findViewById(R.id.graphPhase);
         mLogicPhaseDiagram.initGraph(diagram);
+        GraphView graphPeriod = rootView.findViewById(R.id.graphPeriod);
+        mLogicFullTime.initGraph(graphPeriod);
         RoulisFragment.rootView = rootView;
         return rootView;
     }

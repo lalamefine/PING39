@@ -5,4 +5,8 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="button_cap">Maintenir le cap</string>
+    <string name="p_riode_de_roulis_et_tangage">Période de roulis et tangage</string>
+    <string name="angle_de_roulis_et_tangage">Angle de roulis et tangage</string>
+    <string name="datas">Datas</string>
+    <string name="diagrame_de_phase_du_roulis">Diagrame de phase du roulis</string>
 </resources>
