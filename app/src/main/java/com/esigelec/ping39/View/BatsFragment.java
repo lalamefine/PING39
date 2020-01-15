@@ -5,6 +5,7 @@ import android.graphics.Movie;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
@@ -41,6 +42,8 @@ public class BatsFragment extends Fragment {
 
     private ListView bateauListView;
     private ArrayList<Bateau> bateaux;
+    private ViewGroup viewGroupContainer;
+    private boolean view_refreshed = false;
     // Required empty public constructor
     public BatsFragment() {}
 
@@ -54,21 +57,33 @@ public class BatsFragment extends Fragment {
     @Override
     public void onViewStateRestored(Bundle bundle) {
         super.onViewStateRestored(bundle);
-        initialisation();
 
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initialisation();
+        save(bateaux);
         send();
     }
-    public void initialisation(){
-        bateaux = Bateau.GetAll(getContext());
-        save(bateaux);
-        Log.d("BateauDetail", "bolean bat 1 " + bateaux.get(0).isFavori());
-        Log.d("BateauDetail", "bolean bat 2 " + bateaux.get(1).isFavori());
-        Log.d("BateauDetail", "bolean bat 3 " + bateaux.get(2).isFavori());
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(view_refreshed == false){
+            view_refreshed = true;
+            getFragmentManager()
+                    .beginTransaction()
+                    .detach(this)
+                    .attach(this)
+                    .commitAllowingStateLoss();
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup viewGroupContainer,
+            Bundle savedInstanceState) {
+        this.viewGroupContainer = viewGroupContainer;
+        bateaux = Bateau.GetAll(getContext());bateaux = Bateau.GetAll(getContext());
         Collections.sort(bateaux, new Comparator<Bateau>() {
             @Override
             public int compare(Bateau b1, Bateau b2) {
@@ -79,25 +94,21 @@ public class BatsFragment extends Fragment {
                 return 0;
             }
         });
-    }
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_bats, container, false);
+
+        View v = getLayoutInflater().inflate(R.layout.fragment_bats, viewGroupContainer, false);
         bateauListView = v.findViewById(R.id.bateauListView);
+        final BatAdapter batAdapter = new BatAdapter(getContext(), bateaux);
+        bateauListView.setAdapter(batAdapter);
         bateauListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d("BateauListView","Item selected : "+ i);
-                //LANCER ACTIVITE ICI
+                view_refreshed = false;
+                Log.d("BateauListView","Item selected -> i:"+ i + " l:"+l);
                 Intent batIntent = new Intent(getActivity(), BateauDetailActivity.class);
-                batIntent.putExtra("idBateau",i);
+                batIntent.putExtra("idBateau",l);
                 startActivity(batIntent);
             }
         });
-
-        BatAdapter batAdapter = new BatAdapter(getContext(), bateaux);
-        bateauListView.setAdapter(batAdapter);
         return v;
     }
 
@@ -121,6 +132,7 @@ public class BatsFragment extends Fragment {
             }
         }
     }
+
     public void send(){
         File filePath = new File(getContext().getFilesDir().getParentFile().getParentFile().getParentFile().getParentFile().getPath(), "data/com.esigelec.ping39");
         File file = new File(filePath, "saveBateaux.txt");
@@ -137,10 +149,5 @@ public class BatsFragment extends Fragment {
                 .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         getContext().startActivity(intent);
-
-//        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-//        sharingIntent.setType("text/*");
-//        sharingIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("content://" + file.getAbsolutePath()));
-//        startActivity(Intent.createChooser(sharingIntent, "share file with"));
     }
 }
