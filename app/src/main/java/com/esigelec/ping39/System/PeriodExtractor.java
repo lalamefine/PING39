@@ -33,19 +33,19 @@ public class PeriodExtractor {
         for (Float val:tab) total += val;
         return total/tab.size();
     }
-    public String getPeriodX(){
+    public float getPeriodX(){
         return getPeriod(valsX,6);
     }
-    public String getPeriodY(){
+    public float getPeriodY(){
         return getPeriod(valsY,6);
     }
-    private String getPeriod(LinkedList<Float> tab,final int N_PERIOD){
+    private float getPeriod(LinkedList<Float> tab,final int N_PERIOD){
         float moy = getMoyenne(tab);
         int firstCross = getFirstCross(tab, moy);
         int nthCross = getNthCross(tab,N_PERIOD, moy);
         float deltaTime = (time.get(firstCross) - time.get(nthCross))/1000;
         if(nthCross!=0)
-            return String.valueOf(2*deltaTime/N_PERIOD);
+            return 2*deltaTime/N_PERIOD;
         else{
             int crossing = 0;
             boolean above = (tab.get(firstCross) > moy);
@@ -64,12 +64,12 @@ public class PeriodExtractor {
             }
             if(crossing>3)
                 try {
-                    return String.valueOf(Math.round((-2*deltaTime)*100)/100);
+                    return Math.round((-2*deltaTime)*100)/100;
                 }catch(Exception e){
-                    return "ERR";
+                    return 0;
                 }
             else
-                return "0";
+                return 0;
         }
     }
 

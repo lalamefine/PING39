@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.esigelec.ping39.Model.Bateau;
+import com.esigelec.ping39.Model.GlobalHolder;
 import com.esigelec.ping39.R;
 
 import java.util.ArrayList;
@@ -47,7 +48,15 @@ public class BatAdapter extends BaseAdapter {
         ImageView icon = view.findViewById(R.id.batIcon);
         ImageView fav = view.findViewById(R.id.favView);
         name.setText(batList.get(i).getNom());
-        descr.setText("Description");
+        if(GlobalHolder.selected != null){
+            if(GlobalHolder.selected.getId() == batList.get(i).getId()){
+                descr.setText("Selectionné");
+            }else{
+                descr.setText("");
+            }
+        }else{
+            descr.setText("");
+        }
         new ImageLoadTask(batList.get(i).getImageUrl(), icon).execute();
         fav.setAlpha(batList.get(i).isFavori()?1f:0f);
         return view;

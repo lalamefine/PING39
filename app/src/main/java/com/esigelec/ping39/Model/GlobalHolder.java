@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class GlobalHolder {
-    public static int selected = -1;
+    public static Bateau selected = null;
     public static boolean enregistrer = false;
     public static ArrayList<Entry> entrees = new ArrayList<Entry>();
+    public static int nbPointPhaseDiagram = 50; // MAX : 500
 
     public static void Save(Entry e){
         if (enregistrer)

@@ -48,7 +48,8 @@ public class BateauDetailActivity extends AppCompatActivity {
         final Button btnFavori = findViewById(R.id.btnFavori);
         btnSelect.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-            GlobalHolder.selected = bat.getId();
+            GlobalHolder.selected = bat;
+            btnSelect.setEnabled(false);
             Log.d("bateauDetail", "button Select clicked");
             }
         });
@@ -83,6 +84,7 @@ public class BateauDetailActivity extends AppCompatActivity {
         valBassinAttraction.setText(String.valueOf(bat.getBassinAttraction()));
         valAngleChavirement.setText(bat.getAngleChavirement() +" °");
 
+        findViewById(R.id.btnSelect).setEnabled((GlobalHolder.selected!=null)?GlobalHolder.selected.getId()!=bat.getId():true);
         SharedPreferences sharedPreferences = getSharedPreferences("bateau_info", Context.MODE_PRIVATE);
         if(sharedPreferences.getBoolean("fav"+bat.getId(),false)){
             btnFavori.setText("Supprimer du favori");

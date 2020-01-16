@@ -2,21 +2,19 @@ package com.esigelec.ping39.System;
 
 import android.graphics.Paint;
 import android.os.SystemClock;
-import android.util.Log;
 
+import com.esigelec.ping39.Model.GlobalHolder;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class LineGraph {
-    private final int nbDataPoint = 50;
     private LineGraphSeries<DataPoint>[] mSeriesX = new LineGraphSeries[500];
-    LinkedList<Float> valList;
-    LinkedList<Long> initTime;
-    LinkedList<LineGraphSeries> series;
+    private LinkedList<Float> valList;
+    private LinkedList<Long> initTime;
+    private LinkedList<LineGraphSeries<DataPoint>> series;
     private Paint csPaint = new Paint();
     private GraphView graph;
 
@@ -24,7 +22,7 @@ public class LineGraph {
         this.graph = graph;
         valList = new LinkedList<Float>();
         initTime = new LinkedList<Long>();
-        series = new LinkedList<LineGraphSeries>();
+        series = new LinkedList<LineGraphSeries<DataPoint>>();
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setMinX(-45);
@@ -41,21 +39,28 @@ public class LineGraph {
     public void AddData(float val) {
         valList.addLast(val);
         initTime.addLast(SystemClock.uptimeMillis());
-        if (valList.size()> nbDataPoint ){
+        if (valList.size()> GlobalHolder.nbPointPhaseDiagram ){
             valList.removeFirst();
             initTime.removeFirst();
         }
 
         int i = valList.size()-1;
         if(i>5){
-            LineGraphSeries temp = new LineGraphSeries();
+            LineGraphSeries<DataPoint> temp = new LineGraphSeries<DataPoint>();
             temp.setDrawDataPoints(false);
             temp.setDrawBackground(false);
-            double x1 = valList.get(i);
-            double x2 = valList.get(i-1);
-            double y1 = (valList.get(i)-valList.get(i-1))/((double)(initTime.get(i)-initTime.get(i-1))/1000);
-            double y2 = (valList.get(i-1)-valList.get(i-2))/((double)(initTime.get(i-1)-initTime.get(i-2))/1000);
-            if(valList.get(i)<valList.get(i-1)){
+            int arrondi = 2;
+            double x1 = 0;
+            double x2 = 0;
+            double y1 = 0;
+            double y2 = 0;
+            for(int k=i;k>i-arrondi;k--){
+                x1 += X(k) / arrondi;
+                x2 += X(k-1) / arrondi;
+                y1 += Y(k) / arrondi;
+                y2 += Y(k-1) / arrondi;
+            }
+            if(x1<x2){
                 temp.appendData(new DataPoint(x1,y1),false,2);
                 temp.appendData(new DataPoint(x2,y2),false,2);
             }else{
@@ -65,24 +70,16 @@ public class LineGraph {
             graph.addSeries(temp);
             series.add(temp);
         }
-        if(series.size()>nbDataPoint){
+        if(series.size()> GlobalHolder.nbPointPhaseDiagram){
             graph.removeSeries(series.getFirst());
             series.removeFirst();
         }
     }
+    private double Y(int i){
+        return (valList.get(i)-valList.get(i-1))/((double)(initTime.get(i)-initTime.get(i-1))/1000);
+    }
+    private double X(int i){
+        return valList.get(i);
+    }
 
-    private long ArL(LinkedList<Long> list, int i, int rounder){
-        long var = 0;
-        for(int k = i; k>i-rounder; i--){
-            var +=list.get(k);
-        }
-        return var/rounder;
-    }
-    private float ArF(LinkedList<Float> list, int i, int rounder){
-        long var = 0;
-        for(int k = i; k>i-rounder; i--){
-            var +=list.get(k);
-        }
-        return var/rounder;
-    }
 }

@@ -1,32 +1,20 @@
 package com.esigelec.ping39.View;
 
 import android.content.Intent;
-import android.graphics.Movie;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.ShareCompat;
-import android.support.v4.content.FileProvider;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
 import com.esigelec.ping39.Model.Bateau;
-import com.esigelec.ping39.Model.SortByFavori;
 import com.esigelec.ping39.R;
 import com.esigelec.ping39.System.BatAdapter;
-
-import java.io.File;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 /**
@@ -81,7 +69,7 @@ public class BatsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroupContainer,
             Bundle savedInstanceState) {
         this.viewGroupContainer = viewGroupContainer;
-        bateaux = Bateau.GetAll(getContext());bateaux = Bateau.GetAll(getContext());
+        bateaux = Bateau.GetAll(getContext());
         Collections.sort(bateaux, new Comparator<Bateau>() {
             @Override
             public int compare(Bateau b1, Bateau b2) {
@@ -101,7 +89,7 @@ public class BatsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 view_refreshed = false;
-                Log.d("BateauListView","Item selected -> i:"+ i + " l:"+l);
+                //Log.d("BateauListView","Item selected -> i:"+ i + " l:"+l);
                 Intent batIntent = new Intent(getActivity(), BateauDetailActivity.class);
                 batIntent.putExtra("idBateau",l);
                 startActivity(batIntent);
