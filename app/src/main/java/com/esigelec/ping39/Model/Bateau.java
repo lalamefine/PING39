@@ -22,14 +22,59 @@ import javax.xml.parsers.ParserConfigurationException;
 public class Bateau{
     private int id;
     private String nom;
-    private String fabriquant;
     private String imageUrl;
     private float longueur;
     private float largeur;
-    private float poids;
     private boolean favori;
     private float kg;
-    private Vector3 centre_gravite;
+
+    private float deplacementNominal;
+    private float inertie;
+    private float gmMini;
+    private float bassinAttraction;
+    private float angleChavirement;
+
+    public float getDeplacementNominal() {
+        return deplacementNominal;
+    }
+
+    public void setDeplacementNominal(float deplacementNominal) {
+        this.deplacementNominal = deplacementNominal;
+    }
+
+    public float getInertie() {
+        return inertie;
+    }
+
+    public void setInertie(float inertie) {
+        this.inertie = inertie;
+    }
+
+    public float getGmMini() {
+        return gmMini;
+    }
+
+    public void setGmMini(float gmMini) {
+        this.gmMini = gmMini;
+    }
+
+    public float getBassinAttraction() {
+        return bassinAttraction;
+    }
+
+    public void setBassinAttraction(float bassinAttraction) {
+        this.bassinAttraction = bassinAttraction;
+    }
+
+    public float getAngleChavirement() {
+        return angleChavirement;
+    }
+
+    public void setAngleChavirement(float angleChavirement) {
+        this.angleChavirement = angleChavirement;
+    }
+
+
 
     public Bateau() { }
 
@@ -43,17 +88,19 @@ public class Bateau{
         return null;
     }
 
-    public Bateau(int id, String nom, String fabriquant, String imageUrl, float longueur, float largeur, float poids, boolean favori, float kg, Vector3 centre_gravite) {
+    public Bateau(int id, String nom, String imageUrl, float longueur, float largeur, boolean favori, float kg, float deplacementNominal, float inertie, float gmMini, float bassinAttraction, float angleChavirement) {
         this.id = id;
         this.nom = nom;
-        this.fabriquant = fabriquant;
         this.imageUrl = imageUrl;
         this.longueur = longueur;
         this.largeur = largeur;
-        this.poids = poids;
         this.favori = favori;
         this.kg = kg;
-        this.centre_gravite = centre_gravite;
+        this.deplacementNominal = deplacementNominal;
+        this.inertie = inertie;
+        this.gmMini = gmMini;
+        this.bassinAttraction = bassinAttraction;
+        this.angleChavirement = angleChavirement;
     }
 
     public Bateau(String nom, String imageUrl) {
@@ -80,15 +127,15 @@ public class Bateau{
                     Bateau bat = new Bateau();
                     bat.setId(Integer.parseInt(getXmlNodeValue("id", elm)));
                     bat.setNom(getXmlNodeValue("nom", elm));
-                    bat.setFabriquant(getXmlNodeValue("fabriquant", elm));
                     bat.setImageUrl(getXmlNodeValue("imageUrl", elm));
                     bat.setLongueur(Float.parseFloat(getXmlNodeValue("longueur", elm)));
                     bat.setLargeur(Float.parseFloat(getXmlNodeValue("largeur", elm)));
-                    bat.setPoids(Float.parseFloat(getXmlNodeValue("poids", elm)));
                     bat.setKg(Float.parseFloat(getXmlNodeValue("kg", elm)));
-                    bat.setCentre_gravite(new Vector3(Float.parseFloat(getXmlNodeValue("Vector3x", elm)),
-                        Float.parseFloat(getXmlNodeValue("Vector3y", elm)),
-                        Float.parseFloat(getXmlNodeValue("Vector3z", elm))));
+                    bat.setDeplacementNominal(Float.parseFloat(getXmlNodeValue("deplacementNominal", elm)));
+                    bat.setInertie(Float.parseFloat(getXmlNodeValue("inertie", elm)));
+                    bat.setGmMini(Float.parseFloat(getXmlNodeValue("gmMini", elm)));
+                    bat.setBassinAttraction(Float.parseFloat(getXmlNodeValue("bassinAttraction", elm)));
+                    bat.setAngleChavirement(Float.parseFloat(getXmlNodeValue("angleChavirement", elm)));
 
                     SharedPreferences sharedPreferences = context.getSharedPreferences("bateau_info", Context.MODE_PRIVATE);
                     //取出数据（注意这里直接用实例取就行了，不用获取编辑器editor）
@@ -127,14 +174,6 @@ public class Bateau{
         this.nom = nom;
     }
 
-    public String getFabriquant() {
-        return fabriquant;
-    }
-
-    public void setFabriquant(String fabriquant) {
-        this.fabriquant = fabriquant;
-    }
-
     public String getImageUrl() {
         return imageUrl;
     }
@@ -159,14 +198,6 @@ public class Bateau{
         this.largeur = largeur;
     }
 
-    public float getPoids() {
-        return poids;
-    }
-
-    public void setPoids(float poids) {
-        this.poids = poids;
-    }
-
     public boolean isFavori() {
         return favori;
     }
@@ -181,14 +212,6 @@ public class Bateau{
 
     public void setKg(float kg) {
         this.kg = kg;
-    }
-
-    public Vector3 getCentre_gravite() {
-        return centre_gravite;
-    }
-
-    public void setCentre_gravite(Vector3 centre_gravite) {
-        this.centre_gravite = centre_gravite;
     }
 
     private static String getXmlNodeValue(String tag, Element element) {
