@@ -18,6 +18,16 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/infoText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:maxLines="25"
+                android:text="@string/datas"
+                android:textColor="#666"
+                android:textSize="18sp" />
+
+            <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -30,18 +40,8 @@
             <com.jjoe64.graphview.GraphView
                 android:id="@+id/graphDirect"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="150dp"
                 android:layout_marginTop="1dp" />
-
-            <TextView
-                android:id="@+id/infoText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
-                android:maxLines="25"
-                android:text="@string/datas"
-                android:textColor="#666"
-                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/title3"
@@ -57,7 +57,7 @@
             <com.jjoe64.graphview.GraphView
                 android:id="@+id/graphPeriod"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="150dp"
                 android:layout_marginTop="0dp" />
 
             <TextView

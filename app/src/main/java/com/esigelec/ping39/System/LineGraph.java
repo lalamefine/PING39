@@ -30,6 +30,8 @@ public class LineGraph {
         graph.getViewport().setMinY(-90);
         graph.getViewport().setMaxY(90);
         graph.getGridLabelRenderer().setLabelVerticalWidth(50);
+        graph.getGridLabelRenderer().setVerticalAxisTitle("Angle en degrés");
+        graph.getGridLabelRenderer().setHorizontalAxisTitle("Vitesse angulaire en degrés/s");
 
         csPaint.setStrokeWidth(5);
         csPaint.setColor(0xff880000);

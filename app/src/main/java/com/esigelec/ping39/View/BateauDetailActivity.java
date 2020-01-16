@@ -48,17 +48,20 @@ public class BateauDetailActivity extends AppCompatActivity {
         final Button btnFavori = findViewById(R.id.btnFavori);
         btnSelect.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-            GlobalHolder.selected = bat;
-            btnSelect.setEnabled(false);
-            Log.d("bateauDetail", "button Select clicked");
+                SharedPreferences sharedPreferences = getSharedPreferences("bateau_info", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt("sel", bat.getId());
+                btnFavori.setText("Ajouter aux favori");
+                btnSelect.setEnabled(false);
+                GlobalHolder.getSelected();
+                editor.apply();
+                Log.d("bateauDetail", "button Select clicked");
             }
         });
         btnFavori.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
             SharedPreferences sharedPreferences = getSharedPreferences("bateau_info", Context.MODE_PRIVATE);
-            //获取操作SharedPreferences实例的编辑器（必须通过此种方式添加数据）
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            //添加数
             if(sharedPreferences.getBoolean("fav"+bat.getId(),false)){
                 editor.putBoolean("fav"+bat.getId(), false);
                 btnFavori.setText("Ajouter aux favori");
@@ -67,7 +70,7 @@ public class BateauDetailActivity extends AppCompatActivity {
                 btnFavori.setText("Supprimer du favori");
             }
             //提交
-            editor.commit();
+            editor.apply();
             }
 
         });
@@ -83,7 +86,6 @@ public class BateauDetailActivity extends AppCompatActivity {
         valGmMini.setText(String.valueOf(bat.getGmMini()));
         valBassinAttraction.setText(String.valueOf(bat.getBassinAttraction()));
         valAngleChavirement.setText(bat.getAngleChavirement() +" °");
-
         findViewById(R.id.btnSelect).setEnabled((GlobalHolder.selected!=null)?GlobalHolder.selected.getId()!=bat.getId():true);
         SharedPreferences sharedPreferences = getSharedPreferences("bateau_info", Context.MODE_PRIVATE);
         if(sharedPreferences.getBoolean("fav"+bat.getId(),false)){

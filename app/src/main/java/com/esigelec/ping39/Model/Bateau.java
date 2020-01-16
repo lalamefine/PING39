@@ -34,48 +34,6 @@ public class Bateau{
     private float bassinAttraction;
     private float angleChavirement;
 
-    public float getDeplacementNominal() {
-        return deplacementNominal;
-    }
-
-    public void setDeplacementNominal(float deplacementNominal) {
-        this.deplacementNominal = deplacementNominal;
-    }
-
-    public float getInertie() {
-        return inertie;
-    }
-
-    public void setInertie(float inertie) {
-        this.inertie = inertie;
-    }
-
-    public float getGmMini() {
-        return gmMini;
-    }
-
-    public void setGmMini(float gmMini) {
-        this.gmMini = gmMini;
-    }
-
-    public float getBassinAttraction() {
-        return bassinAttraction;
-    }
-
-    public void setBassinAttraction(float bassinAttraction) {
-        this.bassinAttraction = bassinAttraction;
-    }
-
-    public float getAngleChavirement() {
-        return angleChavirement;
-    }
-
-    public void setAngleChavirement(float angleChavirement) {
-        this.angleChavirement = angleChavirement;
-    }
-
-
-
     public Bateau() { }
 
     public static Bateau getBateau(Context context,int id) {
@@ -138,7 +96,6 @@ public class Bateau{
                     bat.setAngleChavirement(Float.parseFloat(getXmlNodeValue("angleChavirement", elm)));
 
                     SharedPreferences sharedPreferences = context.getSharedPreferences("bateau_info", Context.MODE_PRIVATE);
-                    //取出数据（注意这里直接用实例取就行了，不用获取编辑器editor）
                     if(sharedPreferences.contains("fav"+bat.getId()))
                         bat.setFavori(sharedPreferences.getBoolean("fav"+bat.getId(), true));
                     listeBat.add(bat);
@@ -156,6 +113,46 @@ public class Bateau{
             Log.d("BateauListView","erreur 3");
         }
         return listeBat;
+    }
+
+    public float getDeplacementNominal() {
+        return deplacementNominal;
+    }
+
+    public void setDeplacementNominal(float deplacementNominal) {
+        this.deplacementNominal = deplacementNominal;
+    }
+
+    public float getInertie() {
+        return inertie;
+    }
+
+    public void setInertie(float inertie) {
+        this.inertie = inertie;
+    }
+
+    public float getGmMini() {
+        return gmMini;
+    }
+
+    public void setGmMini(float gmMini) {
+        this.gmMini = gmMini;
+    }
+
+    public float getBassinAttraction() {
+        return bassinAttraction;
+    }
+
+    public void setBassinAttraction(float bassinAttraction) {
+        this.bassinAttraction = bassinAttraction;
+    }
+
+    public float getAngleChavirement() {
+        return angleChavirement;
+    }
+
+    public void setAngleChavirement(float angleChavirement) {
+        this.angleChavirement = angleChavirement;
     }
 
     public int getId() {

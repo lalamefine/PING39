@@ -82,16 +82,15 @@ public class RoulisFragment extends Fragment {
                 }
                 //Remplissage TextView
                 if(bat != null) {
-                    ((TextView) rootView.findViewById(R.id.infoText)).setText("Périodes: \n" +
-                            "Roulis: " + ((float) Math.round(periodExtractor.getPeriodX() * 100)) / 100 + "s, " +
-                            "Tangage: " + Math.round(periodExtractor.getPeriodY() * 100) / 100 + "s \n" +
-                            "GM : " + gm
+                    ((TextView) rootView.findViewById(R.id.infoText)).setText("Bateau sélectionné: " + bat.getNom() + "\n" +
+                        "Périodes de Roulis: " + Math.round(periodExtractor.getPeriodX() * 100) / 100 + "s \n" +
+                        "Périodes de Tangage: " + Math.round(periodExtractor.getPeriodY() * 100) / 100 + "s \n" +
+                        "GM : " + gm
                     );
                 }else{
-                    ((TextView) rootView.findViewById(R.id.infoText)).setText("Périodes: \n" +
-                            "Roulis: " + ((float) Math.round(periodExtractor.getPeriodX() * 100)) / 100 + "s, " +
-                            "Tangage: " + Math.round(periodExtractor.getPeriodY() * 100) / 100 + "s \n" +
-                            "Aucun bateau séléctionné"
+                    ((TextView) rootView.findViewById(R.id.infoText)).setText("Aucun bateau sélectionné \n" +
+                        "Périodes de Roulis: " + Math.round(periodExtractor.getPeriodX() * 100) / 100 + "s \n" +
+                        "Périodes de Tangage: " + Math.round(periodExtractor.getPeriodY() * 100) / 100 + "s \n"
                     );
                 }
                 //ENREGISTREMENT
@@ -122,6 +121,8 @@ public class RoulisFragment extends Fragment {
         mLogicRealTime = new RealtimeScrolling();
         mLogicPhaseDiagram = new LineGraph();
         mLogicFullTime = new FullTimeGraph();
+        GlobalHolder.context = this.getContext();
+        GlobalHolder.getSelected();
     }
 
     @Override

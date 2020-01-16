@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import com.esigelec.ping39.Model.Bateau;
+import com.esigelec.ping39.Model.GlobalHolder;
 import com.esigelec.ping39.R;
 import com.esigelec.ping39.System.BatAdapter;
 import java.util.ArrayList;
@@ -70,6 +71,8 @@ public class BatsFragment extends Fragment {
             Bundle savedInstanceState) {
         this.viewGroupContainer = viewGroupContainer;
         bateaux = Bateau.GetAll(getContext());
+        GlobalHolder.context=getContext();
+        GlobalHolder.getSelected();
         Collections.sort(bateaux, new Comparator<Bateau>() {
             @Override
             public int compare(Bateau b1, Bateau b2) {
