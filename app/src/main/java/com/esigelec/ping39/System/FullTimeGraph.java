@@ -50,7 +50,7 @@ public class FullTimeGraph {
     }
 
     public void AddData(float valX,float valY) {
-        if(SystemClock.uptimeMillis()-capTime>1000){
+        if(SystemClock.uptimeMillis()-capTime>250){
             capTime = SystemClock.uptimeMillis();
             graph.getViewport().setMaxX(((float)(SystemClock.uptimeMillis()-initTime))/60000);
             double val =  graph.getViewport().getMaxY(true);

@@ -62,8 +62,6 @@ public class BatsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        save(bateaux);
-        send();
     }
 
     @Override
@@ -116,38 +114,4 @@ public class BatsFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public void save(List<Bateau> datas) {
-        if (datas != null) {
-            try {
-                FileWriter fw = new FileWriter("/data/data/com.esigelec.ping39/saveBateaux.txt");
-                //写入数据并换行
-                for (int i = 0; i < datas.size(); i++) {
-                    Log.d("saveFichier", "data: "+datas.get(i).getNom());
-                    fw.write(datas.get(i).getNom() + "\r\n");
-                }
-                fw.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.e("saveFichier", "****Save Error****");
-            }
-        }
-    }
-
-    public void send(){
-        File filePath = new File(getContext().getFilesDir().getParentFile().getParentFile().getParentFile().getParentFile().getPath(), "data/com.esigelec.ping39");
-        File file = new File(filePath, "saveBateaux.txt");
-        Log.d("save", "path: "+filePath.getAbsolutePath());
-        Log.d("save", "path: "+file.getAbsolutePath());
-
-        Uri uri = FileProvider.getUriForFile(getContext(), getContext().getPackageName() + ".share", file);
-
-        Intent intent = ShareCompat.IntentBuilder.from(getActivity())
-                .setType("application/txt")
-                .setStream(uri)
-                .setChooserTitle("Choose bar")
-                .createChooserIntent()
-                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-        getContext().startActivity(intent);
-    }
 }

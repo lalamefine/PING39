@@ -34,7 +34,6 @@ public class LineGraph {
         graph.getGridLabelRenderer().setLabelVerticalWidth(50);
 
         csPaint.setStrokeWidth(5);
-        csPaint.setColor(0xff073C66);
         csPaint.setColor(0xff880000);
 
     }
@@ -52,7 +51,6 @@ public class LineGraph {
             LineGraphSeries temp = new LineGraphSeries();
             temp.setDrawDataPoints(false);
             temp.setDrawBackground(false);
-            int arrondi = 2;
             double x1 = valList.get(i);
             double x2 = valList.get(i-1);
             double y1 = (valList.get(i)-valList.get(i-1))/((double)(initTime.get(i)-initTime.get(i-1))/1000);

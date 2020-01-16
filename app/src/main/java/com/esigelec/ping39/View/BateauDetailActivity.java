@@ -26,12 +26,7 @@ public class BateauDetailActivity extends AppCompatActivity {
         //Paramètrage toolbar
 
         Toolbar mToolbar = findViewById(R.id.toolbar);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        mToolbar.setNavigationOnClickListener(view -> finish());
         mToolbar.setNavigationIcon(R.drawable.back_arrow);
 
         Bundle extras = getIntent().getExtras();

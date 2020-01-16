@@ -18,9 +18,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".View.BateauDetailActivity"></activity>
+        <activity android:name=".View.SettingsActivity"></activity>
+        <activity android:name=".View.BateauDetailActivity" />
         <activity
-            android:name=".System.MainActivity"
+            android:name=".View.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
