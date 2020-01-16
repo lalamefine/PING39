@@ -3,40 +3,40 @@
     <bateau>
         <id>0</id>
         <nom>Atlantis</nom>
-        <fabriquant>Zop0 </fabriquant>
         <imageUrl>https://www.armada.org/template/img/bateau/8fc58b38200cffe45da439c4acb8e9cad1395b71.jpg</imageUrl>
         <longueur>12</longueur>
         <largeur>4</largeur>
-        <poids>1200</poids>
         <kg>1</kg>
-        <Vector3x>3</Vector3x>
-        <Vector3y>4</Vector3y>
-        <Vector3z>5</Vector3z>
+        <deplacementNominal>123</deplacementNominal>
+        <inertie>222</inertie>
+        <gmMini>5</gmMini>
+        <bassinAttraction>1474</bassinAttraction>
+        <angleChavirement>45</angleChavirement>
     </bateau>
     <bateau>
         <id>1</id>
         <nom>Atyla</nom>
-        <fabriquant>Zop0 </fabriquant>
         <imageUrl>https://www.armada.org/template/img/bateau/bcda14e1691416e683dbd8a7374aa1381fdc2722.jpg</imageUrl>
         <longueur>12</longueur>
         <largeur>4</largeur>
-        <poids>1200</poids>
         <kg>1</kg>
-        <Vector3x>3</Vector3x>
-        <Vector3y>4</Vector3y>
-        <Vector3z>5</Vector3z>
+        <deplacementNominal>123</deplacementNominal>
+        <inertie>222</inertie>
+        <gmMini>5</gmMini>
+        <bassinAttraction>1474</bassinAttraction>
+        <angleChavirement>45</angleChavirement>
     </bateau>
     <bateau>
         <id>2</id>
         <nom>Cuauhtémoc</nom>
-        <fabriquant>Zop1 </fabriquant>
         <imageUrl>https://www.armada.org/template/img/bateau/a5c8cdb6584aa58445f6648a2d68fc160f16950d.jpg</imageUrl>
         <longueur>12</longueur>
         <largeur>4</largeur>
-        <poids>1200</poids>
-        <kg>1</kg>
-        <Vector3x>3</Vector3x>
-        <Vector3y>4</Vector3y>
-        <Vector3z>5</Vector3z>
+        <kg>1200</kg>
+        <deplacementNominal>123</deplacementNominal>
+        <inertie>222</inertie>
+        <gmMini>5</gmMini>
+        <bassinAttraction>1474</bassinAttraction>
+        <angleChavirement>45</angleChavirement>
     </bateau>
 </BateauxList>

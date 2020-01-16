@@ -10,16 +10,16 @@
     <Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:background="@color/colorAccent"
-        android:titleTextColor="@color/colorPrimary"
         android:minHeight="?attr/actionBarSize"
+        android:titleTextColor="@color/colorPrimary"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_height="130dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
@@ -47,8 +47,8 @@
 
             <TextView
                 android:id="@+id/txtNom"
-                android:layout_width="37dp"
-                android:layout_height="wrap_content"
+                android:layout_width="83dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="Nom : "
                 android:textSize="18sp" />
@@ -63,29 +63,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/RowFabriquant"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/txtFabriquant"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Fabriquant : "
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/valFabriquant"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="[Fabriquant]"
-                android:textSize="18sp" />
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/RowLongueur"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -93,10 +70,10 @@
 
             <TextView
                 android:id="@+id/txtLongueur"
-                android:layout_width="50dp"
+                android:layout_width="92dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Longueur : "
+                android:text="Longueur: "
                 android:textSize="18sp" />
 
             <TextView
@@ -116,10 +93,10 @@
 
             <TextView
                 android:id="@+id/txtLargeur"
-                android:layout_width="49dp"
+                android:layout_width="97dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Longueur : "
+                android:text="Largeur: "
                 android:textSize="18sp" />
 
             <TextView
@@ -132,29 +109,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/RowPoids"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/txtPoids"
-                android:layout_width="43dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Poids : "
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/valPoids"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="[Poids]"
-                android:textSize="18sp" />
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/RowKg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -162,10 +116,10 @@
 
             <TextView
                 android:id="@+id/txtKg"
-                android:layout_width="45dp"
+                android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Kg : "
+                android:text="Kg: "
                 android:textSize="18sp" />
 
             <TextView
@@ -178,38 +132,117 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/RowVector"
+            android:id="@+id/RowDeplacementNominal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/txtVector"
-                android:layout_width="6dp"
+                android:id="@+id/txtDeplacementNominal"
+                android:layout_width="212dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Deplacement Nominal : "
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/valDeplacementNominal"
+                android:layout_width="167dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:text="Centre de gravité : "
+                android:text=""
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/RowInertie"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtInertie"
+                android:layout_width="92dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Inertie: "
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/valVectorx"
+                android:id="@+id/valInertie"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text=""
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/RowGmMini"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtGmMini"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:text="GM mini: "
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/valVectory"
+                android:id="@+id/valGmMini"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text=""
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/RowBassinAttraction"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtBassinAttraction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:text="Bassin d’attraction: "
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/valVectorz"
-                android:layout_width="wrap_content"
+                android:id="@+id/valBassinAttraction"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text=""
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/RowAngleChavirement"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtAngleChavirement"
+                android:layout_width="239dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:text="Angle de chavirement: "
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/valAngleChavirement"
+                android:layout_width="136dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text=""
                 android:textSize="18sp" />
         </LinearLayout>
 

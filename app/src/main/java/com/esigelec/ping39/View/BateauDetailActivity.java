@@ -35,15 +35,15 @@ public class BateauDetailActivity extends AppCompatActivity {
         // Lien avec la vue
         ImageView img = findViewById(R.id.imageView);
         TextView valNom = findViewById(R.id.valNom);
-        TextView valFabriquant = findViewById(R.id.valFabriquant);
         TextView valLongueur = findViewById(R.id.valLongueur);
         TextView valLargeur = findViewById(R.id.valLargeur);
-        TextView valPoids = findViewById(R.id.valPoids);
-
         TextView valKg = findViewById(R.id.valKg);
-        TextView valVx = findViewById(R.id.valVectorx);
-        TextView valVy = findViewById(R.id.valVectory);
-        TextView valVz = findViewById(R.id.valVectorz);
+        TextView valDeplacementNominal = findViewById(R.id.valDeplacementNominal);
+        TextView valInertie = findViewById(R.id.valInertie);
+        TextView valGmMini = findViewById(R.id.valGmMini);
+        TextView valBassinAttraction = findViewById(R.id.valBassinAttraction);
+        TextView valAngleChavirement = findViewById(R.id.valAngleChavirement);
+
         Button btnSelect = findViewById(R.id.btnSelect);
         final Button btnFavori = findViewById(R.id.btnFavori);
         btnSelect.setOnClickListener(new View.OnClickListener() {
@@ -74,14 +74,14 @@ public class BateauDetailActivity extends AppCompatActivity {
         new ImageLoadTask(bat.getImageUrl(), img).execute();
         valNom.setText(bat.getNom());
         mToolbar.setTitle(bat.getNom());
-        valFabriquant.setText(bat.getFabriquant());
-        valLongueur.setText(String.valueOf(bat.getLongueur()));
-        valLargeur.setText(String.valueOf(bat.getLargeur()));
-        valPoids.setText(String.valueOf(bat.getPoids()));
-        valKg.setText(String.valueOf(bat.getKg()));
-        valVx.setText(String.valueOf(bat.getCentre_gravite().getX()));
-        valVy.setText(String.valueOf(bat.getCentre_gravite().getY()));
-        valVz.setText(String.valueOf(bat.getCentre_gravite().getZ()));
+        valLongueur.setText(bat.getLongueur() + " m");
+        valLargeur.setText(bat.getLargeur() + " m");
+        valKg.setText(bat.getKg() + " m");
+        valDeplacementNominal.setText(String.valueOf(bat.getDeplacementNominal()));
+        valInertie.setText(bat.getInertie() + " t.m²");
+        valGmMini.setText(String.valueOf(bat.getGmMini()));
+        valBassinAttraction.setText(String.valueOf(bat.getBassinAttraction()));
+        valAngleChavirement.setText(bat.getAngleChavirement() +" °");
 
         SharedPreferences sharedPreferences = getSharedPreferences("bateau_info", Context.MODE_PRIVATE);
         if(sharedPreferences.getBoolean("fav"+bat.getId(),false)){
