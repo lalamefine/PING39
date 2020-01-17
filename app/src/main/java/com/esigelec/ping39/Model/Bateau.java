@@ -19,7 +19,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 
 
-public class Bateau{
+public class Bateau {
     private int id;
     private String nom;
     private String imageUrl;
@@ -75,13 +75,13 @@ public class Bateau{
     }
 
 
+    public Bateau() {
+    }
 
-    public Bateau() { }
-
-    public static Bateau getBateau(Context context,int id) {
+    public static Bateau getBateau(Context context, int id) {
         ArrayList<Bateau> liste = GetAll(context);
-        for(int i = 0; i<liste.size();i++){
-            if(liste.get(i).getId()==id){
+        for (int i = 0; i < liste.size(); i++) {
+            if (liste.get(i).getId() == id) {
                 return liste.get(i);
             }
         }
@@ -108,22 +108,28 @@ public class Bateau{
         this.imageUrl = imageUrl;
     }
 
-    public static int nbBateau(Context context){
+    public static int nbBateau(Context context) {
         return GetAll(context).size();
     }
 
-    public static ArrayList<Bateau> GetAll(Context context){
+    public static ArrayList<Bateau> GetAll(Context context) {
         ArrayList<Bateau> listeBat = new ArrayList<Bateau>();
-        try{
+        try {
             AssetManager assetManager = context.getAssets();
-            InputStream istream= assetManager.open("liste_bateaux.xml");
+            InputStream istream = assetManager.open("liste_bateaux.xml");
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = builderFactory.newDocumentBuilder();
             Document doc = docBuilder.parse(istream);
             NodeList nList = doc.getElementsByTagName("bateau");
-            for(int i =0;i<nList.getLength();i++) {
+            for (int i = 0; i < nList.getLength(); i++) {
                 if (nList.item(0).getNodeType() == Node.ELEMENT_NODE) {
                     Element elm = (Element) nList.item(i);
+                    // Log.d("node", "elm: "+elm.getNextSibling().getNodeName());
+                    NodeList pointList = doc.getElementsByTagName("valeur");
+                    Log.d("valeur", "i: "+i);
+                    for (int j = 0; j < pointList.getLength(); j++) {
+                        Log.d("valeur", "valeur: " + j + " " + pointList.item(j).getFirstChild().getNodeValue());
+                    }
                     Bateau bat = new Bateau();
                     bat.setId(Integer.parseInt(getXmlNodeValue("id", elm)));
                     bat.setNom(getXmlNodeValue("nom", elm));
@@ -139,21 +145,20 @@ public class Bateau{
 
                     SharedPreferences sharedPreferences = context.getSharedPreferences("bateau_info", Context.MODE_PRIVATE);
                     //取出数据（注意这里直接用实例取就行了，不用获取编辑器editor）
-                    if(sharedPreferences.contains("fav"+bat.getId()))
-                        bat.setFavori(sharedPreferences.getBoolean("fav"+bat.getId(), true));
+                    if (sharedPreferences.contains("fav" + bat.getId()))
+                        bat.setFavori(sharedPreferences.getBoolean("fav" + bat.getId(), true));
                     listeBat.add(bat);
                 }
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
-            Log.d("BateauListView","erreur 1");
+            Log.d("BateauListView", "erreur 1");
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
-            Log.d("BateauListView","erreur 2");
+            Log.d("BateauListView", "erreur 2");
         } catch (SAXException e) {
             e.printStackTrace();
-            Log.d("BateauListView","erreur 3");
+            Log.d("BateauListView", "erreur 3");
         }
         return listeBat;
     }
@@ -217,16 +222,29 @@ public class Bateau{
     private static String getXmlNodeValue(String tag, Element element) {
         NodeList nodeList = element.getElementsByTagName(tag);
         Node node = nodeList.item(0);
-        if(node!=null){
-            if(node.hasChildNodes()){
+        if (node != null) {
+            if (node.hasChildNodes()) {
                 Node child = node.getFirstChild();
-                while (child!=null){
-                    if(child.getNodeType() == Node.TEXT_NODE){
-                        return  child.getNodeValue();
+                while (child != null) {
+                    if (child.getNodeType() == Node.TEXT_NODE) {
+                        Log.d("valeur", "getxmlnodevalue"+ tag + element);
+                        return child.getNodeValue();
                     }
                 }
             }
         }
         return "";
     }
+
+    private static String getXmlNodeChildValue(String tag, Element element) {
+        NodeList nodeList = element.getElementsByTagName(tag);
+        Log.d("node", "node list:"+ nodeList.getLength());
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node node = nodeList.item(i);
+            Node child = node.getFirstChild();
+            return child.getNodeValue();
+        }
+        return "";
+    }
 }
+

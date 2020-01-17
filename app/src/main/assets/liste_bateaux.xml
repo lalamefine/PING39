@@ -2,16 +2,19 @@
 <BateauxList>
     <bateau>
         <id>0</id>
-        <nom>Atlantis</nom>
+        <nom>Jeanne d'arc</nom>
         <imageUrl>https://www.armada.org/template/img/bateau/8fc58b38200cffe45da439c4acb8e9cad1395b71.jpg</imageUrl>
-        <longueur>12</longueur>
-        <largeur>4</largeur>
+        <longueur>182</longueur>
+        <largeur>40</largeur>
         <kg>1</kg>
-        <deplacementNominal>123</deplacementNominal>
-        <inertie>222</inertie>
-        <gmMini>5</gmMini>
-        <bassinAttraction>1474</bassinAttraction>
-        <angleChavirement>45</angleChavirement>
+        <deplacementNominal>13300</deplacementNominal>
+        <inertie>430000</inertie>
+        <gmMini>1.37</gmMini>
+        <angleChavirement>95</angleChavirement>
+        <bassinAttraction>777
+            <valeur>789</valeur>
+            <valeur>987</valeur>
+        </bassinAttraction>
     </bateau>
     <bateau>
         <id>1</id>
@@ -23,7 +26,7 @@
         <deplacementNominal>123</deplacementNominal>
         <inertie>222</inertie>
         <gmMini>5</gmMini>
-        <bassinAttraction>1474</bassinAttraction>
+        <bassinAttraction>888</bassinAttraction>
         <angleChavirement>45</angleChavirement>
     </bateau>
     <bateau>
@@ -36,7 +39,7 @@
         <deplacementNominal>123</deplacementNominal>
         <inertie>222</inertie>
         <gmMini>5</gmMini>
-        <bassinAttraction>1474</bassinAttraction>
+        <bassinAttraction>999</bassinAttraction>
         <angleChavirement>45</angleChavirement>
     </bateau>
 </BateauxList>

@@ -1,28 +1,24 @@
 package com.esigelec.ping39.Model;
 
-public class Vector3 {
+public class Vector2 {
     private float x;
     private float y;
-    private float z;
 
-    public Vector3(float x, float y, float z) {
+    public Vector2(float x, float y) {
         this.x = x;
         this.y = y;
-        this.z = z;
     }
 
-    public Vector3() {
+    public Vector2() {
         this.x = 0;
         this.y = 0;
-        this.z = 0;
     }
 
     @Override
     public String toString() {
-        return "Vector3{" +
+        return "Vector2{" +
                 "x=" + x +
                 ", y=" + y +
-                ", z=" + z +
                 '}';
     }
 
@@ -40,13 +36,5 @@ public class Vector3 {
 
     public void setY(float y) {
         this.y = y;
-    }
-
-    public float getZ() {
-        return z;
-    }
-
-    public void setZ(float z) {
-        this.z = z;
     }
 }

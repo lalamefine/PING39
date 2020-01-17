@@ -83,7 +83,7 @@ public class BatsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroupContainer,
             Bundle savedInstanceState) {
         this.viewGroupContainer = viewGroupContainer;
-        bateaux = Bateau.GetAll(getContext());bateaux = Bateau.GetAll(getContext());
+        bateaux = Bateau.GetAll(getContext());
         Collections.sort(bateaux, new Comparator<Bateau>() {
             @Override
             public int compare(Bateau b1, Bateau b2) {
