@@ -31,6 +31,8 @@ public class FullTimeGraph {
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setMinY(0);
         graph.getViewport().setMaxY(1);
+        graph.getGridLabelRenderer().setVerticalAxisTitle("Période en secondes");
+        graph.getGridLabelRenderer().setHorizontalAxisTitle("Temps écoulé en minutes");
         initTime = SystemClock.uptimeMillis();
         capTime = SystemClock.uptimeMillis()+1000;
         // first mSeries is a line
@@ -50,7 +52,7 @@ public class FullTimeGraph {
     }
 
     public void AddData(float valX,float valY) {
-        if(SystemClock.uptimeMillis()-capTime>1000){
+        if(SystemClock.uptimeMillis()-capTime>250){
             capTime = SystemClock.uptimeMillis();
             graph.getViewport().setMaxX(((float)(SystemClock.uptimeMillis()-initTime))/60000);
             double val =  graph.getViewport().getMaxY(true);

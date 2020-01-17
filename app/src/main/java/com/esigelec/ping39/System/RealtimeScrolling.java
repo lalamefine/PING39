@@ -27,6 +27,8 @@ public class RealtimeScrolling {
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setScalableY(false);
         graph.getViewport().setScrollable(true);
+        graph.getGridLabelRenderer().setVerticalAxisTitle("Angle en degrés");
+        graph.getGridLabelRenderer().setHorizontalAxisTitle("Temps en secondes");
         graph.getGridLabelRenderer().setLabelVerticalWidth(50);
 
         initTime = SystemClock.uptimeMillis();

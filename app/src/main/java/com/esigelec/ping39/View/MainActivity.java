@@ -1,5 +1,6 @@
-package com.esigelec.ping39.System;
+package com.esigelec.ping39.View;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -63,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent settingsIntent = new Intent(getBaseContext(), SettingsActivity.class);
+            startActivity(settingsIntent);
             return true;
         }
 

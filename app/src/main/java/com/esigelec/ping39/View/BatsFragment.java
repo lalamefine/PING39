@@ -1,32 +1,21 @@
 package com.esigelec.ping39.View;
 
 import android.content.Intent;
-import android.graphics.Movie;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.ShareCompat;
-import android.support.v4.content.FileProvider;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
 import com.esigelec.ping39.Model.Bateau;
-import com.esigelec.ping39.Model.SortByFavori;
+import com.esigelec.ping39.Model.GlobalHolder;
 import com.esigelec.ping39.R;
 import com.esigelec.ping39.System.BatAdapter;
-
-import java.io.File;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 /**
@@ -62,8 +51,6 @@ public class BatsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        save(bateaux);
-        send();
     }
 
     @Override
@@ -84,6 +71,8 @@ public class BatsFragment extends Fragment {
             Bundle savedInstanceState) {
         this.viewGroupContainer = viewGroupContainer;
         bateaux = Bateau.GetAll(getContext());
+        GlobalHolder.context=getContext();
+        GlobalHolder.getSelected();
         Collections.sort(bateaux, new Comparator<Bateau>() {
             @Override
             public int compare(Bateau b1, Bateau b2) {
@@ -103,7 +92,7 @@ public class BatsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 view_refreshed = false;
-                Log.d("BateauListView","Item selected -> i:"+ i + " l:"+l);
+                //Log.d("BateauListView","Item selected -> i:"+ i + " l:"+l);
                 Intent batIntent = new Intent(getActivity(), BateauDetailActivity.class);
                 batIntent.putExtra("idBateau",l);
                 startActivity(batIntent);
@@ -116,38 +105,4 @@ public class BatsFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public void save(List<Bateau> datas) {
-        if (datas != null) {
-            try {
-                FileWriter fw = new FileWriter("/data/data/com.esigelec.ping39/saveBateaux.txt");
-                //写入数据并换行
-                for (int i = 0; i < datas.size(); i++) {
-                    Log.d("saveFichier", "data: "+datas.get(i).getNom());
-                    fw.write(datas.get(i).getNom() + "\r\n");
-                }
-                fw.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.e("saveFichier", "****Save Error****");
-            }
-        }
-    }
-
-    public void send(){
-        File filePath = new File(getContext().getFilesDir().getParentFile().getParentFile().getParentFile().getParentFile().getPath(), "data/com.esigelec.ping39");
-        File file = new File(filePath, "saveBateaux.txt");
-        Log.d("save", "path: "+filePath.getAbsolutePath());
-        Log.d("save", "path: "+file.getAbsolutePath());
-
-        Uri uri = FileProvider.getUriForFile(getContext(), getContext().getPackageName() + ".share", file);
-
-        Intent intent = ShareCompat.IntentBuilder.from(getActivity())
-                .setType("application/txt")
-                .setStream(uri)
-                .setChooserTitle("Choose bar")
-                .createChooserIntent()
-                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-        getContext().startActivity(intent);
-    }
 }
