@@ -41,7 +41,7 @@ public class BateauDetailActivity extends AppCompatActivity {
         TextView valDeplacementNominal = findViewById(R.id.valDeplacementNominal);
         TextView valInertie = findViewById(R.id.valInertie);
         TextView valGmMini = findViewById(R.id.valGmMini);
-        TextView valBassinAttraction = findViewById(R.id.valBassinAttraction);
+//        TextView valBassinAttraction = findViewById(R.id.valBassinAttraction);
         TextView valAngleChavirement = findViewById(R.id.valAngleChavirement);
 
         Button btnSelect = findViewById(R.id.btnSelect);
@@ -84,7 +84,7 @@ public class BateauDetailActivity extends AppCompatActivity {
         valDeplacementNominal.setText(String.valueOf(bat.getDeplacementNominal()));
         valInertie.setText(bat.getInertie() + " t.m²");
         valGmMini.setText(String.valueOf(bat.getGmMini()));
-        valBassinAttraction.setText(String.valueOf(bat.getBassinAttraction()));
+//        valBassinAttraction.setText(String.valueOf(bat.getBassinAttraction()));
         valAngleChavirement.setText(bat.getAngleChavirement() +" °");
         findViewById(R.id.btnSelect).setEnabled((GlobalHolder.selected!=null)?GlobalHolder.selected.getId()!=bat.getId():true);
         SharedPreferences sharedPreferences = getSharedPreferences("bateau_info", Context.MODE_PRIVATE);

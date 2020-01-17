@@ -12,6 +12,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Array;
 import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -31,7 +32,7 @@ public class Bateau {
     private float deplacementNominal;
     private float inertie;
     private float gmMini;
-    private float bassinAttraction;
+    private ArrayList<Vector2> bassinAttraction;
     private float angleChavirement;
 
     public float getDeplacementNominal() {
@@ -58,11 +59,11 @@ public class Bateau {
         this.gmMini = gmMini;
     }
 
-    public float getBassinAttraction() {
+    public ArrayList<Vector2> getBassinAttraction() {
         return bassinAttraction;
     }
 
-    public void setBassinAttraction(float bassinAttraction) {
+    public void setBassinAttraction(ArrayList<Vector2> bassinAttraction) {
         this.bassinAttraction = bassinAttraction;
     }
 
@@ -88,7 +89,7 @@ public class Bateau {
         return null;
     }
 
-    public Bateau(int id, String nom, String imageUrl, float longueur, float largeur, boolean favori, float kg, float deplacementNominal, float inertie, float gmMini, float bassinAttraction, float angleChavirement) {
+    public Bateau(int id, String nom, String imageUrl, float longueur, float largeur, boolean favori, float kg, float deplacementNominal, float inertie, float gmMini, ArrayList<Vector2> bassinAttraction, float angleChavirement) {
         this.id = id;
         this.nom = nom;
         this.imageUrl = imageUrl;
@@ -125,11 +126,21 @@ public class Bateau {
                 if (nList.item(0).getNodeType() == Node.ELEMENT_NODE) {
                     Element elm = (Element) nList.item(i);
                     // Log.d("node", "elm: "+elm.getNextSibling().getNodeName());
-                    NodeList pointList = doc.getElementsByTagName("valeur");
+                    NodeList bassinList = doc.getElementsByTagName("bassinAttraction");
                     Log.d("valeur", "i: "+i);
-                    for (int j = 0; j < pointList.getLength(); j++) {
-                        Log.d("valeur", "valeur: " + j + " " + pointList.item(j).getFirstChild().getNodeValue());
+                    for (int j = 1; j <bassinList.item(i).getChildNodes().getLength();j+=2){
+                        try {
+                            float x = Float.parseFloat(bassinList.item(i).getChildNodes().item(j).getChildNodes().item(1).getTextContent());
+                            float y = Float.parseFloat(bassinList.item(i).getChildNodes().item(j).getChildNodes().item(3).getTextContent());
+                            Log.d("valeur", "valeur bassin: i=" + i + ", j=" + j + ": x=" + x + ", y=" + y);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
                     }
+                    NodeList pointList = doc.getElementsByTagName("x");
+                    /*for (int j = 0; j < pointList.getLength(); j++) {
+                        Log.d("valeur", "valeur x: " + j + " " + pointList.item(j).getFirstChild().getNodeValue());
+                    }*/
                     Bateau bat = new Bateau();
                     bat.setId(Integer.parseInt(getXmlNodeValue("id", elm)));
                     bat.setNom(getXmlNodeValue("nom", elm));
@@ -140,7 +151,7 @@ public class Bateau {
                     bat.setDeplacementNominal(Float.parseFloat(getXmlNodeValue("deplacementNominal", elm)));
                     bat.setInertie(Float.parseFloat(getXmlNodeValue("inertie", elm)));
                     bat.setGmMini(Float.parseFloat(getXmlNodeValue("gmMini", elm)));
-                    bat.setBassinAttraction(Float.parseFloat(getXmlNodeValue("bassinAttraction", elm)));
+
                     bat.setAngleChavirement(Float.parseFloat(getXmlNodeValue("angleChavirement", elm)));
 
                     SharedPreferences sharedPreferences = context.getSharedPreferences("bateau_info", Context.MODE_PRIVATE);
@@ -227,22 +238,11 @@ public class Bateau {
                 Node child = node.getFirstChild();
                 while (child != null) {
                     if (child.getNodeType() == Node.TEXT_NODE) {
-                        Log.d("valeur", "getxmlnodevalue"+ tag + element);
+//                        Log.d("valeur", "getxmlnodevalue"+ tag + element);
                         return child.getNodeValue();
                     }
                 }
             }
-        }
-        return "";
-    }
-
-    private static String getXmlNodeChildValue(String tag, Element element) {
-        NodeList nodeList = element.getElementsByTagName(tag);
-        Log.d("node", "node list:"+ nodeList.getLength());
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Node node = nodeList.item(i);
-            Node child = node.getFirstChild();
-            return child.getNodeValue();
         }
         return "";
     }
