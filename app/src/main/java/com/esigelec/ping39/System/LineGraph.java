@@ -4,10 +4,12 @@ import android.graphics.Paint;
 import android.os.SystemClock;
 
 import com.esigelec.ping39.Model.GlobalHolder;
+import com.esigelec.ping39.Model.Vector2;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class LineGraph {
@@ -15,6 +17,7 @@ public class LineGraph {
     private LinkedList<Float> valList;
     private LinkedList<Long> initTime;
     private LinkedList<LineGraphSeries<DataPoint>> series;
+    private LinkedList<LineGraphSeries<DataPoint>> envellope;
     private Paint csPaint = new Paint();
     private GraphView graph;
 
@@ -35,7 +38,33 @@ public class LineGraph {
 
         csPaint.setStrokeWidth(5);
         csPaint.setColor(0xff880000);
+    }
 
+    public void drawEnvellope(){
+        if(GlobalHolder.selected != null){
+            while(envellope.size()>0){
+                graph.removeSeries(envellope.getFirst());
+            }
+            ArrayList<Vector2> pointList = GlobalHolder.selected.getBassinAttraction();
+            LineGraphSeries<DataPoint> temp = new LineGraphSeries<DataPoint>();
+            temp.setDrawDataPoints(false);
+            temp.setDrawBackground(false);
+            for(int k=1;k<pointList.size();k--){
+                double x1 = pointList.get(k-1).getX();
+                double x2 = pointList.get(k).getX();
+                double y1 = pointList.get(k-1).getY();
+                double y2 = pointList.get(k).getY();
+                if(x1<x2){
+                    temp.appendData(new DataPoint(x1,y1),false,2);
+                    temp.appendData(new DataPoint(x2,y2),false,2);
+                }else{
+                    temp.appendData(new DataPoint(x2,y2),false,2);
+                    temp.appendData(new DataPoint(x1,y1),false,2);
+                }
+            }
+            graph.addSeries(temp);
+            envellope.add(temp);
+        }
     }
 
     public void AddData(float val) {
@@ -45,13 +74,12 @@ public class LineGraph {
             valList.removeFirst();
             initTime.removeFirst();
         }
-
         int i = valList.size()-1;
         if(i>5){
             LineGraphSeries<DataPoint> temp = new LineGraphSeries<DataPoint>();
             temp.setDrawDataPoints(false);
             temp.setDrawBackground(false);
-            int arrondi = 2;
+            int arrondi = 3;
             double x1 = 0;
             double x2 = 0;
             double y1 = 0;
