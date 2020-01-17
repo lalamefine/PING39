@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.esigelec.ping39.Model.GlobalHolder;
 import com.esigelec.ping39.R;
 import com.esigelec.ping39.View.BatsFragment;
 import com.esigelec.ping39.View.CapFragment;
@@ -24,6 +25,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        GlobalHolder.context = this;
+        GlobalHolder.LoadParams();
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

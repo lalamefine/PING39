@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toolbar;
 
 import com.esigelec.ping39.Model.Bateau;
@@ -31,8 +32,14 @@ public class SettingsActivity extends AppCompatActivity {
         Toolbar mToolbar = findViewById(R.id.toolbar);
         mToolbar.setNavigationOnClickListener(view -> finish());
         mToolbar.setNavigationIcon(R.drawable.back_arrow);
-        mToolbar.setTitle("Settings");
+        mToolbar.setTitle("Paramètres");
+        // Partie Paramètres
+        ((EditText)findViewById(R.id.inputTailleHistoriqueXY)).setText(""+GlobalHolder.tailleHistoriqueXY);
+        ((EditText)findViewById(R.id.inputCrossingSeuil)).setText(""+GlobalHolder.crossingSeuil);
+        ((EditText)findViewById(R.id.inputNbDemiePeriod)).setText(""+GlobalHolder.nbDemiePeriod);
+        ((EditText)findViewById(R.id.inputNbPointPhaseDiagram)).setText(""+GlobalHolder.nbPointPhaseDiagram);
 
+        // Partie Enregistrement
         Button bArreter = findViewById(R.id.bArreter);
         Button bDemarrer = findViewById(R.id.bDemarrer);
         Button bPartager = findViewById(R.id.bPartager);
@@ -63,9 +70,19 @@ public class SettingsActivity extends AppCompatActivity {
         super.onResume();
         Button bArreter = findViewById(R.id.bArreter);
         Button bDemarrer = findViewById(R.id.bDemarrer);
-        Button bPartager = findViewById(R.id.bPartager);
         bArreter.setEnabled(GlobalHolder.enregistrer);
         bDemarrer.setEnabled(!GlobalHolder.enregistrer);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        int tmp = Integer.parseInt(((EditText)findViewById(R.id.inputNbDemiePeriod)).getText().toString());
+        GlobalHolder.nbDemiePeriod = tmp>1000?1000:tmp;
+        GlobalHolder.nbPointPhaseDiagram = Integer.parseInt(((EditText)findViewById(R.id.inputNbPointPhaseDiagram)).getText().toString());
+        GlobalHolder.tailleHistoriqueXY = Integer.parseInt(((EditText)findViewById(R.id.inputTailleHistoriqueXY)).getText().toString());
+        GlobalHolder.crossingSeuil = Integer.parseInt(((EditText)findViewById(R.id.inputCrossingSeuil)).getText().toString());
+        GlobalHolder.SaveParams();
     }
 
     public void save() {

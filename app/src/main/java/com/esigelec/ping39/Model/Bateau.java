@@ -128,11 +128,13 @@ public class Bateau {
                     // Log.d("node", "elm: "+elm.getNextSibling().getNodeName());
                     NodeList bassinList = doc.getElementsByTagName("bassinAttraction");
                     Log.d("valeur", "i: "+i);
+                    ArrayList<Vector2> list = new ArrayList<Vector2>();
                     for (int j = 1; j <bassinList.item(i).getChildNodes().getLength();j+=2){
                         try {
                             float x = Float.parseFloat(bassinList.item(i).getChildNodes().item(j).getChildNodes().item(1).getTextContent());
                             float y = Float.parseFloat(bassinList.item(i).getChildNodes().item(j).getChildNodes().item(3).getTextContent());
                             Log.d("valeur", "valeur bassin: i=" + i + ", j=" + j + ": x=" + x + ", y=" + y);
+                            list.add(new Vector2(x,y));
                         }catch (Exception e){
                             e.printStackTrace();
                         }
@@ -142,6 +144,7 @@ public class Bateau {
                         Log.d("valeur", "valeur x: " + j + " " + pointList.item(j).getFirstChild().getNodeValue());
                     }*/
                     Bateau bat = new Bateau();
+                    bat.setBassinAttraction(list);
                     bat.setId(Integer.parseInt(getXmlNodeValue("id", elm)));
                     bat.setNom(getXmlNodeValue("nom", elm));
                     bat.setImageUrl(getXmlNodeValue("imageUrl", elm));
@@ -151,7 +154,6 @@ public class Bateau {
                     bat.setDeplacementNominal(Float.parseFloat(getXmlNodeValue("deplacementNominal", elm)));
                     bat.setInertie(Float.parseFloat(getXmlNodeValue("inertie", elm)));
                     bat.setGmMini(Float.parseFloat(getXmlNodeValue("gmMini", elm)));
-
                     bat.setAngleChavirement(Float.parseFloat(getXmlNodeValue("angleChavirement", elm)));
 
                     SharedPreferences sharedPreferences = context.getSharedPreferences("bateau_info", Context.MODE_PRIVATE);

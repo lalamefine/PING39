@@ -8,13 +8,9 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+public class GMGraph {
 
-/**
- * Created by jonas on 10.09.16.
- */
-public class RealtimeScrolling {
     private LineGraphSeries<DataPoint> mSeriesX;
-    private LineGraphSeries<DataPoint> mSeriesY;
 
     private long initTime;
 
@@ -24,12 +20,11 @@ public class RealtimeScrolling {
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setMinX(0);
         graph.getViewport().setMaxX(60.000);
-        graph.getViewport().setMinY(-45);
-        graph.getViewport().setMaxY(45);
         graph.getViewport().setYAxisBoundsManual(true);
-        graph.getViewport().setScalableY(false);
+        graph.getViewport().setMinY(0);
+        graph.getViewport().setMaxY(100);
         graph.getViewport().setScrollable(true);
-        graph.getGridLabelRenderer().setVerticalAxisTitle("Angle en degrés");
+        graph.getGridLabelRenderer().setVerticalAxisTitle("GM");
         graph.getGridLabelRenderer().setHorizontalAxisTitle("Temps en secondes");
         graph.getGridLabelRenderer().setLabelVerticalWidth(50);
 
@@ -44,20 +39,11 @@ public class RealtimeScrolling {
         mSeriesX.setCustomPaint(csPaint);
         graph.addSeries(mSeriesX);
 
-        Paint csPaint2 = new Paint();
-        csPaint2.setStrokeWidth(GlobalHolder.lineDrawWidth);
-        csPaint2.setColor(0xff880000);
-        mSeriesY = new LineGraphSeries<>();
-        mSeriesY.setDrawDataPoints(false);
-        mSeriesY.setDrawBackground(false);
-        mSeriesY.setCustomPaint(csPaint2);
-        graph.addSeries(mSeriesY);
     }
 
-    public void AddData(float valX,float valY) {
-        mSeriesX.appendData(new DataPoint(((double)(SystemClock.uptimeMillis()-initTime))/1000, valX), true, NB_DATAPOINT_ARCHIVED);
-        mSeriesY.appendData(new DataPoint(((double)(SystemClock.uptimeMillis()-initTime))/1000, valY), true, NB_DATAPOINT_ARCHIVED);
+    public void AddData(float val) {
+        mSeriesX.appendData(new DataPoint(((double)(SystemClock.uptimeMillis()-initTime))/1000, val), true, NB_DATAPOINT_ARCHIVED);
     }
-
 
 }
+

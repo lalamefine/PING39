@@ -3,6 +3,8 @@ package com.esigelec.ping39.System;
 import android.os.SystemClock;
 import android.util.Log;
 
+import com.esigelec.ping39.Model.GlobalHolder;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -10,7 +12,6 @@ public class PeriodExtractor {
     LinkedList<Float> valsX = new LinkedList<Float>();
     LinkedList<Float> valsY = new LinkedList<Float>();
     LinkedList<Long> time = new LinkedList<Long>();
-    private final int MAX_SIZE = 1000;
     private final int MIN_SIZE = 200;
     private boolean longenough = false;
 
@@ -18,34 +19,37 @@ public class PeriodExtractor {
         valsX.addFirst(x);
         valsY.addFirst(y);
         time.addFirst(SystemClock.uptimeMillis());
-        if(time.size()>MAX_SIZE){
+        while(time.size()>GlobalHolder.tailleHistoriqueXY){
             valsX.removeLast();
             valsY.removeLast();
             time.removeLast();
         }
-        if(time.size()>MIN_SIZE) {
+        if(time.size()>MIN_SIZE && !longenough) {
             longenough = true;
         }
     }
 
     private float getMoyenne(LinkedList<Float> tab){
         float total = 0;
-        for (Float val:tab) total += val;
+        for(int i = 0; i<tab.size(); i++){
+            total += tab.get(i);
+        }
         return total/tab.size();
     }
     public float getPeriodX(){
-        return getPeriod(valsX,6);
+        return getPeriod(valsX);
     }
     public float getPeriodY(){
-        return getPeriod(valsY,6);
+        //Log.d("PeriodExtractorDebug","valsX:"+valsX.size() + ", valsY:"+valsY.size()+", time:"+time.size());
+        return getPeriod(valsY);
     }
-    private float getPeriod(LinkedList<Float> tab,final int N_PERIOD){
+    private float getPeriod(LinkedList<Float> tab){
         float moy = getMoyenne(tab);
         int firstCross = getFirstCross(tab, moy);
-        int nthCross = getNthCross(tab,N_PERIOD, moy);
+        int nthCross = getNthCross(tab,GlobalHolder.nbDemiePeriod, moy);
         float deltaTime = (time.get(firstCross) - time.get(nthCross))/1000;
         if(nthCross!=0)
-            return 2*deltaTime/N_PERIOD;
+            return 2*deltaTime/GlobalHolder.nbDemiePeriod;
         else{
             int crossing = 0;
             boolean above = (tab.get(firstCross) > moy);
@@ -62,7 +66,7 @@ public class PeriodExtractor {
                     }
                 }
             }
-            if(crossing>3)
+            if(crossing>GlobalHolder.crossingSeuil)
                 try {
                     return Math.round((-2*deltaTime)*100)/100;
                 }catch(Exception e){

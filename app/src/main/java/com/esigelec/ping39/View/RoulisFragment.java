@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.esigelec.ping39.Model.Bateau;
 import com.esigelec.ping39.Model.GlobalHolder;
 import com.esigelec.ping39.System.FullTimeGraph;
+import com.esigelec.ping39.System.GMGraph;
 import com.esigelec.ping39.System.LineGraph;
 import com.esigelec.ping39.System.PeriodExtractor;
 import com.esigelec.ping39.R;
@@ -42,6 +43,7 @@ public class RoulisFragment extends Fragment {
     private RealtimeScrolling mLogicRealTime;
     private LineGraph mLogicPhaseDiagram;
     private FullTimeGraph mLogicFullTime;
+    private GMGraph mLogicGMGraph;
     private Sensor sensorGrav;
     long nextTry;
     private PeriodExtractor periodExtractor;
@@ -77,6 +79,7 @@ public class RoulisFragment extends Fragment {
                     mLogicRealTime.AddData(roulis,tangage);
                     mLogicPhaseDiagram.AddData(roulis);
                     mLogicFullTime.AddData(periodExtractor.getPeriodX(),periodExtractor.getPeriodY());
+                    mLogicGMGraph.AddData(gm);
                 }catch(Exception e){
                     e.printStackTrace();
                 }
@@ -121,6 +124,7 @@ public class RoulisFragment extends Fragment {
         mLogicRealTime = new RealtimeScrolling();
         mLogicPhaseDiagram = new LineGraph();
         mLogicFullTime = new FullTimeGraph();
+        mLogicGMGraph = new GMGraph();
         GlobalHolder.context = this.getContext();
         GlobalHolder.getSelected();
     }
@@ -134,8 +138,11 @@ public class RoulisFragment extends Fragment {
         mLogicRealTime.initGraph(graph);
         GraphView diagram = rootView.findViewById(R.id.graphPhase);
         mLogicPhaseDiagram.initGraph(diagram);
+        mLogicPhaseDiagram.drawEnveloppe();
         GraphView graphPeriod = rootView.findViewById(R.id.graphPeriod);
         mLogicFullTime.initGraph(graphPeriod);
+        GraphView graphGM = rootView.findViewById(R.id.graphDirectGM);
+        mLogicGMGraph.initGraph(graphGM);
         RoulisFragment.rootView = rootView;
         return rootView;
     }

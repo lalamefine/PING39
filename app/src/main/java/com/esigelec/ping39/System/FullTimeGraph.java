@@ -4,6 +4,7 @@ import android.graphics.Paint;
 import android.os.SystemClock;
 import android.util.Log;
 
+import com.esigelec.ping39.Model.GlobalHolder;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -36,18 +37,21 @@ public class FullTimeGraph {
         initTime = SystemClock.uptimeMillis();
         capTime = SystemClock.uptimeMillis()+1000;
         // first mSeries is a line
-        Paint csPaint = new Paint();
-        csPaint.setStrokeWidth(5);
-        csPaint.setColor(0xff073C66);
         mSeriesX = new LineGraphSeries<>();
         mSeriesX.setDrawDataPoints(false);
         mSeriesX.setDrawBackground(false);
+        Paint csPaint = new Paint();
+        csPaint.setStrokeWidth(GlobalHolder.lineDrawWidth);
+        csPaint.setColor(0xff073C66);
+        mSeriesX.setCustomPaint(csPaint);
         graph.addSeries(mSeriesX);
         mSeriesY = new LineGraphSeries<>();
         mSeriesY.setDrawDataPoints(false);
         mSeriesY.setDrawBackground(false);
-        csPaint.setColor(0xff880000);
-        mSeriesY.setCustomPaint(csPaint);
+        Paint csPaint2 = new Paint();
+        csPaint2.setStrokeWidth(GlobalHolder.lineDrawWidth);
+        csPaint2.setColor(0xff880000);
+        mSeriesY.setCustomPaint(csPaint2);
         graph.addSeries(mSeriesY);
     }
 

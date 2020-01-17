@@ -5,14 +5,20 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class GlobalHolder {
     public static Bateau selected = null;
     public static Context context;
     public static boolean enregistrer = false;
     public static ArrayList<Entry> entrees = new ArrayList<Entry>();
-    public static int nbPointPhaseDiagram = 50; // MAX : 500
+    public static float lineDrawWidth = 5;
+
+    // PARAMETRES MODIFIABLES:
+    public static int nbPointPhaseDiagram = 50; // MAX : 1000
+    public static int nbDemiePeriod = 6;
+    public static int crossingSeuil = 3;
+    public static int tailleHistoriqueXY = 1000;
+
 
     public static void Save(Entry e){
         if (enregistrer)
@@ -31,6 +37,23 @@ public class GlobalHolder {
         return selected;
     }
 
+    public static void SaveParams() {
+        SharedPreferences sh = context.getSharedPreferences("Paramètres", Context.MODE_PRIVATE);
+        SharedPreferences.Editor e = sh.edit();
+        e.putInt("nbPointPhaseDiagram",nbPointPhaseDiagram);
+        e.putInt("nbDemiePeriod",nbDemiePeriod);
+        e.putInt("crossingSeuil",crossingSeuil);
+        e.putInt("tailleHistoriqueXY",tailleHistoriqueXY);
+        e.apply();
+    }
+
+    public static void LoadParams() {
+        SharedPreferences sh = context.getSharedPreferences("Paramètres", Context.MODE_PRIVATE);
+        nbPointPhaseDiagram = sh.getInt("nbPointPhaseDiagram",50); // MAX : 1000
+        nbDemiePeriod = sh.getInt("nbDemiePeriod",6);
+        crossingSeuil = sh.getInt("crossingSeuil",3);
+        tailleHistoriqueXY = sh.getInt("tailleHistoriqueXY",5000);
+    }
     public static class Entry{
         private long timestamp;
         private float rawX;

@@ -28,82 +28,120 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
             android:layout_weight="1"
-            android:text="Paramètres"
+            android:text="Paramètres avancés"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TableLayout
-            android:id="@+id/tableLayout"
+        <TextView
+            android:id="@+id/textView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:text="Section réservée aux utilisateurs expérimentés."
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5">
+            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+        <TableLayout
+            android:id="@+id/tableLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView">
 
             <TableRow
+                android:id="@+id/nbPointPhaseDiagram"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
+                    android:text="Longeur diagrame de phase"
                     android:textAlignment="textEnd"
-                    android:textSize="18sp" />
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
 
                 <EditText
-                    android:id="@+id/editText"
+                    android:id="@+id/inputNbPointPhaseDiagram"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="Name" />
+                    android:inputType="numberDecimal" />
+
             </TableRow>
 
             <TableRow
+                android:id="@+id/nbDemiePeriod"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
+                    android:text="Nombre de périodes significatives"
                     android:textAlignment="textEnd"
-                    android:textSize="18sp" />
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
 
                 <EditText
-                    android:id="@+id/editText2"
+                    android:id="@+id/inputNbDemiePeriod"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="Name" />
+                    android:inputType="numberDecimal" />
+
             </TableRow>
 
             <TableRow
+                android:id="@+id/crossingSeuil"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
+                    android:text="Nb minimal de points dans une période"
                     android:textAlignment="textEnd"
-                    android:textSize="18sp" />
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
 
                 <EditText
-                    android:id="@+id/editText3"
+                    android:id="@+id/inputCrossingSeuil"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="Name" />
+                    android:inputType="numberDecimal" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tailleHistoriqueXY"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Taille mémoire calculateur"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/inputTailleHistoriqueXY"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="numberDecimal" />
+
             </TableRow>
 
         </TableLayout>
