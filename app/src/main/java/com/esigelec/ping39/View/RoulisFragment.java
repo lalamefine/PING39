@@ -26,6 +26,9 @@ import com.esigelec.ping39.R;
 import com.esigelec.ping39.System.RealtimeScrolling;
 import com.jjoe64.graphview.GraphView;
 
+import static java.lang.Math.PI;
+import static java.lang.Math.acos;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,8 +64,8 @@ public class RoulisFragment extends Fragment {
             if(SystemClock.uptimeMillis() > nextTry){
                 nextTry+=50;
                 //CALCULS
-                float roulis = (float)(360/(2*Math.PI)*Math.acos((double)sensorEvent.values[0]/9.8)-90);
-                float tangage = (float)(360/(2*Math.PI)*Math.acos((double)sensorEvent.values[1]/9.8)-90);
+                float roulis = (float)(360/(2*PI)*acos(sensorEvent.values[0]/9.8)-90);
+                float tangage = (float)(360/(2*PI)*acos(sensorEvent.values[1]/9.8)-90);
                 //Calcul de la période
                 periodExtractor.addInList(roulis,tangage);
                 //Calcul du gm
@@ -75,10 +78,10 @@ public class RoulisFragment extends Fragment {
                 gm = (float) (Math.round(gm*100))/100;
                 //AFFICHAGE
                 //Envoi aux graphs
+                mLogicRealTime.AddData(roulis,tangage);
+                mLogicPhaseDiagram.AddData(roulis);
+                mLogicFullTime.AddData(periodExtractor.getPeriodX(),periodExtractor.getPeriodY());
                 try{
-                    mLogicRealTime.AddData(roulis,tangage);
-                    mLogicPhaseDiagram.AddData(roulis);
-                    mLogicFullTime.AddData(periodExtractor.getPeriodX(),periodExtractor.getPeriodY());
                     mLogicGMGraph.AddData(gm);
                 }catch(Exception e){
                     e.printStackTrace();
@@ -86,14 +89,14 @@ public class RoulisFragment extends Fragment {
                 //Remplissage TextView
                 if(bat != null) {
                     ((TextView) rootView.findViewById(R.id.infoText)).setText("Bateau sélectionné: " + bat.getNom() + "\n" +
-                        "Périodes de Roulis: " + Math.round(periodExtractor.getPeriodX() * 100) / 100 + "s \n" +
-                        "Périodes de Tangage: " + Math.round(periodExtractor.getPeriodY() * 100) / 100 + "s \n" +
+                        "Périodes de Roulis: " + ((float)Math.round(periodExtractor.getPeriodX() * 10)) / 10 + "s \n" +
+                        "Périodes de Tangage: " + ((float)Math.round(periodExtractor.getPeriodY() * 10)) / 10 + "s \n" +
                         "GM : " + gm
                     );
                 }else{
                     ((TextView) rootView.findViewById(R.id.infoText)).setText("Aucun bateau sélectionné \n" +
-                        "Périodes de Roulis: " + Math.round(periodExtractor.getPeriodX() * 100) / 100 + "s \n" +
-                        "Périodes de Tangage: " + Math.round(periodExtractor.getPeriodY() * 100) / 100 + "s \n"
+                        "Périodes de Roulis: " + ((float)Math.round(periodExtractor.getPeriodX() * 10)) / 10 + "s \n" +
+                        "Périodes de Tangage: " + ((float)Math.round(periodExtractor.getPeriodY() * 10)) / 10 + "s \n"
                     );
                 }
                 //ENREGISTREMENT

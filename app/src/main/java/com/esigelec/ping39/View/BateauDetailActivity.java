@@ -51,7 +51,6 @@ public class BateauDetailActivity extends AppCompatActivity {
                 SharedPreferences sharedPreferences = getSharedPreferences("bateau_info", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putInt("sel", bat.getId());
-                btnFavori.setText("Ajouter aux favori");
                 btnSelect.setEnabled(false);
                 GlobalHolder.getSelected();
                 editor.apply();

@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.esigelec.ping39.Model.GlobalHolder;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -23,7 +24,9 @@ public class FullTimeGraph {
     private GraphView graph;
 
     public void initGraph(GraphView graph) {
+        capTime = SystemClock.uptimeMillis()+1000;
         this.graph = graph;
+        graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.HORIZONTAL);
         graph.getGridLabelRenderer().setLabelVerticalWidth(50);
         graph.getGridLabelRenderer().setNumHorizontalLabels(3);
         graph.getViewport().setXAxisBoundsManual(true);
@@ -35,7 +38,6 @@ public class FullTimeGraph {
         graph.getGridLabelRenderer().setVerticalAxisTitle("Période en secondes");
         graph.getGridLabelRenderer().setHorizontalAxisTitle("Temps écoulé en minutes");
         initTime = SystemClock.uptimeMillis();
-        capTime = SystemClock.uptimeMillis()+1000;
         // first mSeries is a line
         mSeriesX = new LineGraphSeries<>();
         mSeriesX.setDrawDataPoints(false);
@@ -56,7 +58,7 @@ public class FullTimeGraph {
     }
 
     public void AddData(float valX,float valY) {
-        if(SystemClock.uptimeMillis()-capTime>250){
+        if(SystemClock.uptimeMillis()-capTime>1000){
             capTime = SystemClock.uptimeMillis();
             graph.getViewport().setMaxX(((float)(SystemClock.uptimeMillis()-initTime))/60000);
             double val =  graph.getViewport().getMaxY(true);

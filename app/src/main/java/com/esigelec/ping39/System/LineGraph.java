@@ -86,22 +86,16 @@ public class LineGraph {
             initTime.removeFirst();
         }
         int i = valList.size()-1;
-        if(i>5){
+        int ARRONDI = 5;
+        if(i>ARRONDI){
             LineGraphSeries<DataPoint> temp = new LineGraphSeries<DataPoint>();
             temp.setDrawDataPoints(false);
             temp.setDrawBackground(false);
             temp.setCustomPaint(csPaint);
-            int arrondi = 3;
-            double x1 = 0;
-            double x2 = 0;
-            double y1 = 0;
-            double y2 = 0;
-            for(int k=i;k>i-arrondi;k--){
-                x1 += X(k) / arrondi;
-                x2 += X(k-1) / arrondi;
-                y1 += Y(k) / arrondi;
-                y2 += Y(k-1) / arrondi;
-            }
+            double x1 = X(i,ARRONDI);
+            double x2 = X(i-1,ARRONDI);
+            double y1 = Y(i,ARRONDI);
+            double y2 = Y(i-1,ARRONDI);
             if(x1<x2){
                 temp.appendData(new DataPoint(x1,y1),false,2);
                 temp.appendData(new DataPoint(x2,y2),false,2);
@@ -110,18 +104,22 @@ public class LineGraph {
                 temp.appendData(new DataPoint(x1,y1),false,2);
             }
             graph.addSeries(temp);
-            series.add(temp);
+            series.addLast(temp);
         }
         if(series.size()> GlobalHolder.nbPointPhaseDiagram){
             graph.removeSeries(series.getFirst());
             series.removeFirst();
         }
     }
-    private double Y(int i){
-        return (valList.get(i)-valList.get(i-1))/((double)(initTime.get(i)-initTime.get(i-1))/1000);
+    private double Y(int i,int arrondi){
+        return (valList.get(i)-valList.get(i-arrondi))/((double)(initTime.get(i)-initTime.get(i-arrondi))/1000);
     }
-    private double X(int i){
-        return valList.get(i);
+    private double X(int i,int arrondi){
+        float tempX = 0;
+        for(int k=i;k>i-arrondi;k--) {
+            tempX += valList.get(i);
+        }
+        return tempX/arrondi;
     }
 
 }

@@ -11,12 +11,12 @@ public class GlobalHolder {
     public static Context context;
     public static boolean enregistrer = false;
     public static ArrayList<Entry> entrees = new ArrayList<Entry>();
-    public static float lineDrawWidth = 5;
+    public static float lineDrawWidth = 3;
 
     // PARAMETRES MODIFIABLES:
     public static int nbPointPhaseDiagram = 50; // MAX : 1000
     public static int nbDemiePeriod = 6;
-    public static int crossingSeuil = 3;
+    public static int crossingSeuil = 3; //not working yet
     public static int tailleHistoriqueXY = 1000;
 
 

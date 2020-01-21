@@ -29,12 +29,12 @@ public class PeriodExtractor {
         }
     }
 
-    private float getMoyenne(LinkedList<Float> tab){
+    private float getMoyenne(Float tmpArrCp[]){
         float total = 0;
-        for(int i = 0; i<tab.size(); i++){
-            total += tab.get(i);
+        for(int i = 0; i<tmpArrCp.length; i++){
+            total += tmpArrCp[i];
         }
-        return total/tab.size();
+        return total/tmpArrCp.length;
     }
     public float getPeriodX(){
         return getPeriod(valsX);
@@ -44,9 +44,10 @@ public class PeriodExtractor {
         return getPeriod(valsY);
     }
     private float getPeriod(LinkedList<Float> tab){
-        float moy = getMoyenne(tab);
-        int firstCross = getFirstCross(tab, moy);
-        int nthCross = getNthCross(tab,GlobalHolder.nbDemiePeriod, moy);
+        Float tmpArrCp[] = tab.toArray(new Float[tab.size()]);
+        float moy = getMoyenne(tmpArrCp);
+        int firstCross = getFirstCross(tmpArrCp, moy);
+        int nthCross = getNthCross(tmpArrCp,GlobalHolder.nbDemiePeriod, moy);
         float deltaTime = (time.get(firstCross) - time.get(nthCross))/1000;
         if(nthCross!=0)
             return 2*deltaTime/GlobalHolder.nbDemiePeriod;
@@ -55,18 +56,18 @@ public class PeriodExtractor {
             boolean above = (tab.get(firstCross) > moy);
             for (int i = firstCross; i < nthCross; i++) {
                 if (above) {
-                    if ((tab.get(i) < moy) && (tab.get(i - 1) < moy) && (tab.get(i - 2) < moy)){
+                    if ((tmpArrCp[i] < moy) && (tmpArrCp[i - 1] < moy) && (tmpArrCp[i - 2] < moy)){
                         crossing++;
                         above = !above;
                     }
                 } else {
-                    if ((tab.get(i) > moy) && (tab.get(i - 1) > moy) && (tab.get(i - 2) > moy)){
+                    if ((tmpArrCp[i] > moy) && (tmpArrCp[i - 1] > moy) && (tmpArrCp[i - 2] > moy)){
                         crossing++;
                         above = !above;
                     }
                 }
             }
-            if(crossing>GlobalHolder.crossingSeuil)
+            if(crossing>=GlobalHolder.crossingSeuil)
                 try {
                     return Math.round((-2*deltaTime)*100)/100;
                 }catch(Exception e){
@@ -78,7 +79,7 @@ public class PeriodExtractor {
     }
 
     /*private int getLastCross(LinkedList<Float> tab,float moy){
-        float lastVal = tab.get(tab.size()-1);
+        float lastVal = tmpArrCp[tab.size()-1);
         boolean above = (lastVal>moy) ;
         for (int i=tab.size()-1; i>=0; i--){
             if(above){
@@ -89,36 +90,36 @@ public class PeriodExtractor {
         }
         return 0;
     }*/
-    private int getFirstCross(LinkedList<Float> tab,float moy){
-        float lastVal = tab.get(0);
+    private int getFirstCross(Float tmpArrCp[],float moy){
+        float lastVal = tmpArrCp[0];
         boolean above = (lastVal>moy) ;
-        if(tab.size()>=3)
-            for (int i=2; i<tab.size()-1; i++){
+        if(tmpArrCp.length>=3)
+            for (int i=2; i<tmpArrCp.length-1; i++){
                 if(above){
-                    if((tab.get(i) < moy) && (tab.get(i - 1) < moy) && (tab.get(i - 2) < moy)) return i;
+                    if((tmpArrCp[i] < moy) && (tmpArrCp[i - 1] < moy) && (tmpArrCp[i - 2] < moy)) return i;
                 }else{
-                    if((tab.get(i) > moy) && (tab.get(i - 1) > moy) && (tab.get(i - 2) > moy)) return i;
+                    if((tmpArrCp[i] > moy) && (tmpArrCp[i - 1] > moy) && (tmpArrCp[i - 2] > moy)) return i;
                 }
             }
         return 0;
     }
-    private int getNthCross(LinkedList<Float> tab,int n, float moy){
-        float lastVal = tab.get(0);
+    private int getNthCross(Float tmpArrCp[],int n, float moy){
+        float lastVal = tmpArrCp[0];
         boolean above = (lastVal>moy) ;
-        for (int i=2; i<tab.size()-1; i++){
+        for (int i=2; i<tmpArrCp.length-1; i++){
             if(above){
-                if((tab.get(i)<moy) && (tab.get(i - 1) < moy) && (tab.get(i - 2) < moy)){
+                if((tmpArrCp[i]<moy) && (tmpArrCp[i - 1] < moy) && (tmpArrCp[i - 2] < moy)){
                     above = false;
                     n--;
-                    if(n<=0){
+                    if(n<0){
                         return i;
                     }
                 }
             }else{
-                if((tab.get(i)>moy) && (tab.get(i - 1) < moy) && (tab.get(i - 2) < moy)){
+                if((tmpArrCp[i]>moy) && (tmpArrCp[i - 1] < moy) && (tmpArrCp[i - 2] < moy)){
                     above = true;
                     n--;
-                    if(n<=0){
+                    if(n<0){
                         return i;
                     }
                 }

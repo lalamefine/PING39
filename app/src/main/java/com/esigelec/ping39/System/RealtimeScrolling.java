@@ -18,7 +18,7 @@ public class RealtimeScrolling {
 
     private long initTime;
 
-    private final int NB_DATAPOINT_ARCHIVED = 6000;
+    private final int NB_DATAPOINT_ARCHIVED = 1500;
 
     public void initGraph(GraphView graph) {
         graph.getViewport().setXAxisBoundsManual(true);
