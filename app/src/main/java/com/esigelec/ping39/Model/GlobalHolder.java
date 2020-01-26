@@ -18,7 +18,7 @@ public class GlobalHolder {
     public static int nbDemiePeriod = 6;
     public static int crossingSeuil = 3; //not working yet
     public static int tailleHistoriqueXY = 1000;
-
+    public static float ajustagePeriode = 1;
 
     public static void Save(Entry e){
         if (enregistrer)
@@ -44,6 +44,7 @@ public class GlobalHolder {
         e.putInt("nbDemiePeriod",nbDemiePeriod);
         e.putInt("crossingSeuil",crossingSeuil);
         e.putInt("tailleHistoriqueXY",tailleHistoriqueXY);
+        e.putFloat("ajustagePeriode",ajustagePeriode);
         e.apply();
     }
 
@@ -53,6 +54,7 @@ public class GlobalHolder {
         nbDemiePeriod = sh.getInt("nbDemiePeriod",6);
         crossingSeuil = sh.getInt("crossingSeuil",3);
         tailleHistoriqueXY = sh.getInt("tailleHistoriqueXY",5000);
+        ajustagePeriode = sh.getFloat("ajustagePeriode",1);
     }
     public static class Entry{
         private long timestamp;

@@ -1,6 +1,5 @@
 package com.esigelec.ping39.View;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -10,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,14 +71,14 @@ public class RoulisFragment extends Fragment {
                 float gm = 0;
                 if(bat != null){
                     gm = (float)(bat.getInertie()/(bat.getDeplacementNominal()*9.81));
-                    gm = gm*(2*(float)Math.PI/periodExtractor.getPeriodX())*(2*(float)Math.PI/periodExtractor.getPeriodX());
+                    gm = gm*(2*(float)Math.PI/periodExtractor.getPeriodX()*GlobalHolder.ajustagePeriode)*(2*(float)Math.PI/periodExtractor.getPeriodX()*GlobalHolder.ajustagePeriode);
                 }
                 gm = (float) (Math.round(gm*100))/100;
                 //AFFICHAGE
                 //Envoi aux graphs
                 mLogicRealTime.AddData(roulis,tangage);
                 mLogicPhaseDiagram.AddData(roulis);
-                mLogicFullTime.AddData(periodExtractor.getPeriodX(),periodExtractor.getPeriodY());
+                mLogicFullTime.AddData(periodExtractor.getPeriodX()*GlobalHolder.ajustagePeriode,periodExtractor.getPeriodY()*GlobalHolder.ajustagePeriode);
                 try{
                     mLogicGMGraph.AddData(gm);
                 }catch(Exception e){
@@ -89,14 +87,14 @@ public class RoulisFragment extends Fragment {
                 //Remplissage TextView
                 if(bat != null) {
                     ((TextView) rootView.findViewById(R.id.infoText)).setText("Bateau sélectionné: " + bat.getNom() + "\n" +
-                        "Périodes de Roulis: " + ((float)Math.round(periodExtractor.getPeriodX() * 10)) / 10 + "s \n" +
-                        "Périodes de Tangage: " + ((float)Math.round(periodExtractor.getPeriodY() * 10)) / 10 + "s \n" +
+                        "Périodes de Roulis: " + ((float)Math.round(periodExtractor.getPeriodX()*GlobalHolder.ajustagePeriode * 10)) / 10 + "s \n" +
+                        "Périodes de Tangage: " + ((float)Math.round(periodExtractor.getPeriodY()*GlobalHolder.ajustagePeriode * 10)) / 10 + "s \n" +
                         "GM : " + gm
                     );
                 }else{
                     ((TextView) rootView.findViewById(R.id.infoText)).setText("Aucun bateau sélectionné \n" +
-                        "Périodes de Roulis: " + ((float)Math.round(periodExtractor.getPeriodX() * 10)) / 10 + "s \n" +
-                        "Périodes de Tangage: " + ((float)Math.round(periodExtractor.getPeriodY() * 10)) / 10 + "s \n"
+                        "Périodes de Roulis: " + ((float)Math.round(periodExtractor.getPeriodX()*GlobalHolder.ajustagePeriode * 10)) / 10 + "s \n" +
+                        "Périodes de Tangage: " + ((float)Math.round(periodExtractor.getPeriodY()*GlobalHolder.ajustagePeriode * 10)) / 10 + "s \n"
                     );
                 }
                 //ENREGISTREMENT
@@ -105,8 +103,8 @@ public class RoulisFragment extends Fragment {
                         sensorEvent.values[1],
                         roulis,
                         tangage,
-                        periodExtractor.getPeriodX(),
-                        periodExtractor.getPeriodY()));
+                        periodExtractor.getPeriodX()*GlobalHolder.ajustagePeriode,
+                        periodExtractor.getPeriodY()*GlobalHolder.ajustagePeriode));
             }
         }
     };

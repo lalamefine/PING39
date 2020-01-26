@@ -38,6 +38,7 @@ public class SettingsActivity extends AppCompatActivity {
         ((EditText)findViewById(R.id.inputCrossingSeuil)).setText(""+GlobalHolder.crossingSeuil);
         ((EditText)findViewById(R.id.inputNbDemiePeriod)).setText(""+GlobalHolder.nbDemiePeriod);
         ((EditText)findViewById(R.id.inputNbPointPhaseDiagram)).setText(""+GlobalHolder.nbPointPhaseDiagram);
+        ((EditText)findViewById(R.id.inputAjustagePeriode)).setText(""+GlobalHolder.ajustagePeriode);
 
         // Partie Enregistrement
         Button bArreter = findViewById(R.id.bArreter);
@@ -82,6 +83,7 @@ public class SettingsActivity extends AppCompatActivity {
         GlobalHolder.nbPointPhaseDiagram = Integer.parseInt(((EditText)findViewById(R.id.inputNbPointPhaseDiagram)).getText().toString());
         GlobalHolder.tailleHistoriqueXY = Integer.parseInt(((EditText)findViewById(R.id.inputTailleHistoriqueXY)).getText().toString());
         GlobalHolder.crossingSeuil = Integer.parseInt(((EditText)findViewById(R.id.inputCrossingSeuil)).getText().toString());
+        GlobalHolder.ajustagePeriode = Float.parseFloat(((EditText)findViewById(R.id.inputAjustagePeriode)).getText().toString());
         GlobalHolder.SaveParams();
     }
 

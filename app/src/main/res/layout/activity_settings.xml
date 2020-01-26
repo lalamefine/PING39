@@ -57,6 +57,27 @@
             app:layout_constraintTop_toBottomOf="@+id/textView">
 
             <TableRow
+                android:id="@+id/ajustagePeriode"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Coefficient d'ajustage de période"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/inputAjustagePeriode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="textPersonName" />
+            </TableRow>
+
+            <TableRow
                 android:id="@+id/nbPointPhaseDiagram"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
