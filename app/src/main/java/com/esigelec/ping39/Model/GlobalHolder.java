@@ -1,5 +1,6 @@
 package com.esigelec.ping39.Model;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -8,15 +9,16 @@ import java.util.ArrayList;
 
 public class GlobalHolder {
     public static Bateau selected = null;
-    public static Context context;
+    @SuppressLint("StaticFieldLeak")
+    public static Context context; // Très légère fuite mémoire
     public static boolean enregistrer = false;
-    public static ArrayList<Entry> entrees = new ArrayList<Entry>();
+    public static ArrayList<Entry> entrees = new ArrayList<>();
     public static float lineDrawWidth = 3;
 
     // PARAMETRES MODIFIABLES:
     public static int nbPointPhaseDiagram = 50; // MAX : 1000
-    public static int nbDemiePeriod = 6;
-    public static int crossingSeuil = 3; //not working yet
+    public static int nbDemiePeriod = 8;
+    public static int crossingSeuil = 3;
     public static int tailleHistoriqueXY = 1000;
     public static float ajustagePeriode = 1;
 
@@ -29,11 +31,7 @@ public class GlobalHolder {
         SharedPreferences sharedPreferences = context.getSharedPreferences("bateau_info", Context.MODE_PRIVATE);
         int id = sharedPreferences.getInt("sel",-1);
         selected = Bateau.getBateau(context,id);
-        try {
-            Log.d("GlobalHolder", "GetSelected: " + selected.getId());
-        }catch(Exception e){
-            Log.d("GlobalHolder", "GetSelected: null");
-        }
+        Log.d("GlobalHolder", "GetSelected: " + (selected != null ? selected.getId() : 0));
         return selected;
     }
 
@@ -67,7 +65,7 @@ public class GlobalHolder {
 
         public Entry(){}
         public Entry(float rawX, float rawY, float degX, float degY, float perX, float perY) {
-            timestamp = System.currentTimeMillis()/1000;
+            timestamp = System.currentTimeMillis();
             this.rawX = rawX;
             this.rawY = rawY;
             this.degX = degX;

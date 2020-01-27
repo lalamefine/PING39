@@ -1,5 +1,6 @@
 package com.esigelec.ping39.View;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -48,7 +49,8 @@ public class RoulisFragment extends Fragment {
     private Sensor sensorGrav;
     long nextTry;
     private PeriodExtractor periodExtractor;
-    public static View rootView;
+    @SuppressLint("StaticFieldLeak")
+    public static View rootView; // Très légère fuite mémoire
 
     public RoulisFragment() {
         periodExtractor = new PeriodExtractor();
@@ -86,15 +88,18 @@ public class RoulisFragment extends Fragment {
                 }
                 //Remplissage TextView
                 if(bat != null) {
-                    ((TextView) rootView.findViewById(R.id.infoText)).setText("Bateau sélectionné: " + bat.getNom() + "\n" +
-                        "Périodes de Roulis: " + ((float)Math.round(periodExtractor.getPeriodX()*GlobalHolder.ajustagePeriode * 10)) / 10 + "s \n" +
-                        "Périodes de Tangage: " + ((float)Math.round(periodExtractor.getPeriodY()*GlobalHolder.ajustagePeriode * 10)) / 10 + "s \n" +
-                        "GM : " + gm
+                    ((TextView) rootView.findViewById(R.id.infoText)).setText(String.format(
+                        "Bateau sélectionné: %s\nPériodes de Roulis: %ss \nPériodes de Tangage: %ss \nGM : %s",
+                        bat.getNom(),
+                        (float) Math.round(periodExtractor.getPeriodX() * GlobalHolder.ajustagePeriode * 10) / 10,
+                        (float) Math.round(periodExtractor.getPeriodY() * GlobalHolder.ajustagePeriode * 10) / 10,
+                        gm)
                     );
                 }else{
-                    ((TextView) rootView.findViewById(R.id.infoText)).setText("Aucun bateau sélectionné \n" +
-                        "Périodes de Roulis: " + ((float)Math.round(periodExtractor.getPeriodX()*GlobalHolder.ajustagePeriode * 10)) / 10 + "s \n" +
-                        "Périodes de Tangage: " + ((float)Math.round(periodExtractor.getPeriodY()*GlobalHolder.ajustagePeriode * 10)) / 10 + "s \n"
+                    ((TextView) rootView.findViewById(R.id.infoText)).setText(String.format(
+                        "Aucun bateau sélectionné \nPériodes de Roulis: %ss \nPériodes de Tangage: %ss \n",
+                        (float) Math.round(periodExtractor.getPeriodX() * GlobalHolder.ajustagePeriode * 10) / 10,
+                        (float) Math.round(periodExtractor.getPeriodY() * GlobalHolder.ajustagePeriode * 10) / 10)
                     );
                 }
                 //ENREGISTREMENT
