@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class PeriodExtractor {
-    LinkedList<Float> valsX = new LinkedList<Float>();
-    LinkedList<Float> valsY = new LinkedList<Float>();
-    LinkedList<Long> time = new LinkedList<Long>();
+    private LinkedList<Float> valsX = new LinkedList<>();
+    private LinkedList<Float> valsY = new LinkedList<>();
+    private LinkedList<Long> time = new LinkedList<>();
     private final int MIN_SIZE = 200;
     private boolean longenough = false;
 
@@ -29,101 +29,58 @@ public class PeriodExtractor {
         }
     }
 
-    private float getMoyenne(LinkedList<Float> tab){
+    private float getMoyenne(Float[] tmpArrCp){
         float total = 0;
-        for(int i = 0; i<tab.size(); i++){
-            total += tab.get(i);
+        for (Float aFloat : tmpArrCp) {
+            total += aFloat;
         }
-        return total/tab.size();
+        return total/tmpArrCp.length;
     }
     public float getPeriodX(){
         return getPeriod(valsX);
     }
     public float getPeriodY(){
-        //Log.d("PeriodExtractorDebug","valsX:"+valsX.size() + ", valsY:"+valsY.size()+", time:"+time.size());
+        Log.d("PeriodExtractor","valsX:"+valsX.size() + ", valsY:"+valsY.size()+", time:"+time.size());
         return getPeriod(valsY);
     }
     private float getPeriod(LinkedList<Float> tab){
-        float moy = getMoyenne(tab);
-        int firstCross = getFirstCross(tab, moy);
-        int nthCross = getNthCross(tab,GlobalHolder.nbDemiePeriod, moy);
+        // ----------- Initialisation:
+        // Récupération de la source
+        Float[] tmpArrCp = tab.toArray(new Float[0]);
+        // Calcul de la moyenne
+        float moy = getMoyenne(tmpArrCp);
+        // Récupération de la premiere intersection à la moyenne
+        int firstCross = getNthCross(tmpArrCp,0, moy);
+        // Récupération de la de la Nieme(N: paramètre) intersection à la moyenne
+        int nthCross = getNthCross(tmpArrCp,GlobalHolder.nbDemiePeriod, moy);
+        Log.d("PeriodExtractor","first:");
         float deltaTime = (time.get(firstCross) - time.get(nthCross))/1000;
+
         if(nthCross!=0)
             return 2*deltaTime/GlobalHolder.nbDemiePeriod;
-        else{
-            int crossing = 0;
-            boolean above = (tab.get(firstCross) > moy);
-            for (int i = firstCross; i < nthCross; i++) {
-                if (above) {
-                    if ((tab.get(i) < moy) && (tab.get(i - 1) < moy) && (tab.get(i - 2) < moy)){
-                        crossing++;
-                        above = !above;
-                    }
-                } else {
-                    if ((tab.get(i) > moy) && (tab.get(i - 1) > moy) && (tab.get(i - 2) > moy)){
-                        crossing++;
-                        above = !above;
-                    }
-                }
-            }
-            if(crossing>GlobalHolder.crossingSeuil)
-                try {
-                    return Math.round((-2*deltaTime)*100)/100;
-                }catch(Exception e){
-                    return 0;
-                }
-            else
-                return 0;
-        }
+        else
+            return 0;
     }
+    private int getNthCross(Float[] tmpArrCp, int n, float moy){
+        float lastVal = tmpArrCp[0];
+        boolean above = (lastVal>moy);
 
-    /*private int getLastCross(LinkedList<Float> tab,float moy){
-        float lastVal = tab.get(tab.size()-1);
-        boolean above = (lastVal>moy) ;
-        for (int i=tab.size()-1; i>=0; i--){
-            if(above){
-                if(tab.get(i)<moy) return i;
-            }else{
-                if(tab.get(i)>moy) return i;
-            }
-        }
-        return 0;
-    }*/
-    private int getFirstCross(LinkedList<Float> tab,float moy){
-        float lastVal = tab.get(0);
-        boolean above = (lastVal>moy) ;
-        if(tab.size()>=3)
-            for (int i=2; i<tab.size()-1; i++){
-                if(above){
-                    if((tab.get(i) < moy) && (tab.get(i - 1) < moy) && (tab.get(i - 2) < moy)) return i;
-                }else{
-                    if((tab.get(i) > moy) && (tab.get(i - 1) > moy) && (tab.get(i - 2) > moy)) return i;
-                }
-            }
-        return 0;
-    }
-    private int getNthCross(LinkedList<Float> tab,int n, float moy){
-        float lastVal = tab.get(0);
-        boolean above = (lastVal>moy) ;
-        for (int i=2; i<tab.size()-1; i++){
-            if(above){
-                if((tab.get(i)<moy) && (tab.get(i - 1) < moy) && (tab.get(i - 2) < moy)){
-                    above = false;
-                    n--;
-                    if(n<=0){
-                        return i;
+        if(tmpArrCp.length>=n)
+            for (int i=2; i<tmpArrCp.length-1; i++){
+                boolean check = true;
+                for(int k = 0; k<GlobalHolder.crossingSeuil;k++){
+                    if(above){
+                        if(tmpArrCp[i - k] > moy) check = false;
+                    }else{
+                        if(tmpArrCp[i - k] < moy) check = false;
                     }
                 }
-            }else{
-                if((tab.get(i)>moy) && (tab.get(i - 1) < moy) && (tab.get(i - 2) < moy)){
-                    above = true;
+                if(check){
+                    above = !above;
                     n--;
-                    if(n<=0){
-                        return i;
-                    }
                 }
+                if(n<0) return i;
             }
-        }
         return 0;
     }
     public boolean isLongenough(){
