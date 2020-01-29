@@ -51,7 +51,7 @@ public class RoulisFragment extends Fragment {
 
     public RoulisFragment() {
         periodExtractor = new PeriodExtractor();
-        nextTry = SystemClock.uptimeMillis()+100;
+        nextTry = SystemClock.uptimeMillis()+50;
     }
 
     //EVENEMENTS SUR L'ACCELEROMETTRE
@@ -104,7 +104,7 @@ public class RoulisFragment extends Fragment {
                         tangage,
                         periodExtractor.getPeriodX(),
                         periodExtractor.getPeriodY()));
-            }
+            }//else Log.d("RoulisFragment", "Skipped");
         }
     };
 
@@ -146,7 +146,6 @@ public class RoulisFragment extends Fragment {
         RoulisFragment.rootView = rootView;
         return rootView;
     }
-
 
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

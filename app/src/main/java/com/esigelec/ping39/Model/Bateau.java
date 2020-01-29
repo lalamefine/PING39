@@ -127,13 +127,13 @@ public class Bateau {
                     Element elm = (Element) nList.item(i);
                     // Log.d("node", "elm: "+elm.getNextSibling().getNodeName());
                     NodeList bassinList = doc.getElementsByTagName("bassinAttraction");
-                    Log.d("valeur", "i: "+i);
+                    //Log.d("valeur", "i: "+i);
                     ArrayList<Vector2> list = new ArrayList<Vector2>();
                     for (int j = 1; j <bassinList.item(i).getChildNodes().getLength();j+=2){
                         try {
                             float x = Float.parseFloat(bassinList.item(i).getChildNodes().item(j).getChildNodes().item(1).getTextContent());
                             float y = Float.parseFloat(bassinList.item(i).getChildNodes().item(j).getChildNodes().item(3).getTextContent());
-                            Log.d("valeur", "valeur bassin: i=" + i + ", j=" + j + ": x=" + x + ", y=" + y);
+                            //Log.d("valeur", "valeur bassin: i=" + i + ", j=" + j + ": x=" + x + ", y=" + y);
                             list.add(new Vector2(x,y));
                         }catch (Exception e){
                             e.printStackTrace();
