@@ -114,7 +114,6 @@ public class RoulisFragment extends Fragment {
         }
     };
 
-
     public static RoulisFragment newInstance() {
         RoulisFragment fragment = new RoulisFragment();
         Bundle args = new Bundle();
