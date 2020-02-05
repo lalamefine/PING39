@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,66 +54,11 @@ public class RoulisFragment extends Fragment {
     public static View rootView; // Très légère fuite mémoire
 
     public RoulisFragment() {
+        Log.d("RoulisFragment","Constructeur");
         periodExtractor = new PeriodExtractor();
         nextTry = SystemClock.uptimeMillis()+50;
     }
 
-    //EVENEMENTS SUR L'ACCELEROMETTRE
-    final SensorEventListener gravEventListener = new SensorEventListener() {
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {}
-        public void onSensorChanged(SensorEvent sensorEvent) {
-            if(SystemClock.uptimeMillis() > nextTry){
-                nextTry+=50;
-                //CALCULS
-                float roulis = (float)(360/(2*PI)*acos(sensorEvent.values[0]/9.8)-90);
-                float tangage = (float)(360/(2*PI)*acos(sensorEvent.values[1]/9.8)-90);
-                //Calcul de la période
-                periodExtractor.addInList(roulis,tangage);
-                //Calcul du gm
-                Bateau bat = GlobalHolder.selected;
-                float gm = 0;
-                if(bat != null){
-                    gm = (float)(bat.getInertie()/(bat.getDeplacementNominal()*9.81));
-                    gm = gm*(2*(float)Math.PI/periodExtractor.getPeriodX()*GlobalHolder.ajustagePeriode)*(2*(float)Math.PI/periodExtractor.getPeriodX()*GlobalHolder.ajustagePeriode);
-                }
-                gm = (float) (Math.round(gm*100))/100;
-                //AFFICHAGE
-                //Envoi aux graphs
-                mLogicRealTime.AddData(roulis,tangage);
-                mLogicPhaseDiagram.AddData(roulis);
-                mLogicFullTime.AddData(periodExtractor.getPeriodX()*GlobalHolder.ajustagePeriode,periodExtractor.getPeriodY()*GlobalHolder.ajustagePeriode);
-                try{
-                    mLogicGMGraph.AddData(gm);
-                }catch(Exception e){
-                    e.printStackTrace();
-                }
-                //Remplissage TextView
-                if(bat != null) {
-                    ((TextView) rootView.findViewById(R.id.infoText)).setText(String.format(
-                        "Bateau sélectionné: %s\nPériodes de Roulis: %ss \nPériodes de Tangage: %ss \nGM : %s",
-                        bat.getNom(),
-                        (float) Math.round(periodExtractor.getPeriodX() * GlobalHolder.ajustagePeriode * 10) / 10,
-                        (float) Math.round(periodExtractor.getPeriodY() * GlobalHolder.ajustagePeriode * 10) / 10,
-                        gm)
-                    );
-                }else{
-                    ((TextView) rootView.findViewById(R.id.infoText)).setText(String.format(
-                        "Aucun bateau sélectionné \nPériodes de Roulis: %ss \nPériodes de Tangage: %ss \n",
-                        (float) Math.round(periodExtractor.getPeriodX() * GlobalHolder.ajustagePeriode * 10) / 10,
-                        (float) Math.round(periodExtractor.getPeriodY() * GlobalHolder.ajustagePeriode * 10) / 10)
-                    );
-                }
-                //ENREGISTREMENT
-                GlobalHolder.Save(new GlobalHolder.Entry(
-                        sensorEvent.values[0],
-                        sensorEvent.values[1],
-                        roulis,
-                        tangage,
-                        periodExtractor.getPeriodX()*GlobalHolder.ajustagePeriode,
-                        periodExtractor.getPeriodY()*GlobalHolder.ajustagePeriode));
-            }
-        }
-    };
 
     public static RoulisFragment newInstance() {
         RoulisFragment fragment = new RoulisFragment();
@@ -123,6 +69,7 @@ public class RoulisFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.d("RoulisFragment","OnCreate");
         super.onCreate(savedInstanceState);
         sensorGrav = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
         onAttach(this.getContext());
@@ -132,13 +79,67 @@ public class RoulisFragment extends Fragment {
         mLogicGMGraph = new GMGraph();
         GlobalHolder.context = this.getContext();
         GlobalHolder.getSelected();
+
+        //EVENEMENTS SUR L'ACCELEROMETTRE
+        final SensorEventListener gravEventListener = new SensorEventListener() {
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+            public void onSensorChanged(SensorEvent sensorEvent) {
+                if(SystemClock.uptimeMillis() > nextTry){
+                    nextTry+=50;
+                    //CALCULS
+                    float roulis = (float)(360/(2*PI)*acos(sensorEvent.values[0]/9.8)-90);
+                    float tangage = (float)(360/(2*PI)*acos(sensorEvent.values[1]/9.8)-90);
+                    //Calcul de la période
+                    periodExtractor.addInList(roulis,tangage);
+                    //Calcul du gm
+                    Bateau bat = GlobalHolder.selected;
+                    float gm = 0;
+                    if(bat != null){
+                        gm = (float)(bat.getInertie()/(bat.getDeplacementNominal()*9.81));
+                        gm = gm*(2*(float)Math.PI/periodExtractor.getPeriodX()*GlobalHolder.ajustagePeriode)*(2*(float)Math.PI/periodExtractor.getPeriodX()*GlobalHolder.ajustagePeriode);
+                    }
+                    gm = (float) (Math.round(gm*100))/100;
+                    //AFFICHAGE
+                    //Envoi aux graphs
+                    mLogicRealTime.AddData(roulis,tangage);
+                    mLogicPhaseDiagram.AddData(roulis);
+                    mLogicFullTime.AddData(periodExtractor.getPeriodX()*GlobalHolder.ajustagePeriode,periodExtractor.getPeriodY()*GlobalHolder.ajustagePeriode);
+                    mLogicGMGraph.AddData(gm);
+                    //Remplissage TextView
+                    if(bat != null) {
+                        ((TextView) rootView.findViewById(R.id.infoText)).setText(String.format(
+                                "Bateau sélectionné: %s\nPériodes de Roulis: %ss \nPériodes de Tangage: %ss \nGM : %s",
+                                bat.getNom(),
+                                (float) Math.round(periodExtractor.getPeriodX() * GlobalHolder.ajustagePeriode * 10) / 10,
+                                (float) Math.round(periodExtractor.getPeriodY() * GlobalHolder.ajustagePeriode * 10) / 10,
+                                gm)
+                        );
+                    }else{
+                        ((TextView) rootView.findViewById(R.id.infoText)).setText(String.format(
+                                "Aucun bateau sélectionné \nPériodes de Roulis: %ss \nPériodes de Tangage: %ss \n",
+                                (float) Math.round(periodExtractor.getPeriodX() * GlobalHolder.ajustagePeriode * 10) / 10,
+                                (float) Math.round(periodExtractor.getPeriodY() * GlobalHolder.ajustagePeriode * 10) / 10)
+                        );
+                    }
+                    //ENREGISTREMENT
+                    GlobalHolder.Save(new GlobalHolder.Entry(
+                            sensorEvent.values[0],
+                            sensorEvent.values[1],
+                            roulis,
+                            tangage,
+                            periodExtractor.getPeriodX()*GlobalHolder.ajustagePeriode,
+                            periodExtractor.getPeriodY()*GlobalHolder.ajustagePeriode));
+                }
+            }
+        };
+        sensorManager.registerListener(gravEventListener, sensorGrav, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Log.d("RoulisFragment","OnCreateView");
         View rootView = inflater.inflate(R.layout.fragment_roulis, container, false);
-
         GraphView graph = rootView.findViewById(R.id.graphDirect);
         mLogicRealTime.initGraph(graph);
         GraphView diagram = rootView.findViewById(R.id.graphPhase);
@@ -161,11 +162,11 @@ public class RoulisFragment extends Fragment {
 
     @Override
     public void onAttach(Context context) {
+        Log.d("RoulisFragment","OnAttach");
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
             sensorManager = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
-            sensorManager.registerListener(gravEventListener, sensorGrav, SensorManager.SENSOR_DELAY_NORMAL);
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -179,16 +180,6 @@ public class RoulisFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

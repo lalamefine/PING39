@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("MainActivity","OnCreate");
         super.onCreate(savedInstanceState);
         GlobalHolder.context = this;
         GlobalHolder.LoadParams();

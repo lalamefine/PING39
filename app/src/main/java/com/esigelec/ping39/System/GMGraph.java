@@ -2,6 +2,7 @@ package com.esigelec.ping39.System;
 
 import android.graphics.Paint;
 import android.os.SystemClock;
+import android.util.Log;
 
 import com.esigelec.ping39.Model.GlobalHolder;
 import com.jjoe64.graphview.GraphView;
@@ -53,7 +54,10 @@ public class GMGraph {
 
     public void AddData(float val) {
         mSeriesX.appendData(new DataPoint(((double)(SystemClock.uptimeMillis()-initTime))/1000, val), true, NB_DATAPOINT_ARCHIVED);
-        if(GlobalHolder.getSelected() != null) mSeriesMinGm.appendData(new DataPoint(((double)(SystemClock.uptimeMillis()-initTime))/1000, GlobalHolder.getSelected().getGmMini()), true, NB_DATAPOINT_ARCHIVED);
+        Log.d("GMGraph",GlobalHolder.getSelected().toString());
+        if(GlobalHolder.getSelected() != null) {
+            mSeriesMinGm.appendData(new DataPoint(((double) (SystemClock.uptimeMillis() - initTime)) / 1000, GlobalHolder.getSelected().getGmMini()), true, NB_DATAPOINT_ARCHIVED);
+        }
     }
 
 }

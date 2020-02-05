@@ -40,7 +40,7 @@ public class PeriodExtractor {
         return getPeriod(valsX);
     }
     public float getPeriodY(){
-        Log.d("PeriodExtractor","valsX:"+valsX.size() + ", valsY:"+valsY.size()+", time:"+time.size());
+        //Log.d("PeriodExtractor","valsX:"+valsX.size() + ", valsY:"+valsY.size()+", time:"+time.size());
         return getPeriod(valsY);
     }
     private float getPeriod(LinkedList<Float> tab){
@@ -53,7 +53,6 @@ public class PeriodExtractor {
         int firstCross = getNthCross(tmpArrCp,0, moy);
         // Récupération de la de la Nieme(N: paramètre) intersection à la moyenne
         int nthCross = getNthCross(tmpArrCp,GlobalHolder.nbDemiePeriod, moy);
-        Log.d("PeriodExtractor","first:");
         float deltaTime = (time.get(firstCross) - time.get(nthCross))/1000;
 
         if(nthCross!=0)

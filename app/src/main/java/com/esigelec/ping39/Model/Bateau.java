@@ -34,6 +34,7 @@ public class Bateau {
     private float gmMini;
     private ArrayList<Vector2> bassinAttraction;
     private float angleChavirement;
+    private static ArrayList<Bateau> liste = null;
 
     public float getDeplacementNominal() {
         return deplacementNominal;
@@ -80,7 +81,9 @@ public class Bateau {
     }
 
     public static Bateau getBateau(Context context, int id) {
-        ArrayList<Bateau> liste = GetAll(context);
+        if(liste==null){
+            liste = GetAll(context);
+        }
         for (int i = 0; i < liste.size(); i++) {
             if (liste.get(i).getId() == id) {
                 return liste.get(i);
